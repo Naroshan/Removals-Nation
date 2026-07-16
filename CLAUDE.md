@@ -24,7 +24,8 @@ python scripts/locations_db.py       # regenerates data/locations.json from ALL_
 python scripts/build_pages.py        # generates dist/{service}/{location}/index.html + locations.html
 python scripts/build_static_pages.py # generates dist/index.html, about, contact, privacy, thank-you,
                                       #   blog (+posts), partner-with-us, and dist/{service}/index.html
-mkdir -p dist/assets && cp docs/assets/shared.css dist/assets/shared.css   # not copied by either script
+mkdir -p dist/assets && cp docs/assets/*.css docs/assets/*.svg docs/assets/*.ico docs/assets/*.png docs/assets/*.webmanifest dist/assets/
+                                      # ^ static asset files (styles + favicons) — not copied by either script
 
 python scripts/build_pages.py --force                # rebuild even existing location/service pages
 python scripts/build_pages.py --service man-and-van   # build one service only
@@ -100,3 +101,9 @@ independently — keep them in sync when changing either. Other shared config (`
 Design tokens (colors) are defined once in `docs/assets/shared.css` (also mirrored as
 `dist/assets/shared.css` in a built site) as CSS custom properties: `--navy`, `--navy-mid`,
 `--navy-light`, `--orange`, `--orange-light`, `--text-muted`.
+
+Favicon/icon files live in `docs/assets/` (`favicon.ico`, `favicon.svg`, `apple-touch-icon.png`,
+`android-chrome-{192,512}x192.png`, `safari-pinned-tab.svg`, `site.webmanifest`) and are copied to
+`dist/assets/` by the same command that copies `shared.css`. The `<link rel="icon">` etc. tags are
+emitted by `favicon_html(root)` in `build_pages.py`, imported into `build_static_pages.py` — every
+page template calls it, so a new page type just needs to include that fragment in its `<head>`.

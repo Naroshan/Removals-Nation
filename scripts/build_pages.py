@@ -37,6 +37,15 @@ SERVICES = [
 
 # ── Shared HTML fragments ─────────────────────────────────────────────────────
 
+def favicon_html(root):
+    return f"""<link rel="icon" href="{root}assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="{root}assets/favicon.svg">
+<link rel="apple-touch-icon" href="{root}assets/apple-touch-icon.png">
+<link rel="mask-icon" href="{root}assets/safari-pinned-tab.svg" color="#f4580a">
+<link rel="manifest" href="{root}assets/site.webmanifest">
+<meta name="theme-color" content="#0b1628">"""
+
+
 def nav_html(root):
     return f"""<nav>
   <a href="{root}index.html" class="logo">Removals<span>Nation</span></a>
@@ -370,6 +379,7 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/shared.css">
+{favicon_html(root)}
 {LOCATION_PAGE_CSS}
 </head>
 <body>
@@ -508,6 +518,7 @@ def build_locations_page(locations, dist_dir):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/shared.css">
+{favicon_html(root)}
 <style>
 .locs-hero{{padding:120px 48px 60px;max-width:900px;margin:0 auto;text-align:center}}
 .locs-hero h1{{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;margin-bottom:16px}}

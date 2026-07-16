@@ -16,7 +16,7 @@ from pathlib import Path
 from build_pages import (
     FORMSPREE_ID, PHONE, PHONE_HREF, SITE_NAME, SITE_URL,
     SERVICES, COST_TABLES, nav_html, mobile_menu_html, footer_html, MENU_JS,
-    cost_table_html,
+    cost_table_html, favicon_html,
 )
 
 PAGE_CSS = """<style>
@@ -98,6 +98,7 @@ def page_shell(root, title, description, body, extra_css=""):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/shared.css">
+{favicon_html(root)}
 {PAGE_CSS}
 {extra_css}
 </head>
