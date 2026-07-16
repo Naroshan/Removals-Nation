@@ -46,6 +46,27 @@ def favicon_html(root):
 <meta name="theme-color" content="#0b1628">"""
 
 
+def seo_html(canonical_path, title, description, root, noindex=False):
+    """Canonical link + Open Graph / Twitter Card tags, shared by every page.
+    canonical_path is site-relative with no leading slash ("" for home,
+    "about.html" for a standalone page, "house-removals/camden/" for a
+    directory-style page)."""
+    canonical = f"{SITE_URL}/{canonical_path}"
+    og_image = f"{SITE_URL}/assets/og-image.png"
+    robots = '<meta name="robots" content="noindex,follow">\n' if noindex else ""
+    return f"""<link rel="canonical" href="{canonical}">
+{robots}<meta property="og:type" content="website">
+<meta property="og:site_name" content="{SITE_NAME}">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{description}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{og_image}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{description}">
+<meta name="twitter:image" content="{og_image}">"""
+
+
 def nav_html(root):
     return f"""<nav>
   <a href="{root}index.html" class="logo">Removals<span>Nation</span></a>
@@ -267,8 +288,8 @@ def cost_table_html(svc_slug):
     )
 
 
-def faq_html(svc_name, loc_name, region):
-    faqs = [
+def build_faqs(svc_name, loc_name, region):
+    return [
         (
             f"How quickly can you arrange {svc_name.lower()} in {loc_name}?",
             f"We can typically confirm a booking in {loc_name} within a few hours. "
@@ -290,6 +311,9 @@ def faq_html(svc_name, loc_name, region):
             f"Packing, storage and dismantling can all be added.",
         ),
     ]
+
+
+def faq_html(faqs):
     return '<div class="faqs">' + "".join(
         f'<div class="faq">'
         f'<div class="faq-q">{q}</div>'
@@ -299,12 +323,82 @@ def faq_html(svc_name, loc_name, region):
     ) + "</div>"
 
 
-def sidebar_services_html(root):
-    links = "".join(
-        f'<a href="{root}{slug}/index.html" class="sidebar-link">'
-        f"<span>{icon}</span>{name}</a>"
-        for slug, name, icon in SERVICES
-    )
+def jsonld_html(data):
+    return f'<script type="application/ld+json">{json.dumps(data, ensure_ascii=False)}</script>'
+
+
+def organization_jsonld():
+    return jsonld_html({
+        "@context": "https://schema.org",
+        "@type": "MovingCompany",
+        "name": SITE_NAME,
+        "url": f"{SITE_URL}/",
+        "logo": f"{SITE_URL}/assets/android-chrome-512x512.png",
+        "image": f"{SITE_URL}/assets/og-image.png",
+        "telephone": PHONE_HREF.replace("tel:", ""),
+        "priceRange": "££",
+        "areaServed": {"@type": "Country", "name": "United Kingdom"},
+        "sameAs": [],
+    })
+
+
+def location_jsonld(svc_slug, svc_name, loc_name, region, county, postcode, faqs, canonical):
+    breadcrumb = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": f"{SITE_URL}/"},
+            {"@type": "ListItem", "position": 2, "name": svc_name, "item": f"{SITE_URL}/{svc_slug}/"},
+            {"@type": "ListItem", "position": 3, "name": loc_name, "item": canonical},
+        ],
+    }
+    business = {
+        "@context": "https://schema.org",
+        "@type": "MovingCompany",
+        "name": f"{SITE_NAME} — {svc_name} in {loc_name}",
+        "url": canonical,
+        "image": f"{SITE_URL}/assets/og-image.png",
+        "telephone": PHONE_HREF.replace("tel:", ""),
+        "priceRange": "££",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": loc_name,
+            "addressRegion": county,
+            "postalCode": postcode,
+            "addressCountry": "GB",
+        },
+        "areaServed": {"@type": "City", "name": f"{loc_name}, {region}"},
+        "parentOrganization": {"@type": "Organization", "name": SITE_NAME, "url": f"{SITE_URL}/"},
+    }
+    faqpage = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": {"@type": "Answer", "text": a},
+            }
+            for q, a in faqs
+        ],
+    }
+    return "\n".join(jsonld_html(d) for d in (business, breadcrumb, faqpage))
+
+
+def sidebar_services_html(root, loc_slug=None, current_svc_slug=None):
+    """Service list for the sidebar. When loc_slug is given (location pages),
+    links point to the same location under each other service — this is the
+    main internal-linking path that makes the ~10,000 location/service pages
+    reachable by crawlers instead of orphaned pages reliant on the sitemap alone."""
+    parts = []
+    for slug, name, icon in SERVICES:
+        current_attr = ' aria-current="page"' if slug == current_svc_slug else ""
+        href = f"{root}{slug}/{loc_slug}/index.html" if loc_slug else f"{root}{slug}/index.html"
+        parts.append(
+            f'<a href="{href}" class="sidebar-link"{current_attr}>'
+            f"<span>{icon}</span>{name}</a>"
+        )
+    links = "".join(parts)
     return f'<div class="sidebar-card" style="margin-bottom:20px"><h3>Our Services</h3>{links}</div>'
 
 
@@ -368,18 +462,28 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
     """Build one /{svc_slug}/{slug}/index.html"""
     name, region, county, postcode, slug = loc
     root = "../../"
+    canonical_path = f"{svc_slug}/{slug}/"
+    canonical = f"{SITE_URL}/{canonical_path}"
+    title = f"{svc_name} in {name} | {SITE_NAME}"
+    description = (
+        f"Professional {svc_name.lower()} in {name}, {county}. "
+        f"Fully insured, instant booking. {SITE_NAME} — your trusted removal company."
+    )
+    faqs = build_faqs(svc_name, name, region)
 
     page = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Professional {svc_name.lower()} in {name}, {county}. Fully insured, instant booking. {SITE_NAME} — your trusted removal company.">
-<title>{svc_name} in {name} | {SITE_NAME}</title>
+<meta name="description" content="{description}">
+<title>{title}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/shared.css">
 {favicon_html(root)}
+{seo_html(canonical_path, title, description, root)}
+{location_jsonld(svc_slug, svc_name, name, region, county, postcode, faqs, canonical)}
 {LOCATION_PAGE_CSS}
 </head>
 <body>
@@ -424,10 +528,10 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
     <h2>{svc_name} Costs in {name}</h2>
     {cost_table_html(svc_slug)}
     <h2>Frequently Asked Questions</h2>
-    {faq_html(svc_name, name, region)}
+    {faq_html(faqs)}
   </div>
   <aside class="content-sidebar">
-    {sidebar_services_html(root)}
+    {sidebar_services_html(root, loc_slug=slug, current_svc_slug=svc_slug)}
     <div class="sidebar-card">
       <h3>📞 Need Help?</h3>
       <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:14px">
@@ -507,18 +611,21 @@ def build_locations_page(locations, dist_dir):
 
     root = "./"
     total = len(locations)
+    title = f"All UK Locations | {SITE_NAME}"
+    description = f"{SITE_NAME} covers {total}+ locations across the UK. Find professional removal services in your area."
 
     page = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="{SITE_NAME} covers {total}+ locations across the UK. Find professional removal services in your area.">
-<title>All UK Locations | {SITE_NAME}</title>
+<meta name="description" content="{description}">
+<title>{title}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/shared.css">
 {favicon_html(root)}
+{seo_html("locations.html", title, description, root)}
 <style>
 .locs-hero{{padding:120px 48px 60px;max-width:900px;margin:0 auto;text-align:center}}
 .locs-hero h1{{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;margin-bottom:16px}}

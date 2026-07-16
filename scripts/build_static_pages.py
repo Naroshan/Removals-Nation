@@ -16,7 +16,7 @@ from pathlib import Path
 from build_pages import (
     FORMSPREE_ID, PHONE, PHONE_HREF, SITE_NAME, SITE_URL,
     SERVICES, COST_TABLES, nav_html, mobile_menu_html, footer_html, MENU_JS,
-    cost_table_html, favicon_html,
+    cost_table_html, favicon_html, seo_html, organization_jsonld,
 )
 
 PAGE_CSS = """<style>
@@ -87,7 +87,7 @@ PAGE_CSS = """<style>
 </style>"""
 
 
-def page_shell(root, title, description, body, extra_css=""):
+def page_shell(root, title, description, body, extra_css="", canonical_path="", noindex=False, jsonld=""):
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,6 +99,8 @@ def page_shell(root, title, description, body, extra_css=""):
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/shared.css">
 {favicon_html(root)}
+{seo_html(canonical_path, title, description, root, noindex=noindex)}
+{jsonld}
 {PAGE_CSS}
 {extra_css}
 </head>
@@ -210,7 +212,8 @@ def build_index(dist_dir):
     (Path(dist_dir) / "index.html").write_text(
         page_shell(root, f"{SITE_NAME} | UK Removal Services",
                    f"{SITE_NAME} provides professional, fully insured removal services "
-                   f"across the UK. Instant online booking and pricing.", body),
+                   f"across the UK. Instant online booking and pricing.", body,
+                   canonical_path="", jsonld=organization_jsonld()),
         encoding="utf-8",
     )
 
@@ -237,7 +240,8 @@ def build_about(dist_dir):
     (Path(dist_dir) / "about.html").write_text(
         page_shell(root, f"About Us | {SITE_NAME}",
                    f"Learn about {SITE_NAME}, a nationwide UK removal company offering "
-                   f"fully insured, professional moving services.", body),
+                   f"fully insured, professional moving services.", body,
+                   canonical_path="about.html"),
         encoding="utf-8",
     )
 
@@ -279,7 +283,8 @@ def build_contact(dist_dir):
     (Path(dist_dir) / "contact.html").write_text(
         page_shell(root, f"Contact Us | {SITE_NAME}",
                    f"Get in touch with {SITE_NAME} for removal quotes, booking questions, "
-                   f"or general enquiries.", body),
+                   f"or general enquiries.", body,
+                   canonical_path="contact.html"),
         encoding="utf-8",
     )
 
@@ -306,7 +311,8 @@ def build_privacy(dist_dir):
     (Path(dist_dir) / "privacy.html").write_text(
         page_shell(root, f"Privacy Policy | {SITE_NAME}",
                    f"{SITE_NAME}'s privacy policy covering how customer information "
-                   f"is collected and used.", body),
+                   f"is collected and used.", body,
+                   canonical_path="privacy.html"),
         encoding="utf-8",
     )
 
@@ -322,7 +328,26 @@ def build_thank_you(dist_dir):
 </div>"""
     (Path(dist_dir) / "thank-you.html").write_text(
         page_shell(root, f"Thank You | {SITE_NAME}",
-                   "Thank you for your enquiry — we'll be in touch shortly.", body),
+                   "Thank you for your enquiry — we'll be in touch shortly.", body,
+                   canonical_path="thank-you.html", noindex=True),
+        encoding="utf-8",
+    )
+
+
+def build_404(dist_dir):
+    root = "./"
+    body = f"""<div class="thanks">
+  <div class="icon">🧭</div>
+  <h1>Page Not Found</h1>
+  <p>Sorry, we couldn't find that page. It may have moved, or the link might be
+     out of date. Try heading back home or searching our full list of locations.</p>
+  <a href="index.html" class="btn-primary" style="margin-right:10px">Back to Home</a>
+  <a href="locations.html" class="btn-primary" style="background:var(--navy-light)">Browse Locations</a>
+</div>"""
+    (Path(dist_dir) / "404.html").write_text(
+        page_shell(root, f"Page Not Found | {SITE_NAME}",
+                   "The page you're looking for couldn't be found.", body,
+                   canonical_path="404.html", noindex=True),
         encoding="utf-8",
     )
 
@@ -390,14 +415,15 @@ def build_blog(dist_dir):
     )
     body = f"""<div class="section" style="padding-top:150px">
   <div class="section-tag">Knowledge Hub</div>
-  <h2 class="section-title">Latest Articles</h2>
+  <h1 class="section-title">Latest Articles</h1>
   <div class="blog-grid">{post_cards}</div>
 </div>"""
     out_dir = Path(dist_dir) / "blog"
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "index.html").write_text(
         page_shell(root, f"Knowledge Hub | {SITE_NAME}",
-                   f"Moving tips, cost guides, and checklists from {SITE_NAME}.", body),
+                   f"Moving tips, cost guides, and checklists from {SITE_NAME}.", body,
+                   canonical_path="blog/"),
         encoding="utf-8",
     )
 
@@ -410,7 +436,8 @@ def build_blog(dist_dir):
         post_dir = out_dir / slug
         post_dir.mkdir(parents=True, exist_ok=True)
         (post_dir / "index.html").write_text(
-            page_shell(post_root, f"{title} | {SITE_NAME}", desc, post_body),
+            page_shell(post_root, f"{title} | {SITE_NAME}", desc, post_body,
+                       canonical_path=f"blog/{slug}/"),
             encoding="utf-8",
         )
 
@@ -462,7 +489,8 @@ def build_service_pages(dist_dir):
         (out_dir / "index.html").write_text(
             page_shell(root, f"{name} | {SITE_NAME}",
                        f"Professional, fully insured {name.lower()} across the UK. "
-                       f"Instant online pricing and booking with {SITE_NAME}.", body),
+                       f"Instant online pricing and booking with {SITE_NAME}.", body,
+                       canonical_path=f"{slug}/"),
             encoding="utf-8",
         )
     print(f"✅  {len(SERVICES)} service landing pages built")
@@ -472,7 +500,7 @@ def build_partner(dist_dir):
     root = "../"
     body = f"""<div class="section" style="padding-top:150px">
   <div class="section-tag">For Businesses</div>
-  <h2 class="section-title">Partner With {SITE_NAME}</h2>
+  <h1 class="section-title">Partner With {SITE_NAME}</h1>
   <p style="color:var(--text-muted);line-height:1.8;max-width:700px;margin-bottom:10px">
      Estate agents, letting agents, and relocation businesses — refer your
      clients to {SITE_NAME} and we'll handle their move end-to-end, fully
@@ -501,7 +529,8 @@ def build_partner(dist_dir):
     (out_dir / "index.html").write_text(
         page_shell(root, f"Partner With Us | {SITE_NAME}",
                    f"Estate agents and businesses — partner with {SITE_NAME} for "
-                   f"nationwide removal services for your clients.", body),
+                   f"nationwide removal services for your clients.", body,
+                   canonical_path="partner-with-us/"),
         encoding="utf-8",
     )
 
@@ -518,11 +547,12 @@ def main():
     build_contact(args.dist)
     build_privacy(args.dist)
     build_thank_you(args.dist)
+    build_404(args.dist)
     build_blog(args.dist)
     build_service_pages(args.dist)
     build_partner(args.dist)
 
-    print("✅  Static pages built: index, about, contact, privacy, thank-you, blog (+2 posts), "
+    print("✅  Static pages built: index, about, contact, privacy, thank-you, 404, blog (+2 posts), "
           "service landing pages, partner-with-us")
 
 
