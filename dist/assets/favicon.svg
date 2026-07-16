@@ -1,7 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#0b1628"/>
-  <path d="M136 176 L256 96 L376 176 Z" fill="#ff7a35"/>
-  <rect x="136" y="176" width="240" height="224" rx="22" fill="#f4580a"/>
-  <rect x="236" y="176" width="40" height="224" fill="#0b1628"/>
-  <rect x="136" y="266" width="240" height="40" fill="#0b1628"/>
+  <rect width="512" height="512" rx="112" fill="#0b1628"/>
+  <g transform="translate(50,-31)">
+    <!-- speed lines (angled parallelograms for a motion-blur feel) -->
+    <polygon points="26,206 116,206 96,224 6,224"  fill="#f4580a" opacity="0.85"/>
+    <polygon points="14,240 146,240 122,262 -10,262" fill="#ff7a35"/>
+    <polygon points="30,278 108,278 90,296 12,296"  fill="#f4580a" opacity="0.7"/>
+
+    <!-- van body -->
+    <path d="M150 190
+             L338 190
+             Q352 190 361 201
+             L410 246
+             Q422 256 422 272
+             L422 318
+             Q422 330 410 330
+             L150 330
+             Q138 330 138 318
+             L138 202
+             Q138 190 150 190 Z"
+          fill="#f4580a"/>
+
+    <!-- windshield -->
+    <path d="M352 206 L400 248 L352 248 Z" fill="#0b1628" opacity="0.85"/>
+
+    <!-- cargo/cab divider -->
+    <rect x="338" y="190" width="8" height="140" fill="#0b1628" opacity="0.5"/>
+
+    <!-- RN monogram on cargo panel -->
+    <text x="244" y="278" font-family="'Arial Black','Segoe UI',sans-serif" font-weight="800"
+          font-size="76" fill="#0b1628" text-anchor="middle" letter-spacing="-2">RN</text>
+
+    <!-- wheels -->
+    <circle cx="198" cy="334" r="34" fill="#0b1628"/>
+    <circle cx="198" cy="334" r="14" fill="#ff7a35"/>
+    <circle cx="378" cy="334" r="34" fill="#0b1628"/>
+    <circle cx="378" cy="334" r="14" fill="#ff7a35"/>
+  </g>
 </svg>
