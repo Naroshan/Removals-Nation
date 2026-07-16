@@ -2,62 +2,53 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Repo layout note
-
-The actual site source lives zipped up at `removalsnation-repo.zip` (the working tree only otherwise
-contains this file and `.git`). Unzip it before working:
-
-```bash
-unzip -o removalsnation-repo.zip -d /tmp/rn && cd /tmp/rn/removalsnation-repo
-```
-
-Do your work inside the extracted copy, then re-zip and replace `removalsnation-repo.zip` at the repo
-root before committing (or ask the user how they want the extracted layout committed, since the
-current repo intentionally keeps the source zipped rather than checked out flat).
-
 ## What this project is
 
 RemovalsNation — a pure static HTML/CSS site (no framework, no build tool, no `node_modules`) for a UK
-removals company. It's a **Python static site generator**: two scripts read a Python-literal locations
-database and stamp out ~13,600 location × service landing pages as plain HTML into `dist/`, which is
-then drag-and-drop deployed to Netlify. `dist/` is gitignored — it's a build artifact, not source.
+removals company. It's a **Python static site generator**: scripts read a Python-literal locations
+database and stamp out one page per location × service combination as plain HTML into `dist/`, plus a
+handful of hand-authored top-level pages. `dist/` is committed (not gitignored) — Netlify deploys it
+directly via `netlify.toml` (`publish = "dist"`, no build command), so the repo is deployable as-is
+without Netlify needing to run Python.
 
-- Hosting: Netlify (drag-and-drop deploy of `dist/`)
-- Forms: Formspree (form ID `xaqzerzk`), POSTs from every booking form, redirects to `/thank-you.html`
+- Hosting: Netlify, deploying `dist/` from this repo (see `netlify.toml`)
+- Forms: Formspree (form ID `xaqzerzk`), POSTs from every booking/contact form, redirects to `/thank-you.html`
 - Fonts: Syne (headings) + DM Sans (body), loaded from Google Fonts
 - Domain: `removalsnation.com` (GoDaddy DNS → Netlify)
 
 ## Commands
 
 ```bash
-# 1. Regenerate data/locations.json from the ALL_LOCATIONS list in locations_db.py
-python scripts/locations_db.py
+# Full rebuild of dist/ from source (run all three, in order)
+python scripts/locations_db.py       # regenerates data/locations.json from ALL_LOCATIONS
+python scripts/build_pages.py        # generates dist/{service}/{location}/index.html + locations.html
+python scripts/build_static_pages.py # generates dist/index.html, about, contact, privacy, thank-you,
+                                      #   blog (+posts), partner-with-us, and dist/{service}/index.html
+mkdir -p dist/assets && cp docs/assets/shared.css dist/assets/shared.css   # not copied by either script
 
-# 2. Generate all location x service pages into dist/ (skips pages that already exist)
-python scripts/build_pages.py
-python scripts/build_pages.py --force                # rebuild even existing pages
+python scripts/build_pages.py --force                # rebuild even existing location/service pages
 python scripts/build_pages.py --service man-and-van   # build one service only
 python scripts/build_pages.py --dist output           # custom output dir
-python scripts/build_pages.py --data path/to.json     # custom locations file
-
-# 3. Patch hamburger menu / mobile nav into any HTML files missing it (idempotent, skips files
-#    that already have `class="hamburger"`)
-python scripts/inject_mobile_menu.py
-python scripts/inject_mobile_menu.py --dist dist
+python scripts/inject_mobile_menu.py                  # patch mobile-menu markup into HTML that lacks it
 ```
 
 There is no test suite, linter, or build step beyond these scripts — "correctness" here means the
 generated HTML in `dist/` is well-formed and the scripts run to completion. Verify changes by running
-the relevant script and spot-checking output files (e.g. `dist/house-removals/camden/index.html`).
+the relevant script and spot-checking output files (e.g. `dist/house-removals/camden/index.html`), or
+serve `dist/` locally with `python -m http.server` and click through.
+
+**After changing any script, always rerun the full pipeline above and re-commit `dist/`** — the committed
+HTML is what Netlify actually serves; editing the generator alone does nothing to the live site.
 
 ## Architecture
 
 **`scripts/locations_db.py`** — a single large `ALL_LOCATIONS` list of tuples:
-`(display_name, region, county, postcode_prefix, url_slug)`, covering ~1,700+ UK towns/boroughs/
+`(display_name, region, county, postcode_prefix, url_slug)`, covering UK towns/boroughs/
 neighbourhoods (Greater London boroughs and neighbourhoods, then counties/regions across England,
-Scotland, Wales, Northern Ireland). `build_db()` dedupes by `slug` and writes `data/locations.json`.
-This file is the single source of truth for every location page that gets generated — adding a new
-location means adding a tuple here and rerunning both scripts.
+Scotland, Wales, Northern Ireland). `build_db()` dedupes by `slug` and writes `data/locations.json`
+(1,253 unique locations after dedup — several `ALL_LOCATIONS` entries share a slug). This file is the
+single source of truth for every location page that gets generated — adding a new location means
+adding a tuple here and rerunning the full pipeline.
 
 **`scripts/build_pages.py`** — the actual generator, driven by two config blocks at the top:
 - `SERVICES`: list of `(slug, display_name, emoji)` tuples — the 8 services offered (house-removals,
@@ -91,6 +82,14 @@ button, mobile menu overlay, and toggle JS via string replacement on known ancho
 (`</a>\n  <ul class="nav-links">`, `</nav>`, `</body>`). Use this after hand-editing static pages
 (`index.html`, `about.html`, etc.) outside the generator, or after changing the mobile menu markup,
 instead of a full `--force` rebuild.
+
+**`scripts/build_static_pages.py`** — covers everything `build_pages.py` doesn't: the top-level pages
+(`index.html`, `about.html`, `contact.html`, `privacy.html`, `thank-you.html`), the Knowledge Hub
+(`blog/index.html` + two posts), `partner-with-us/index.html`, and — importantly — the 8 generic
+`dist/{service_slug}/index.html` service landing pages that every nav bar and footer link to (these are
+distinct from the per-location pages `build_pages.py` generates under the same directories). Imports
+its shared fragments (`nav_html`, `footer_html`, `SERVICES`, `COST_TABLES`, etc.) directly from
+`build_pages.py` rather than duplicating them, unlike `inject_mobile_menu.py`.
 
 ## Key config values
 
