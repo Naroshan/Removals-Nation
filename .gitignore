@@ -1,0 +1,18 @@
+# dist/ is committed — Netlify deploys it directly (publish = "dist" in netlify.toml).
+# Regenerate it with: python scripts/locations_db.py && python scripts/build_pages.py && python scripts/build_static_pages.py
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
