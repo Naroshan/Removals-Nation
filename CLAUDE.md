@@ -12,7 +12,7 @@ directly via `netlify.toml` (`publish = "dist"`, no build command), so the repo 
 without Netlify needing to run Python.
 
 - Hosting: Netlify, deploying `dist/` from this repo (see `netlify.toml`)
-- Forms: Formspree (form ID `xaqzerzk`), POSTs from every booking/contact form, redirects to `/thank-you.html`
+- Forms: Formspree (form ID `xkododjy`), POSTs from every booking/contact form, redirects to `/thank-you.html`
 - Fonts: Syne (headings) + DM Sans (body), loaded from Google Fonts
 - Domain: `removalsnation.com` (GoDaddy DNS → Netlify)
 
