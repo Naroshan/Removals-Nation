@@ -341,6 +341,7 @@ def booking_form_html(svc_name, loc_name, postcode):
     <input type="hidden" name="_subject" value="New Removal Booking — {SITE_NAME}">
     <input type="hidden" name="location" value="{loc_name}">
     <input type="hidden" name="service" value="{svc_name}">
+    <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html">
     <button type="submit" class="btn-primary" style="width:100%;margin-top:6px;text-align:center">
       Book My Removal →
     </button>
