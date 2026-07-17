@@ -80,6 +80,16 @@ PAGE_CSS = """<style>
 .partner-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;padding:26px}
 .partner-card h3{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:10px}
 .partner-card p{color:var(--text-muted);font-size:.88rem;line-height:1.7}
+.cost-table{background:var(--navy-mid);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.cost-row{display:flex;justify-content:space-between;padding:13px 18px;
+  border-bottom:1px solid var(--border);font-size:.88rem}
+.cost-row:last-child{border-bottom:none}
+.cost-row span:last-child{font-weight:700;color:var(--orange)}
+.faqs{margin-top:8px}
+.faq{border-bottom:1px solid var(--border);padding:18px 0}
+.faq:last-child{border-bottom:none}
+.faq-q{font-family:'Syne',sans-serif;font-weight:700;font-size:.93rem;margin-bottom:8px}
+.faq-a{font-size:.86rem;color:var(--text-muted);line-height:1.7}
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding:110px 24px 50px}
   .svc-grid{grid-template-columns:repeat(2,1fr)}
@@ -450,10 +460,132 @@ def build_blog(dist_dir):
         )
 
 
+def build_man_and_van_page(dist_dir):
+    """Dedicated dist/man-and-van/index.html — unlike the other generic service
+    landing pages, this one leads with on-demand / same-day / call-now framing
+    rather than the templated 'Across the UK' copy."""
+    root = "../"
+    slug, name, icon = next(s for s in SERVICES if s[0] == "man-and-van")
+    other_cards = "".join(
+        f'<a href="../{s}/index.html" class="svc-card">'
+        f'<span class="svc-icon">{i}</span><h3>{n}</h3></a>'
+        for s, n, i in SERVICES if s != slug
+    )
+    steps = [
+        ("📞", "Call or Book Online", "Call now for an instant slot check, or get a confirmed "
+         "price online in 60 seconds — no waiting for callbacks."),
+        ("✅", "We Confirm Within Minutes", "We match you with the nearest available van and "
+         "driver and confirm your booking straight away."),
+        ("🚐", "Van Arrives Same Day", "Most bookings — even last-minute ones — can be on the "
+         "road the same day. Just tell us what you're moving."),
+    ]
+    steps_html = "".join(
+        f'<div class="partner-card"><h3>{icon} {title}</h3><p>{desc}</p></div>'
+        for icon, title, desc in steps
+    )
+    faqs = [
+        (
+            "Can I book a man and van the same day?",
+            "Yes — same-day man and van hire is available in most areas, subject to "
+            "driver availability. Call us directly for the fastest confirmation.",
+        ),
+        (
+            "Do I need to book in advance, or is it on-demand?",
+            "Neither is required — you can book ahead for a fixed time, or call now for "
+            "on-demand hire and we'll get a van to you as quickly as possible.",
+        ),
+        (
+            "How is man and van hire priced?",
+            "By the hour, with pricing based on van size and crew — see the cost guide "
+            "below. There's no minimum notice period and no hidden fees.",
+        ),
+        (
+            "What can a man and van move?",
+            "Anything from a single item or a few boxes to a full studio or small house "
+            "move — furniture, appliances, flat-pack, you name it.",
+        ),
+    ]
+    faqpage = jsonld_html({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in faqs
+        ],
+    })
+
+    body = f"""<section class="hero">
+  <div>
+    <div class="hero-badge">{icon} On-Demand Man &amp; Van</div>
+    <h1>Man &amp; Van Hire — On Demand, Same Day</h1>
+    <p>Need a van right now? {SITE_NAME}'s man and van service is available for
+       same-day hire across the UK — no advance notice required. Call now for
+       instant availability, or book online in 60 seconds.</p>
+    <div class="trust-pills">
+      <span>✓ Same-day hire</span>
+      <span>✓ Fully insured</span>
+      <span>✓ From £60</span>
+      <span>✓ No job too small</span>
+    </div>
+    <a href="{PHONE_HREF}" class="btn-primary" style="margin-top:22px;font-size:1.05rem;padding:16px 32px;display:inline-block">
+      📞 Call Now — {PHONE}
+    </a>
+  </div>
+  {booking_form_html(root)}
+</section>
+<section class="section">
+  <div class="section-tag">How It Works</div>
+  <h2 class="section-title">On-Demand Hire in 3 Steps</h2>
+  <div class="partner-grid">{steps_html}</div>
+</section>
+<section class="section">
+  <div class="section-tag">Pricing</div>
+  <h2 class="section-title">Man &amp; Van Costs</h2>
+  {cost_table_html(slug)}
+</section>
+<section class="section">
+  <div class="section-tag">FAQs</div>
+  <h2 class="section-title">Same-Day &amp; On-Demand Hire — FAQs</h2>
+  {faq_html(faqs)}
+</section>
+<section class="section">
+  <div class="section-tag">Coverage</div>
+  <h2 class="section-title">Find Man &amp; Van Hire in Your Area</h2>
+  <p style="color:var(--text-muted);line-height:1.8;max-width:700px;margin-bottom:24px">
+    We cover 1,700+ towns and cities across the UK — search our full location list
+    to find same-day man and van hire near you.
+  </p>
+  <a href="{root}locations.html" class="btn-primary">Browse All Locations →</a>
+</section>
+<section class="section">
+  <div class="section-tag">Other Services</div>
+  <h2 class="section-title">You Might Also Need</h2>
+  <div class="svc-grid">{other_cards}</div>
+</section>"""
+
+    title = "Man & Van Hire | On-Demand & Same Day | RemovalsNation"
+    description = (
+        f"On-demand man and van hire across the UK. Same-day availability, fully "
+        f"insured, from £60. Call now or book online in 60 seconds with {SITE_NAME}."
+    )
+    out_dir = Path(dist_dir) / slug
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "index.html").write_text(
+        page_shell(root, title, description, body,
+                   canonical_path=f"{slug}/", jsonld=faqpage),
+        encoding="utf-8",
+    )
+    print("✅  Man & Van on-demand page built")
+
+
 def build_service_pages(dist_dir):
-    """Build dist/{service_slug}/index.html — the generic (non-location) service landing page."""
+    """Build dist/{service_slug}/index.html — the generic (non-location) service landing page.
+    man-and-van is handled separately by build_man_and_van_page() with dedicated
+    on-demand/same-day/call-now content instead of this generic template."""
     root = "../"
     for slug, name, icon in SERVICES:
+        if slug == "man-and-van":
+            continue
         other_cards = "".join(
             f'<a href="../{s}/index.html" class="svc-card">'
             f'<span class="svc-icon">{i}</span><h3>{n}</h3></a>'
@@ -501,7 +633,7 @@ def build_service_pages(dist_dir):
                        canonical_path=f"{slug}/"),
             encoding="utf-8",
         )
-    print(f"✅  {len(SERVICES)} service landing pages built")
+    print(f"✅  {len(SERVICES) - 1} service landing pages built")
 
 
 def build_m25_page(dist_dir, locations):
@@ -706,6 +838,7 @@ def main():
     build_404(args.dist)
     build_blog(args.dist)
     build_service_pages(args.dist)
+    build_man_and_van_page(args.dist)
     build_m25_page(args.dist, locations)
     build_partner(args.dist)
 

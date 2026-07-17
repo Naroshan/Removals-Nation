@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Professional, fully insured man & van across the UK. Instant online pricing and booking with RemovalsNation.">
-<title>Man & Van | RemovalsNation</title>
+<meta name="description" content="On-demand man and van hire across the UK. Same-day availability, fully insured, from £60. Call now or book online in 60 seconds with RemovalsNation.">
+<title>Man & Van Hire | On-Demand & Same Day | RemovalsNation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/shared.css">
@@ -17,15 +17,15 @@
 <link rel="canonical" href="https://removalsnation.com/man-and-van/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="RemovalsNation">
-<meta property="og:title" content="Man & Van | RemovalsNation">
-<meta property="og:description" content="Professional, fully insured man & van across the UK. Instant online pricing and booking with RemovalsNation.">
+<meta property="og:title" content="Man & Van Hire | On-Demand & Same Day | RemovalsNation">
+<meta property="og:description" content="On-demand man and van hire across the UK. Same-day availability, fully insured, from £60. Call now or book online in 60 seconds with RemovalsNation.">
 <meta property="og:url" content="https://removalsnation.com/man-and-van/">
 <meta property="og:image" content="https://removalsnation.com/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Man & Van | RemovalsNation">
-<meta name="twitter:description" content="Professional, fully insured man & van across the UK. Instant online pricing and booking with RemovalsNation.">
+<meta name="twitter:title" content="Man & Van Hire | On-Demand & Same Day | RemovalsNation">
+<meta name="twitter:description" content="On-demand man and van hire across the UK. Same-day availability, fully insured, from £60. Call now or book online in 60 seconds with RemovalsNation.">
 <meta name="twitter:image" content="https://removalsnation.com/assets/og-image.png">
-
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can I book a man and van the same day?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — same-day man and van hire is available in most areas, subject to driver availability. Call us directly for the fastest confirmation."}}, {"@type": "Question", "name": "Do I need to book in advance, or is it on-demand?", "acceptedAnswer": {"@type": "Answer", "text": "Neither is required — you can book ahead for a fixed time, or call now for on-demand hire and we'll get a van to you as quickly as possible."}}, {"@type": "Question", "name": "How is man and van hire priced?", "acceptedAnswer": {"@type": "Answer", "text": "By the hour, with pricing based on van size and crew — see the cost guide below. There's no minimum notice period and no hidden fees."}}, {"@type": "Question", "name": "What can a man and van move?", "acceptedAnswer": {"@type": "Answer", "text": "Anything from a single item or a few boxes to a full studio or small house move — furniture, appliances, flat-pack, you name it."}}]}</script>
 <style>
 .hero{padding:150px 48px 90px;max-width:1200px;margin:0 auto;display:grid;
   grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
@@ -80,6 +80,16 @@
 .partner-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;padding:26px}
 .partner-card h3{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:10px}
 .partner-card p{color:var(--text-muted);font-size:.88rem;line-height:1.7}
+.cost-table{background:var(--navy-mid);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.cost-row{display:flex;justify-content:space-between;padding:13px 18px;
+  border-bottom:1px solid var(--border);font-size:.88rem}
+.cost-row:last-child{border-bottom:none}
+.cost-row span:last-child{font-weight:700;color:var(--orange)}
+.faqs{margin-top:8px}
+.faq{border-bottom:1px solid var(--border);padding:18px 0}
+.faq:last-child{border-bottom:none}
+.faq-q{font-family:'Syne',sans-serif;font-weight:700;font-size:.93rem;margin-bottom:8px}
+.faq-a{font-size:.86rem;color:var(--text-muted);line-height:1.7}
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding:110px 24px 50px}
   .svc-grid{grid-template-columns:repeat(2,1fr)}
@@ -131,15 +141,20 @@
 <main>
 <section class="hero">
   <div>
-    <div class="hero-badge">🚐 Man & Van</div>
-    <h1>Man & Van Across the UK</h1>
-    <p>RemovalsNation provides professional, fully insured man & van nationwide.
-       Find your location below or get an instant quote now.</p>
+    <div class="hero-badge">🚐 On-Demand Man &amp; Van</div>
+    <h1>Man &amp; Van Hire — On Demand, Same Day</h1>
+    <p>Need a van right now? RemovalsNation's man and van service is available for
+       same-day hire across the UK — no advance notice required. Call now for
+       instant availability, or book online in 60 seconds.</p>
     <div class="trust-pills">
+      <span>✓ Same-day hire</span>
       <span>✓ Fully insured</span>
-      <span>✓ Instant booking</span>
-      <span>✓ Nationwide coverage</span>
+      <span>✓ From £60</span>
+      <span>✓ No job too small</span>
     </div>
+    <a href="tel:08001234567" class="btn-primary" style="margin-top:22px;font-size:1.05rem;padding:16px 32px;display:inline-block">
+      📞 Call Now — 0800 123 4567
+    </a>
   </div>
   <div class="quote-card" id="quote">
   <h2>Get an Instant Quote</h2>
@@ -192,16 +207,26 @@
 </div>
 </section>
 <section class="section">
+  <div class="section-tag">How It Works</div>
+  <h2 class="section-title">On-Demand Hire in 3 Steps</h2>
+  <div class="partner-grid"><div class="partner-card"><h3>📞 Call or Book Online</h3><p>Call now for an instant slot check, or get a confirmed price online in 60 seconds — no waiting for callbacks.</p></div><div class="partner-card"><h3>✅ We Confirm Within Minutes</h3><p>We match you with the nearest available van and driver and confirm your booking straight away.</p></div><div class="partner-card"><h3>🚐 Van Arrives Same Day</h3><p>Most bookings — even last-minute ones — can be on the road the same day. Just tell us what you're moving.</p></div></div>
+</section>
+<section class="section">
   <div class="section-tag">Pricing</div>
-  <h2 class="section-title">Man & Van Costs</h2>
+  <h2 class="section-title">Man &amp; Van Costs</h2>
   <div class="cost-table"><div class="cost-row"><span>1 Man + Small Van (2hr)</span><span>£60 – £120</span></div><div class="cost-row"><span>1 Man + Large Van (2hr)</span><span>£80 – £150</span></div><div class="cost-row"><span>2 Men + Van (half day)</span><span>£150 – £280</span></div><div class="cost-row"><span>2 Men + Van (full day)</span><span>£250 – £450</span></div></div>
 </section>
 <section class="section">
+  <div class="section-tag">FAQs</div>
+  <h2 class="section-title">Same-Day &amp; On-Demand Hire — FAQs</h2>
+  <div class="faqs"><div class="faq"><div class="faq-q">Can I book a man and van the same day?</div><div class="faq-a">Yes — same-day man and van hire is available in most areas, subject to driver availability. Call us directly for the fastest confirmation.</div></div><div class="faq"><div class="faq-q">Do I need to book in advance, or is it on-demand?</div><div class="faq-a">Neither is required — you can book ahead for a fixed time, or call now for on-demand hire and we'll get a van to you as quickly as possible.</div></div><div class="faq"><div class="faq-q">How is man and van hire priced?</div><div class="faq-a">By the hour, with pricing based on van size and crew — see the cost guide below. There's no minimum notice period and no hidden fees.</div></div><div class="faq"><div class="faq-q">What can a man and van move?</div><div class="faq-a">Anything from a single item or a few boxes to a full studio or small house move — furniture, appliances, flat-pack, you name it.</div></div></div>
+</section>
+<section class="section">
   <div class="section-tag">Coverage</div>
-  <h2 class="section-title">Find Man & Van in Your Area</h2>
+  <h2 class="section-title">Find Man &amp; Van Hire in Your Area</h2>
   <p style="color:var(--text-muted);line-height:1.8;max-width:700px;margin-bottom:24px">
     We cover 1,700+ towns and cities across the UK — search our full location list
-    to find man & van near you.
+    to find same-day man and van hire near you.
   </p>
   <a href="../locations.html" class="btn-primary">Browse All Locations →</a>
 </section>
