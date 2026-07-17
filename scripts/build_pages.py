@@ -47,6 +47,18 @@ def favicon_html(root):
 <meta name="theme-color" content="#0b1628">"""
 
 
+def gtag_html():
+    """Google Ads / Google tag (gtag.js) — loaded on every page. Uses an
+    absolute src so it's root-independent regardless of page depth."""
+    return """<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18109980077"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18109980077');
+</script>"""
+
+
 def seo_html(canonical_path, title, description, root, noindex=False):
     """Canonical link + Open Graph / Twitter Card tags, shared by every page.
     canonical_path is site-relative with no leading slash ("" for home,
@@ -499,6 +511,7 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/shared.css">
 {favicon_html(root)}
+{gtag_html()}
 {seo_html(canonical_path, title, description, root)}
 {location_jsonld(svc_slug, svc_name, name, region, county, postcode, faqs, canonical)}
 {LOCATION_PAGE_CSS}
@@ -643,6 +656,7 @@ def build_locations_page(locations, dist_dir):
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/shared.css">
 {favicon_html(root)}
+{gtag_html()}
 {seo_html("locations.html", title, description, root)}
 <style>
 .locs-hero{{padding:120px 48px 60px;max-width:900px;margin:0 auto;text-align:center}}
