@@ -16,8 +16,15 @@ from pathlib import Path
 from build_pages import (
     FORMSPREE_ID, PHONE, PHONE_HREF, SITE_NAME, SITE_URL,
     SERVICES, COST_TABLES, nav_html, mobile_menu_html, footer_html, MENU_JS,
-    cost_table_html, favicon_html, seo_html, organization_jsonld,
+    cost_table_html, favicon_html, seo_html, organization_jsonld, jsonld_html,
+    whatsapp_fab_html, faq_html,
 )
+
+M25_REGIONS = [
+    "Central London", "North London", "North West London", "North East London",
+    "East London", "South East London", "South London", "South West London", "West London",
+    "Surrey", "Hertfordshire", "Essex", "Kent",
+]
 
 PAGE_CSS = """<style>
 .hero{padding:150px 48px 90px;max-width:1200px;margin:0 auto;display:grid;
@@ -115,6 +122,7 @@ def page_shell(root, title, description, body, extra_css="", canonical_path="", 
   <a href="{root}index.html#quote">Book Now</a>
   <a href="{PHONE_HREF}">📞 Call Now</a>
 </div>
+{whatsapp_fab_html()}
 {MENU_JS}
 </body>
 </html>"""
@@ -496,6 +504,148 @@ def build_service_pages(dist_dir):
     print(f"✅  {len(SERVICES)} service landing pages built")
 
 
+def build_m25_page(dist_dir, locations):
+    """Pillar page targeting 'removals within the M25' / 'London removal company' —
+    the page that should rank for those terms, linking out to every Greater
+    London, Surrey, Hertfordshire, Essex and Kent location page (also gives
+    those ~354 pages extra internal-link equity beyond the flat locations.html
+    directory)."""
+    from collections import defaultdict
+
+    root = "../"
+    regions = defaultdict(list)
+    for name, region, county, postcode, slug in locations:
+        if region in M25_REGIONS:
+            regions[region].append((name, slug))
+
+    total = sum(len(v) for v in regions.values())
+    sections = ""
+    for region in M25_REGIONS:
+        if region not in regions:
+            continue
+        links = "".join(
+            f'<a href="{root}house-removals/{slug}/index.html" class="loc-link">{name}</a>'
+            for name, slug in sorted(regions[region])
+        )
+        sections += f"""
+<div class="region-section">
+  <h3 class="region-title">{region}</h3>
+  <div class="loc-grid">{links}</div>
+</div>"""
+
+    faqs = [
+        (
+            "Do you cover removals within the whole M25?",
+            f"Yes — {SITE_NAME} covers every London borough plus the surrounding "
+            f"Surrey, Hertfordshire, Essex and Kent commuter belt inside and just "
+            f"outside the M25, with {total}+ locations served in the area.",
+        ),
+        (
+            "Are you a London removal company or do you cover further afield too?",
+            f"We're a nationwide removal company, but London and the M25 corridor "
+            f"is one of our busiest coverage areas — with fully insured local teams "
+            f"who know the area, parking restrictions and access requirements.",
+        ),
+        (
+            "How much do removals within the M25 cost?",
+            "Pricing depends on property size and distance — typically £300–£2,000+ "
+            "for a house move. Pick your town below for location-specific pricing, "
+            "or use the quote form for an instant estimate.",
+        ),
+        (
+            "Can you handle same-day or short-notice London moves?",
+            "Yes, same-day removals are available across most of the M25 area "
+            "subject to team availability — call us directly to check your postcode.",
+        ),
+    ]
+
+    body = f"""<section class="hero">
+  <div>
+    <div class="hero-badge">🚐 M25 Removal Specialists</div>
+    <h1>Removals Within the M25</h1>
+    <p>{SITE_NAME} is a trusted London removal company providing fully insured
+       removals within the M25 — covering every London borough plus Surrey,
+       Hertfordshire, Essex and Kent. Instant online pricing, {total}+ local
+       towns covered.</p>
+    <div class="trust-pills">
+      <span>✓ Fully insured</span>
+      <span>✓ {total}+ M25-area locations</span>
+      <span>✓ Local London teams</span>
+      <span>✓ Same-day available</span>
+    </div>
+  </div>
+  {booking_form_html(root)}
+</section>
+<section class="section">
+  <div class="section-tag">Why RemovalsNation</div>
+  <h2 class="section-title">Your London Removal Company</h2>
+  <p style="color:var(--text-muted);line-height:1.8;max-width:800px;margin-bottom:14px">
+    Moving within the M25 comes with its own challenges — narrow streets, permit
+    parking, lift access in flats, and tight scheduling around London traffic.
+    As a dedicated London removal company, {SITE_NAME}'s teams handle removals
+    within the M25 every day, from small flat moves in zone 1 to full house
+    removals out to the Surrey, Hertfordshire, Essex and Kent commuter belt.
+  </p>
+  <p style="color:var(--text-muted);line-height:1.8;max-width:800px">
+    Every removal within the M25 is fully insured and comes with instant online
+    pricing — pick your area below to see local costs, or get a quote in 60
+    seconds using the form above.
+  </p>
+</section>
+<section class="section">
+  <div class="section-tag">Coverage</div>
+  <h2 class="section-title">Find Your Area Within the M25</h2>
+  {sections}
+</section>
+<section class="section">
+  <div class="section-tag">FAQs</div>
+  <h2 class="section-title">Removals Within the M25 — FAQs</h2>
+  {faq_html(faqs)}
+</section>"""
+
+    title = "Removals Within the M25 | London Removal Company"
+    description = (
+        f"{SITE_NAME} — a trusted London removal company providing fully insured "
+        f"removals within the M25. {total}+ locations across London, Surrey, "
+        f"Herts, Essex & Kent."
+    )
+    breadcrumb = jsonld_html({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": f"{SITE_URL}/"},
+            {"@type": "ListItem", "position": 2, "name": "Removals Within the M25",
+             "item": f"{SITE_URL}/removals-within-the-m25/"},
+        ],
+    })
+    faqpage = jsonld_html({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in faqs
+        ],
+    })
+
+    extra_css = """<style>
+.region-section{margin-bottom:48px}
+.region-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--orange);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.loc-grid{display:flex;flex-wrap:wrap;gap:8px}
+.loc-link{background:var(--navy-mid);border:1px solid var(--border);border-radius:8px;padding:7px 14px;text-decoration:none;color:rgba(255,255,255,.8);font-size:.83rem;transition:all .2s}
+.loc-link:hover{border-color:var(--orange);color:#fff;background:rgba(244,88,10,.08)}
+</style>"""
+
+    out_dir = Path(dist_dir) / "removals-within-the-m25"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "index.html").write_text(
+        page_shell(root, title, description, body, extra_css=extra_css,
+                   canonical_path="removals-within-the-m25/",
+                   jsonld=breadcrumb + "\n" + faqpage),
+        encoding="utf-8",
+    )
+    print(f"✅  M25 pillar page built ({total} locations linked)")
+
+
 def build_partner(dist_dir):
     root = "../"
     body = f"""<div class="section" style="padding-top:150px">
@@ -536,11 +686,17 @@ def build_partner(dist_dir):
 
 
 def main():
+    import json
+
     parser = argparse.ArgumentParser(description="Build RemovalsNation static top-level pages")
     parser.add_argument("--dist", default="dist", help="Output directory (default: dist)")
+    parser.add_argument("--data", default="data/locations.json", help="Path to locations JSON")
     args = parser.parse_args()
 
     Path(args.dist).mkdir(parents=True, exist_ok=True)
+
+    with open(args.data) as f:
+        locations = json.load(f)
 
     build_index(args.dist)
     build_about(args.dist)
@@ -550,10 +706,11 @@ def main():
     build_404(args.dist)
     build_blog(args.dist)
     build_service_pages(args.dist)
+    build_m25_page(args.dist, locations)
     build_partner(args.dist)
 
     print("✅  Static pages built: index, about, contact, privacy, thank-you, 404, blog (+2 posts), "
-          "service landing pages, partner-with-us")
+          "service landing pages, M25 pillar page, partner-with-us")
 
 
 if __name__ == "__main__":

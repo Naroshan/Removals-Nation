@@ -23,6 +23,7 @@ PHONE          = "0800 123 4567"
 PHONE_HREF     = "tel:08001234567"
 SITE_NAME      = "RemovalsNation"
 SITE_URL       = "https://removalsnation.com"
+WHATSAPP_NUMBER = "447000000000"  # TODO: replace with the real WhatsApp Business number (digits only, no +)
 
 SERVICES = [
     ("house-removals",         "House Removals",         "🏠"),
@@ -123,6 +124,7 @@ def footer_html(root):
     <div class="footer-col">
       <h4>Company</h4>
       <a href="{root}about.html">About Us</a>
+      <a href="{root}removals-within-the-m25/index.html">Removals Within the M25</a>
       <a href="{root}partner-with-us/index.html">For Businesses</a>
       <a href="{root}blog/index.html">Knowledge Hub</a>
       <a href="{root}contact.html">Contact</a>
@@ -138,6 +140,21 @@ def footer_html(root):
     <span>Fully insured · Nationwide coverage</span>
   </div>
 </footer>"""
+
+
+def whatsapp_fab_html():
+    """Floating WhatsApp button, bottom-right on every page. Sits above the
+    reserved bottom-right zone (below it) where the live chat widget will go
+    once it's added — do not lower this button's `bottom` offset without
+    also checking it won't collide with the live chat bubble."""
+    message = "Hi RemovalsNation, I'd like a quote"
+    return f"""<a href="https://wa.me/{WHATSAPP_NUMBER}?text={message.replace(' ', '%20')}"
+   class="whatsapp-fab" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.82.478 3.6 1.386 5.163L2 22l4.951-1.328A9.96 9.96 0 0 0 12.001 22C17.523 22 22 17.523 22 12S17.523 2 12.001 2zm0 18.194a8.17 8.17 0 0 1-4.166-1.144l-.299-.177-3.048.817.822-3.021-.194-.31A8.19 8.19 0 0 1 3.805 12c0-4.516 3.68-8.194 8.196-8.194 4.516 0 8.194 3.678 8.194 8.194 0 4.516-3.678 8.194-8.194 8.194z"/>
+  </svg>
+</a>"""
 
 
 MENU_JS = """<script>
@@ -549,6 +566,7 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
   <a href="{root}index.html#quote">Book Now</a>
   <a href="{PHONE_HREF}">📞 Call Now</a>
 </div>
+{whatsapp_fab_html()}
 {MENU_JS}
 </body>
 </html>"""
@@ -649,6 +667,9 @@ def build_locations_page(locations, dist_dir):
   <h1>Removal Services Across the UK</h1>
   <p>{SITE_NAME} provides professional, fully insured removal services in {total}+ towns and cities
      across England, Scotland, Wales and Northern Ireland. Find your location below.</p>
+  <p style="margin-top:14px">Moving in the capital? See our dedicated
+     <a href="{root}removals-within-the-m25/index.html" style="color:var(--orange)">removals within the M25</a>
+     page for London, Surrey, Herts, Essex &amp; Kent coverage.</p>
 </div>
 <div class="locs-wrap">
 {sections}
@@ -659,6 +680,7 @@ def build_locations_page(locations, dist_dir):
   <a href="{root}index.html#quote">Book Now</a>
   <a href="{PHONE_HREF}">📞 Call Now</a>
 </div>
+{whatsapp_fab_html()}
 {MENU_JS}
 </body>
 </html>"""

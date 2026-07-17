@@ -171,6 +171,20 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); paddi
 .sticky-mobile a:first-child { background: var(--orange); color: var(--white); }
 .sticky-mobile a:last-child { background: var(--navy-light); color: var(--white); border: 1px solid var(--border); }
 
+/* ── FLOATING ACTION BUTTONS (bottom-right) ──
+   .whatsapp-fab sits at `bottom: 90px` on purpose — the 0–80px zone below it
+   is reserved for the live chat widget bubble that will be added later.
+   Do not change `bottom` here without keeping that gap. */
+.whatsapp-fab {
+  position: fixed; right: 20px; bottom: 90px; z-index: 150;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25D366; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.whatsapp-fab:hover { transform: scale(1.08); box-shadow: 0 8px 26px rgba(0,0,0,0.45); }
+.whatsapp-fab svg { width: 28px; height: 28px; }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   nav { padding: 14px 20px; }
@@ -182,6 +196,8 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); paddi
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   .sticky-mobile { display: flex; }
   body { padding-bottom: 76px; }
+  .whatsapp-fab { right: 16px; bottom: 96px; width: 50px; height: 50px; }
+  .whatsapp-fab svg { width: 25px; height: 25px; }
 }
 @media (max-width: 600px) {
   .footer-grid { grid-template-columns: 1fr; }

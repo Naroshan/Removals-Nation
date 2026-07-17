@@ -18,6 +18,7 @@ from build_pages import SERVICES, SITE_URL
 
 def static_paths():
     paths = ["", "about.html", "contact.html", "privacy.html", "locations.html",
+             "removals-within-the-m25/",
              "blog/", "blog/how-much-do-removals-cost/", "blog/moving-house-checklist/",
              "partner-with-us/"]
     paths += [f"{slug}/" for slug, _, _ in SERVICES]
@@ -28,7 +29,12 @@ def build_sitemap(locations, dist_dir):
     today = date.today().isoformat()
     urls = []
     for path in static_paths():
-        priority = "1.0" if path == "" else "0.7"
+        if path == "":
+            priority = "1.0"
+        elif path == "removals-within-the-m25/":
+            priority = "0.9"
+        else:
+            priority = "0.7"
         urls.append((f"{SITE_URL}/{path}", priority))
     for loc in locations:
         slug = loc[4]
