@@ -23,7 +23,7 @@ PHONE          = "0800 123 4567"
 PHONE_HREF     = "tel:08001234567"
 SITE_NAME      = "RemovalsNation"
 SITE_URL       = "https://removalsnation.com"
-WHATSAPP_NUMBER = "447000000000"  # TODO: replace with the real WhatsApp Business number (digits only, no +)
+WHATSAPP_NUMBER = "447417355780"  # digits only, no +, no leading 0 (UK mobile in international format)
 
 SERVICES = [
     ("house-removals",         "House Removals",         "🏠"),
