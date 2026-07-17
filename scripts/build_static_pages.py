@@ -17,7 +17,7 @@ from build_pages import (
     FORMSPREE_ID, PHONE, PHONE_HREF, SITE_NAME, SITE_URL,
     SERVICES, COST_TABLES, nav_html, mobile_menu_html, footer_html, MENU_JS,
     cost_table_html, favicon_html, gtag_html, seo_html, organization_jsonld, jsonld_html,
-    whatsapp_fab_html, faq_html,
+    whatsapp_fab_html, call_fab_html, faq_html,
 )
 
 M25_REGIONS = [
@@ -134,6 +134,7 @@ def page_shell(root, title, description, body, extra_css="", canonical_path="", 
   <a href="{PHONE_HREF}">📞 Call Now</a>
 </div>
 {whatsapp_fab_html()}
+{call_fab_html()}
 {MENU_JS}
 </body>
 </html>"""
@@ -202,8 +203,7 @@ def build_index(dist_dir):
   <div>
     <div class="hero-badge">📦 Nationwide UK Removals</div>
     <h1>Moving House Made Simple</h1>
-    <p>{SITE_NAME} connects you with fully insured, professional removal teams across
-       the UK. Instant online pricing, same-day availability, and a booking that
+    <p>Fully insured removal teams, instant online pricing, and a booking that
        takes 60 seconds.</p>
     <div class="trust-pills">
       <span>✓ Fully insured</span>
@@ -214,17 +214,17 @@ def build_index(dist_dir):
   </div>
   {booking_form_html(root)}
 </section>
-<section class="section">
+<section class="section" style="padding:48px 48px">
   <div class="section-tag">What We Do</div>
   <h2 class="section-title">Our Services</h2>
   <div class="svc-grid">{svc_cards}</div>
 </section>
-<section class="section">
+<section class="section" style="padding:0 48px 64px">
   <div class="section-tag">Coverage</div>
-  <h2 class="section-title">We Cover the Whole UK</h2>
-  <p style="color:var(--text-muted);line-height:1.8;max-width:700px;margin-bottom:24px">
-    From central London boroughs to towns across England, Scotland, Wales and Northern
-    Ireland — find your area and get a price in seconds.
+  <h2 class="section-title" style="margin-bottom:16px">We Cover the Whole UK</h2>
+  <p style="color:var(--text-muted);line-height:1.7;max-width:600px;margin-bottom:20px">
+    1,700+ towns across England, Scotland, Wales and Northern Ireland —
+    find yours and get a price in seconds.
   </p>
   <a href="locations.html" class="btn-primary">Browse All Locations →</a>
 </section>"""

@@ -169,6 +169,18 @@ def whatsapp_fab_html():
 </a>"""
 
 
+def call_fab_html():
+    """Floating Call Now button, bottom-left on every page (mirrors
+    whatsapp_fab_html() on the opposite corner so they never collide),
+    always visible while scrolling, showing the phone number."""
+    return f"""<a href="{PHONE_HREF}" class="call-fab" aria-label="Call {SITE_NAME} now">
+  <svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2Z"/>
+  </svg>
+  <span>{PHONE}</span>
+</a>"""
+
+
 MENU_JS = """<script>
 (function(){
   var btn  = document.getElementById('hamburger');
@@ -580,6 +592,7 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
   <a href="{PHONE_HREF}">📞 Call Now</a>
 </div>
 {whatsapp_fab_html()}
+{call_fab_html()}
 {MENU_JS}
 </body>
 </html>"""
@@ -695,6 +708,7 @@ def build_locations_page(locations, dist_dir):
   <a href="{PHONE_HREF}">📞 Call Now</a>
 </div>
 {whatsapp_fab_html()}
+{call_fab_html()}
 {MENU_JS}
 </body>
 </html>"""

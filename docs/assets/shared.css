@@ -185,6 +185,21 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); paddi
 .whatsapp-fab:hover { transform: scale(1.08); box-shadow: 0 8px 26px rgba(0,0,0,0.45); }
 .whatsapp-fab svg { width: 28px; height: 28px; }
 
+/* .call-fab mirrors .whatsapp-fab but on the opposite (left) corner, so the
+   two floating buttons never collide with each other or the reserved
+   live-chat zone under the WhatsApp button. */
+.call-fab {
+  position: fixed; left: 20px; bottom: 90px; z-index: 150;
+  display: flex; align-items: center; gap: 8px;
+  background: var(--orange); color: #fff; text-decoration: none;
+  padding: 13px 20px; border-radius: 100px;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; white-space: nowrap;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.call-fab:hover { transform: scale(1.05); background: var(--orange-light); box-shadow: 0 8px 26px rgba(0,0,0,0.45); }
+.call-fab svg { width: 18px; height: 18px; flex-shrink: 0; }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   nav { padding: 14px 20px; }
@@ -198,6 +213,12 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); paddi
   body { padding-bottom: 76px; }
   .whatsapp-fab { right: 16px; bottom: 96px; width: 50px; height: 50px; }
   .whatsapp-fab svg { width: 25px; height: 25px; }
+  .call-fab { left: 12px; bottom: 96px; padding: 11px 14px; font-size: 0.72rem; gap: 6px; }
+  .call-fab svg { width: 16px; height: 16px; }
+}
+@media (max-width: 380px) {
+  .call-fab span { display: none; }
+  .call-fab { padding: 12px; border-radius: 50%; }
 }
 @media (max-width: 600px) {
   .footer-grid { grid-template-columns: 1fr; }

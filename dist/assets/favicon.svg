@@ -1,70 +1,42 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#0b1628"/>
-
-  <!-- RN wordmark, sitting above the van -->
-  <text x="256" y="172" font-family="'Arial Black','Segoe UI',sans-serif" font-weight="800"
-        font-size="118" text-anchor="middle" letter-spacing="-2">
-    <tspan fill="#ffffff">R</tspan><tspan fill="#f4580a">N</tspan>
+  <rect width="512" height="512" fill="#ffffff"/>
+  <text x="256" y="277" font-family="'Arial Black','Segoe UI',sans-serif" font-weight="900"
+        font-size="240" text-anchor="middle" letter-spacing="-8">
+    <tspan fill="#0b1628">R</tspan><tspan fill="#f4580a">N</tspan>
   </text>
 
-  <!-- speed lines behind the van (varied length/opacity for motion blur) -->
-  <polygon points="14,272 132,272 108,294 -12,294" fill="#ff7a35" opacity="0.95"/>
-  <polygon points="30,306 118,306 98,326 10,326"   fill="#f4580a" opacity="0.8"/>
-  <polygon points="46,336 100,336 84,354 30,354"   fill="#f4580a" opacity="0.55"/>
-  <circle cx="30" cy="240" r="5" fill="#ff7a35" opacity="0.6"/>
-  <circle cx="52" cy="228" r="3.5" fill="#ff7a35" opacity="0.4"/>
+  <g transform="translate(50,70) scale(0.85)">
+    <polygon points="14,272 132,272 108,294 -12,294" fill="#f4580a" opacity="0.95"/>
+    <polygon points="30,306 118,306 98,326 10,326"   fill="#ff7a35" opacity="0.85"/>
+    <polygon points="46,336 100,336 84,354 30,354"   fill="#f4580a" opacity="0.6"/>
 
-  <!-- ══ VAN ══ -->
-  <!-- shadow -->
-  <ellipse cx="292" cy="404" rx="150" ry="12" fill="#000000" opacity="0.25"/>
+    <ellipse cx="292" cy="404" rx="150" ry="12" fill="#0b1628" opacity="0.15"/>
 
-  <!-- body -->
-  <path d="M150 260
-           L346 260
-           Q360 260 368 271
-           L406 320
-           L424 320
-           Q436 320 436 332
-           L436 372
-           Q436 384 424 384
-           L150 384
-           Q136 384 136 370
-           L136 274
-           Q136 260 150 260 Z"
-        fill="#f4580a"/>
+    <path d="M150 260
+             L346 260
+             Q360 260 368 271
+             L406 320
+             L424 320
+             Q436 320 436 332
+             L436 372
+             Q436 384 424 384
+             L150 384
+             Q136 384 136 370
+             L136 274
+             Q136 260 150 260 Z"
+          fill="#ffffff" stroke="#0b1628" stroke-width="7"/>
 
-  <!-- roof highlight -->
-  <rect x="150" y="262" width="196" height="6" rx="3" fill="#ff7a35" opacity="0.7"/>
+    <line x1="216" y1="263" x2="216" y2="381" stroke="#0b1628" stroke-width="4"/>
+    <line x1="282" y1="263" x2="282" y2="381" stroke="#0b1628" stroke-width="4"/>
 
-  <!-- cargo door seams -->
-  <line x1="216" y1="266" x2="216" y2="380" stroke="#0b1628" stroke-width="3" opacity="0.35"/>
-  <line x1="282" y1="266" x2="282" y2="380" stroke="#0b1628" stroke-width="3" opacity="0.35"/>
-  <circle cx="204" cy="322" r="4" fill="#0b1628" opacity="0.5"/>
-  <circle cx="270" cy="322" r="4" fill="#0b1628" opacity="0.5"/>
+    <path d="M358 274 L400 318 L358 318 Z" fill="#0b1628"/>
 
-  <!-- cab/cargo divider -->
-  <rect x="346" y="260" width="7" height="124" fill="#0b1628" opacity="0.45"/>
+    <rect x="406" y="352" width="30" height="16" rx="4" fill="#0b1628"/>
+    <rect x="412" y="336" width="20" height="8" rx="4" fill="#f4580a"/>
 
-  <!-- windshield -->
-  <path d="M358 274 L400 318 L358 318 Z" fill="#182948"/>
-  <path d="M358 274 L400 318 L358 318 Z" fill="none" stroke="#0b1628" stroke-width="3"/>
-
-  <!-- side mirror -->
-  <rect x="352" y="266" width="14" height="8" rx="3" fill="#0b1628" opacity="0.6"/>
-
-  <!-- door handle (cab) -->
-  <rect x="392" y="330" width="14" height="4" rx="2" fill="#0b1628" opacity="0.5"/>
-
-  <!-- front bumper + grille + headlight -->
-  <rect x="406" y="352" width="30" height="16" rx="4" fill="#c94508"/>
-  <rect x="410" y="300" width="16" height="18" rx="3" fill="#c94508"/>
-  <rect x="412" y="336" width="20" height="8" rx="4" fill="#ffd58a"/>
-
-  <!-- wheels -->
-  <circle cx="204" cy="386" r="36" fill="#0b1628"/>
-  <circle cx="204" cy="386" r="16" fill="#5b6b85"/>
-  <circle cx="204" cy="386" r="7" fill="#0b1628"/>
-  <circle cx="384" cy="386" r="36" fill="#0b1628"/>
-  <circle cx="384" cy="386" r="16" fill="#5b6b85"/>
-  <circle cx="384" cy="386" r="7" fill="#0b1628"/>
+    <circle cx="204" cy="386" r="36" fill="#0b1628"/>
+    <circle cx="204" cy="386" r="15" fill="#ffffff"/>
+    <circle cx="384" cy="386" r="36" fill="#0b1628"/>
+    <circle cx="384" cy="386" r="15" fill="#ffffff"/>
+  </g>
 </svg>
