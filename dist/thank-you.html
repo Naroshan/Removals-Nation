@@ -109,6 +109,12 @@
 @media(max-width:420px){
   .qrow{grid-template-columns:1fr}
 }
+@media(min-width:901px) and (max-width:1200px){
+  /* .hero is 2-column here but not wide enough for the quote-card's own
+     2-column fields — text was truncating ("House Remo…", "Destinatio…").
+     Stack the fields instead of shrinking the whole layout. */
+  .qrow{grid-template-columns:1fr}
+}
 </style>
 
 </head>
