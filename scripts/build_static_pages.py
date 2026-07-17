@@ -17,7 +17,7 @@ from build_pages import (
     FORMSPREE_ID, PHONE, PHONE_HREF, SITE_NAME, SITE_URL,
     SERVICES, COST_TABLES, nav_html, mobile_menu_html, footer_html, MENU_JS,
     cost_table_html, favicon_html, gtag_html, seo_html, organization_jsonld, jsonld_html,
-    whatsapp_fab_html, call_fab_html, faq_html,
+    whatsapp_fab_html, call_fab_html, faq_html, quote_contact_and_photos_html,
 )
 
 M25_REGIONS = [
@@ -150,7 +150,7 @@ def booking_form_html(root):
     return f"""<div class="quote-card" id="quote">
   <h2>Get an Instant Quote</h2>
   <p class="form-sub">60 seconds · Confirmed price instantly</p>
-  <form action="https://formspree.io/f/{FORMSPREE_ID}" method="POST">
+  <form action="https://formspree.io/f/{FORMSPREE_ID}" method="POST" enctype="multipart/form-data">
     <div class="qrow">
       <div class="form-group">
         <label>Move Type</label>
@@ -176,16 +176,7 @@ def booking_form_html(root):
         <input type="text" name="to_postcode" placeholder="Destination" style="font-size:16px">
       </div>
     </div>
-    <div class="qrow">
-      <div class="form-group">
-        <label>Moving Date</label>
-        <input type="date" name="moving_date" style="font-size:16px">
-      </div>
-      <div class="form-group">
-        <label>Phone / Email</label>
-        <input type="text" name="contact" placeholder="Phone or email" required style="font-size:16px">
-      </div>
-    </div>
+    {quote_contact_and_photos_html()}
     <input type="hidden" name="_subject" value="New Removal Booking — {SITE_NAME}">
     <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html">
     <button type="submit" class="btn-primary" style="width:100%;margin-top:6px;text-align:center">

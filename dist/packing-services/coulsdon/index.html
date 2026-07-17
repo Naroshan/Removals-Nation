@@ -161,7 +161,7 @@
     <div class="quote-card">
   <h2>Book Now — Coulsdon</h2>
   <p class="form-sub">60 seconds · Confirmed price instantly</p>
-  <form action="https://formspree.io/f/xkododjy" method="POST">
+  <form action="https://formspree.io/f/xkododjy" method="POST" enctype="multipart/form-data">
     <div class="qrow">
       <div class="form-group">
         <label>Move Type</label>
@@ -195,9 +195,22 @@
         <input type="date" name="moving_date" style="font-size:16px">
       </div>
       <div class="form-group">
-        <label>Phone / Email</label>
-        <input type="text" name="contact" placeholder="Phone or email" required style="font-size:16px">
+        <label>Phone Number</label>
+        <input type="tel" name="phone" placeholder="07123 456789" required style="font-size:16px">
       </div>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Email Address</label>
+      <input type="email" name="email" placeholder="you@example.com" style="font-size:16px">
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Photos of Items (optional)</label>
+      <label class="file-upload">
+        <span class="file-upload-icon">📷</span>
+        <span class="file-upload-text"><strong>Click to upload</strong> photos of what needs removing</span>
+        <span class="file-upload-filenames"></span>
+        <input type="file" name="photos" accept="image/*" multiple>
+      </label>
     </div>
     <input type="hidden" name="_subject" value="New Removal Booking — RemovalsNation">
     <input type="hidden" name="location" value="Coulsdon">
@@ -313,6 +326,20 @@
       btn.classList.remove('open');
       btn.setAttribute('aria-expanded', 'false');
       document.body.classList.remove('menu-open');
+    });
+  });
+})();
+(function(){
+  document.querySelectorAll('.file-upload input[type="file"]').forEach(function(input) {
+    var wrap = input.closest('.file-upload');
+    var out = wrap.querySelector('.file-upload-filenames');
+    input.addEventListener('change', function() {
+      var n = input.files.length;
+      wrap.classList.toggle('has-files', n > 0);
+      if (!out) return;
+      if (n === 0) { out.textContent = ''; }
+      else if (n === 1) { out.textContent = input.files[0].name; }
+      else { out.textContent = n + ' photos selected'; }
     });
   });
 })();

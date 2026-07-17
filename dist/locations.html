@@ -404,6 +404,20 @@
     });
   });
 })();
+(function(){
+  document.querySelectorAll('.file-upload input[type="file"]').forEach(function(input) {
+    var wrap = input.closest('.file-upload');
+    var out = wrap.querySelector('.file-upload-filenames');
+    input.addEventListener('change', function() {
+      var n = input.files.length;
+      wrap.classList.toggle('has-files', n > 0);
+      if (!out) return;
+      if (n === 0) { out.textContent = ''; }
+      else if (n === 1) { out.textContent = input.files[0].name; }
+      else { out.textContent = n + ' photos selected'; }
+    });
+  });
+})();
 </script>
 </body>
 </html>

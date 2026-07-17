@@ -212,6 +212,20 @@ MENU_JS = """<script>
     });
   });
 })();
+(function(){
+  document.querySelectorAll('.file-upload input[type="file"]').forEach(function(input) {
+    var wrap = input.closest('.file-upload');
+    var out = wrap.querySelector('.file-upload-filenames');
+    input.addEventListener('change', function() {
+      var n = input.files.length;
+      wrap.classList.toggle('has-files', n > 0);
+      if (!out) return;
+      if (n === 0) { out.textContent = ''; }
+      else if (n === 1) { out.textContent = input.files[0].name; }
+      else { out.textContent = n + ' photos selected'; }
+    });
+  });
+})();
 </script>"""
 
 LOCATION_PAGE_CSS = """<style>
@@ -460,11 +474,42 @@ def sidebar_services_html(root, loc_slug=None, current_svc_slug=None):
     return f'<div class="sidebar-card" style="margin-bottom:20px"><h3>Our Services</h3>{links}</div>'
 
 
+def quote_contact_and_photos_html():
+    """Phone number, email, and an optional photo-upload dropzone — shared by
+    both booking_form_html() implementations (this file's location-page
+    version and build_static_pages.py's generic version) so they can't drift
+    out of sync. Requires the enclosing <form> to have
+    enctype="multipart/form-data" for the photo upload to actually work."""
+    return """<div class="qrow">
+      <div class="form-group">
+        <label>Moving Date</label>
+        <input type="date" name="moving_date" style="font-size:16px">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" name="phone" placeholder="07123 456789" required style="font-size:16px">
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Email Address</label>
+      <input type="email" name="email" placeholder="you@example.com" style="font-size:16px">
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Photos of Items (optional)</label>
+      <label class="file-upload">
+        <span class="file-upload-icon">📷</span>
+        <span class="file-upload-text"><strong>Click to upload</strong> photos of what needs removing</span>
+        <span class="file-upload-filenames"></span>
+        <input type="file" name="photos" accept="image/*" multiple>
+      </label>
+    </div>"""
+
+
 def booking_form_html(svc_name, loc_name, postcode):
     return f"""<div class="quote-card">
   <h2>Book Now — {loc_name}</h2>
   <p class="form-sub">60 seconds · Confirmed price instantly</p>
-  <form action="https://formspree.io/f/{FORMSPREE_ID}" method="POST">
+  <form action="https://formspree.io/f/{FORMSPREE_ID}" method="POST" enctype="multipart/form-data">
     <div class="qrow">
       <div class="form-group">
         <label>Move Type</label>
@@ -492,16 +537,7 @@ def booking_form_html(svc_name, loc_name, postcode):
         <input type="text" name="to_postcode" placeholder="Destination" style="font-size:16px">
       </div>
     </div>
-    <div class="qrow">
-      <div class="form-group">
-        <label>Moving Date</label>
-        <input type="date" name="moving_date" style="font-size:16px">
-      </div>
-      <div class="form-group">
-        <label>Phone / Email</label>
-        <input type="text" name="contact" placeholder="Phone or email" required style="font-size:16px">
-      </div>
-    </div>
+    {quote_contact_and_photos_html()}
     <input type="hidden" name="_subject" value="New Removal Booking — {SITE_NAME}">
     <input type="hidden" name="location" value="{loc_name}">
     <input type="hidden" name="service" value="{svc_name}">
