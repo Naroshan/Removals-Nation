@@ -16,8 +16,8 @@ import os
 import argparse
 from pathlib import Path
 
-PHONE_HREF = "tel:08001234567"
-PHONE      = "0800 123 4567"
+PHONE_HREF = "tel:+447417355780"
+PHONE      = "+44 7417 355780"
 
 SERVICES = [
     ("house-removals",         "House Removals",         "🏠"),

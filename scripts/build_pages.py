@@ -19,8 +19,8 @@ from pathlib import Path
 # ── Config ────────────────────────────────────────────────────────────────────
 
 FORMSPREE_ID   = "xkododjy"
-PHONE          = "0800 123 4567"
-PHONE_HREF     = "tel:08001234567"
+PHONE          = "+44 7417 355780"
+PHONE_HREF     = "tel:+447417355780"
 SITE_NAME      = "RemovalsNation"
 SITE_URL       = "https://removalsnation.com"
 WHATSAPP_NUMBER = "447417355780"  # digits only, no +, no leading 0 (UK mobile in international format)

@@ -102,8 +102,8 @@ All key values are at the top of `scripts/build_pages.py`:
 
 ```python
 FORMSPREE_ID = "xkododjy"      # ← your Formspree form ID
-PHONE        = "0800 123 4567"
-PHONE_HREF   = "tel:08001234567"
+PHONE        = "+44 7417 355780"
+PHONE_HREF   = "tel:+447417355780"
 SITE_NAME    = "RemovalsNation"
 SITE_URL     = "https://removalsnation.com"
 ```
