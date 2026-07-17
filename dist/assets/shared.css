@@ -24,6 +24,35 @@ nav {
 .nav-cta { background: var(--orange); color: var(--white) !important; padding: 10px 22px; border-radius: 6px; font-weight: 600 !important; font-size: 0.88rem !important; text-decoration: none; transition: background 0.2s; }
 .nav-cta:hover { background: var(--orange-light) !important; }
 
+/* ── NAV "SERVICES" DROPDOWN (desktop, CSS-only: hover + keyboard focus) ── */
+.nav-dropdown { position: relative; list-style: none; }
+.nav-dropdown-trigger {
+  display: flex; align-items: center; gap: 5px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; color: var(--text-muted); font-size: 0.88rem; font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-dropdown-trigger:hover, .nav-dropdown:hover .nav-dropdown-trigger, .nav-dropdown:focus-within .nav-dropdown-trigger { color: var(--white); }
+.nav-caret { font-size: 0.6rem; transition: transform 0.2s; }
+.nav-dropdown:hover .nav-caret, .nav-dropdown:focus-within .nav-caret { transform: rotate(180deg); }
+.nav-dropdown-panel {
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  padding-top: 16px; /* invisible buffer so hover stays continuous from trigger to panel */
+  opacity: 0; visibility: hidden; transition: opacity 0.2s, visibility 0.2s;
+}
+.nav-dropdown:hover .nav-dropdown-panel, .nav-dropdown:focus-within .nav-dropdown-panel { opacity: 1; visibility: visible; }
+.nav-dropdown-inner {
+  background: var(--navy-mid); border: 1px solid var(--border); border-radius: 14px;
+  padding: 10px; min-width: 230px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  display: grid; gap: 2px;
+}
+.nav-dropdown-inner a {
+  display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px;
+  color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-dropdown-inner a:hover { background: rgba(244,88,10,0.12); color: var(--white); }
+
 /* ── HAMBURGER BUTTON ── */
 .hamburger {
   display: none;

@@ -81,13 +81,24 @@ def seo_html(canonical_path, title, description, root, noindex=False):
 
 
 def nav_html(root):
+    services_dropdown = "".join(
+        f'<a href="{root}{slug}/index.html"><span>{icon}</span>{name}</a>'
+        for slug, name, icon in SERVICES
+    )
     return f"""<nav>
   <a href="{root}index.html" class="logo">Removals<span>Nation</span></a>
   <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
   <ul class="nav-links">
-    <li><a href="{root}house-removals/index.html">House Removals</a></li>
+    <li class="nav-dropdown">
+      <button type="button" class="nav-dropdown-trigger">Services <span class="nav-caret">▾</span></button>
+      <div class="nav-dropdown-panel">
+        <div class="nav-dropdown-inner">
+          {services_dropdown}
+        </div>
+      </div>
+    </li>
     <li><a href="{root}locations.html">Locations</a></li>
     <li><a href="{root}blog/index.html">Knowledge Hub</a></li>
     <li><a href="{root}partner-with-us/index.html">For Businesses</a></li>
