@@ -14,7 +14,7 @@ import argparse
 from pathlib import Path
 
 from build_pages import (
-    FORMSPREE_ID, PHONE, PHONE_HREF, SITE_NAME, SITE_URL,
+    FORMSPREE_ID, PHONE, PHONE_HREF, SITE_NAME, SITE_URL, LEGAL_ENTITY, COMPANY_NUMBER,
     SERVICES, nav_html, mobile_menu_html, footer_html, MENU_JS,
     cost_table_html, favicon_html, gtag_html, seo_html, organization_jsonld, jsonld_html,
     whatsapp_fab_html, call_fab_html, faq_html, quote_contact_and_photos_html,
@@ -403,6 +403,9 @@ def build_about(dist_dir):
   <h2>Get in Touch</h2>
   <p>Have a question before booking? Call us on <a href="{PHONE_HREF}" style="color:var(--orange)">{PHONE}</a>
      or visit our <a href="contact.html" style="color:var(--orange)">contact page</a>.</p>
+  <p style="font-size:.85rem;color:var(--text-muted);margin-top:32px">
+    {SITE_NAME} is a trading style of {LEGAL_ENTITY} (Company No. {COMPANY_NUMBER}).
+  </p>
 </div>"""
     (Path(dist_dir) / "about.html").write_text(
         page_shell(root, f"About Us | {SITE_NAME}",
@@ -466,7 +469,9 @@ def build_privacy(dist_dir):
     body = f"""<div class="content-block">
   <h1>Privacy Policy</h1>
   <p>This policy explains how {SITE_NAME} collects, uses, and protects information
-     submitted through our website.</p>
+     submitted through our website. {SITE_NAME} is a trading style of
+     {LEGAL_ENTITY} (Company No. {COMPANY_NUMBER}), which is the data controller
+     for information collected through this site.</p>
   <h2>Information We Collect</h2>
   <p>When you request a quote or contact us, we collect the information you
      provide directly — such as your name, contact details, moving dates, and
@@ -535,8 +540,9 @@ def build_terms(dist_dir):
     root = "./"
     body = f"""<div class="content-block">
   <h1>Terms &amp; Cancellation Policy</h1>
-  <p>These terms apply to every booking made with {SITE_NAME}. By confirming a
-     booking, you agree to the terms below.</p>
+  <p>These terms apply to every booking made with {SITE_NAME}, a trading style
+     of {LEGAL_ENTITY} (Company No. {COMPANY_NUMBER}). By confirming a booking,
+     you agree to the terms below.</p>
   <h2>Bookings &amp; Quotes</h2>
   <p>Quotes provided through our online form or by phone are estimates based on
      the details you give us (property size, distance, access and inventory).

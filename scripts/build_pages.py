@@ -24,6 +24,8 @@ PHONE          = "+44 7417 355780"
 PHONE_HREF     = "tel:+447417355780"
 SITE_NAME      = "RemovalsNation"
 SITE_URL       = "https://removalsnation.com"
+LEGAL_ENTITY   = "The LeadGenCo LTD"
+COMPANY_NUMBER = "17274904"
 WHATSAPP_NUMBER = "447417355780"  # digits only, no +, no leading 0 (UK mobile in international format)
 
 SERVICES = [
@@ -135,6 +137,9 @@ def footer_html(root):
     <div class="footer-brand">
       <a href="{root}index.html" class="logo">Removals<span>Nation</span></a>
       <p>Professional, fully insured removal services across the UK. Your trusted nationwide removal company.</p>
+      <p style="font-size:.75rem;color:var(--text-muted);margin-top:10px">
+        {SITE_NAME} is a trading style of {LEGAL_ENTITY} (Company No. {COMPANY_NUMBER}).
+      </p>
     </div>
     <div class="footer-col">
       <h4>Services</h4>
