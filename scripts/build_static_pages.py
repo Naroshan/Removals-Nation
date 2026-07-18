@@ -70,6 +70,14 @@ CONTACT_FAQS = [
     ),
 ]
 
+def hero_stats_html(stats):
+    items = "".join(
+        f'<div><span class="hero-stat-n">{n}</span><span class="hero-stat-l">{l}</span></div>'
+        for n, l in stats
+    )
+    return f'<div class="hero-stats">{items}</div>'
+
+
 PAGE_CSS = """<style>
 .hero{padding:150px 48px 90px;max-width:1200px;margin:0 auto;display:grid;
   grid-template-columns:1.1fr .9fr;gap:60px;align-items:start}
@@ -134,8 +142,12 @@ PAGE_CSS = """<style>
 .faq:last-child{border-bottom:none}
 .faq-q{font-family:'Syne',sans-serif;font-weight:700;font-size:.93rem;margin-bottom:8px}
 .faq-a{font-size:.86rem;color:var(--text-muted);line-height:1.7}
+.hero-stats{display:flex;gap:36px;margin-top:36px;padding-top:28px;border-top:1px solid var(--border)}
+.hero-stat-n{display:block;font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--orange)}
+.hero-stat-l{font-size:.8rem;color:var(--text-muted)}
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding:110px 24px 50px}
+  .hero-stats{gap:28px;margin-top:28px;padding-top:22px}
   .svc-grid{grid-template-columns:repeat(2,1fr)}
   .contact-grid{grid-template-columns:1fr;padding:110px 24px 50px}
   .blog-grid{grid-template-columns:1fr}
@@ -252,6 +264,7 @@ def build_index(dist_dir):
       <span>✓ Instant online booking</span>
       <span>✓ Same-day available</span>
     </div>
+    {hero_stats_html([("4.8★", "Average rating"), ("1,700+", "UK locations"), ("Same-Day", "Availability")])}
   </div>
   {booking_form_html(root)}
 </section>
@@ -635,6 +648,7 @@ def build_man_and_van_page(dist_dir):
     <a href="{PHONE_HREF}" class="btn-primary" style="margin-top:22px;font-size:1.05rem;padding:16px 32px;display:inline-block">
       📞 Call Now — {PHONE}
     </a>
+    {hero_stats_html([("4.8★", "Average rating"), ("60 Sec", "Online booking"), ("Nationwide", "Coverage")])}
   </div>
   {booking_form_html(root)}
 </section>
@@ -707,6 +721,7 @@ def build_service_pages(dist_dir):
       <span>✓ Instant booking</span>
       <span>✓ Nationwide coverage</span>
     </div>
+    {hero_stats_html([("4.8★", "Average rating"), ("1,700+", "UK locations"), ("Fully", "Insured teams")])}
   </div>
   {booking_form_html(root)}
 </section>
@@ -810,6 +825,7 @@ def build_m25_page(dist_dir, locations):
       <span>✓ Local London teams</span>
       <span>✓ Same-day available</span>
     </div>
+    {hero_stats_html([("4.8★", "Average rating"), (f"{total}+", "M25 locations"), ("Same-Day", "Availability")])}
   </div>
   {booking_form_html(root)}
 </section>
