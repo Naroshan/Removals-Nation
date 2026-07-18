@@ -28,6 +28,7 @@ mkdir -p dist/assets && cp docs/assets/*.svg docs/assets/*.ico docs/assets/*.png
                                       # ^ favicon/icon files — not copied by either script
 python scripts/minify_css.py         # minifies docs/assets/shared.css into dist/assets/shared.css
 python scripts/build_sitemap.py      # generates dist/sitemap.xml, robots.txt, llms.txt
+cp docs/root-files/* dist/           # site-verification files etc. that must live at the dist root as-is
 
 python scripts/build_pages.py --force                # rebuild even existing location/service pages
 python scripts/build_pages.py --service man-and-van   # build one service only
@@ -109,3 +110,9 @@ Favicon/icon files live in `docs/assets/` (`favicon.ico`, `favicon.svg`, `apple-
 `dist/assets/` by the same command that copies `shared.css`. The `<link rel="icon">` etc. tags are
 emitted by `favicon_html(root)` in `build_pages.py`, imported into `build_static_pages.py` — every
 page template calls it, so a new page type just needs to include that fragment in its `<head>`.
+
+`docs/root-files/` holds files that must be served byte-for-byte at the site root (not under
+`/assets/`) — currently just the Google Search Console site-verification file
+(`google06fd6dbc5912b084.html`). Copied straight to `dist/` with no processing; add new files here
+(e.g. a future Bing verification file) rather than writing them into `dist/` directly, since `dist/`
+gets wiped on every full rebuild.
