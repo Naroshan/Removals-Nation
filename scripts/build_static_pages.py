@@ -15,7 +15,7 @@ from pathlib import Path
 
 from build_pages import (
     FORMSPREE_ID, PHONE, PHONE_HREF, SITE_NAME, SITE_URL,
-    SERVICES, COST_TABLES, nav_html, mobile_menu_html, footer_html, MENU_JS,
+    SERVICES, nav_html, mobile_menu_html, footer_html, MENU_JS,
     cost_table_html, favicon_html, gtag_html, seo_html, organization_jsonld, jsonld_html,
     whatsapp_fab_html, call_fab_html, faq_html, quote_contact_and_photos_html,
 )
