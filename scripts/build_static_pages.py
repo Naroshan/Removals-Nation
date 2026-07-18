@@ -666,6 +666,218 @@ BLOG_POSTS = [
   <p>Ready to book? Get an instant quote on our
      <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
     ),
+    (
+        "packing-tips-for-a-stress-free-move",
+        "Packing Tips for a Stress-Free House Move",
+        "Room-by-room packing strategy, labelling that actually works, and when it's worth calling in professional packers.",
+        f"""<p>Good packing is what separates a smooth moving day from a chaotic one.
+     Most of the stress people associate with moving — breakages, missing
+     items, boxes in the wrong room — comes down to how (and when) things
+     were packed, not the move itself.</p>
+  <h2>Start With a Room-by-Room Plan</h2>
+  <p>Pack the rooms you use least first — spare rooms, lofts, garages,
+     seasonal storage — and work towards the rooms you use daily. Kitchens
+     and bedrooms should always be packed last, since you'll need them
+     right up until moving day.</p>
+  <h2>Label Everything Properly</h2>
+  <p>A box marked simply "kitchen" is far more useful on moving day than one
+     marked "misc". Label each box with its destination room and a rough
+     idea of contents, and mark anything fragile clearly on more than one
+     side of the box — it's easy to miss a single label when boxes are
+     stacked.</p>
+  <h2>Pack an Essentials Box — and Keep It Separate</h2>
+  <p>Chargers, medication, important documents, a change of clothes, and
+     basic kitchen items (kettle, mugs, teabags) should travel with you, not
+     in the removal van. This one box saves more first-night stress than
+     almost anything else on this list.</p>
+  <h2>When to Call in the Professionals</h2>
+  <p>DIY packing works well for most household items, but fragile
+     collections, valuable furniture, and tight timelines are where
+     professional packing genuinely pays for itself — both in time saved
+     and in reduced risk of damage in transit. See our
+     <a href="../../packing-services/index.html" style="color:var(--orange)">packing services</a>
+     for what's included, or get an instant estimate on the
+     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+    ),
+    (
+        "moving-to-london-parking-permits-and-ulez",
+        "Moving to London: Parking Permits, ULEZ and What You Need to Know",
+        "Controlled parking zones, ULEZ charges, and flat access — the extra logistics that catch people out on a London move.",
+        f"""<p>Moving within or into London involves a few extra considerations that
+     don't come up with moves elsewhere in the country. None of them are
+     complicated, but they're worth knowing about before moving day rather
+     than discovering them on the morning of.</p>
+  <h2>Controlled Parking Zones and Bay Suspensions</h2>
+  <p>Many London boroughs operate controlled parking zones (CPZs), which
+     means a removal van can't simply park outside your building without a
+     permit. If your street is affected, you can usually apply to your
+     local council for a temporary parking bay suspension to guarantee
+     space directly outside on moving day. Councils vary in how much notice
+     they need — some accept a few days, others ask for two weeks or more —
+     so it's worth checking as soon as your date is confirmed.</p>
+  <h2>ULEZ and the Congestion Charge</h2>
+  <p>The Ultra Low Emission Zone (ULEZ) covers all London boroughs and
+     charges non-compliant vehicles a daily fee to drive anywhere within
+     Greater London, 24 hours a day. The separate Congestion Charge applies
+     only within a smaller central London zone, on weekdays and at busier
+     weekend hours. Both charges are based on the vehicle doing the driving,
+     so if you're comparing removal companies, it's a fair question to ask
+     whether their vehicles are ULEZ-compliant — this can affect your final
+     price if it isn't factored in upfront. Rates change periodically, so
+     for the current daily charge it's worth checking
+     <a href="https://tfl.gov.uk" style="color:var(--orange)" rel="nofollow">Transport for London's website</a>
+     directly.</p>
+  <h2>Flats, Stairs and Lift Access</h2>
+  <p>A large share of London properties are flats rather than houses, which
+     brings its own set of access questions: is there a lift, and is it
+     large enough for furniture? Does the building require advance notice
+     to book a service lift or hold a door open? Flagging this when you
+     book means it's factored into your quote rather than causing delays on
+     the day.</p>
+  <p>See typical costs and coverage for your area on our
+     <a href="../../removals-within-the-m25/index.html" style="color:var(--orange)">London &amp; M25 removals page</a>,
+     or get an instant estimate on the
+     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+    ),
+    (
+        "office-relocation-checklist",
+        "Office Relocation Checklist: How to Move Your Business Without Downtime",
+        "A practical timeline for relocating your office with minimal disruption to staff, clients, and IT systems.",
+        f"""<p>An office move carries a different kind of risk than a house move —
+     the cost isn't just the move itself, it's every hour your team can't
+     work. A bit of planning goes a long way toward keeping disruption to a
+     minimum.</p>
+  <h2>6–8 Weeks Before</h2>
+  <ul>
+    <li>Notify staff and key clients of the move date</li>
+    <li>Audit IT equipment, servers, and cabling requirements at the new site</li>
+    <li>Plan the new office layout so furniture goes straight to the right desk, not into storage limbo</li>
+    <li>Book your removal company, particularly if you need an evening or weekend slot</li>
+  </ul>
+  <h2>2 Weeks Before</h2>
+  <ul>
+    <li>Label equipment and furniture by department or desk number</li>
+    <li>Back up all data before anything is disconnected</li>
+    <li>Arrange IT disconnection and reconnection with your provider around the move dates</li>
+    <li>Confirm lift bookings or loading bay access at both the old and new building</li>
+  </ul>
+  <h2>Moving Day</h2>
+  <p>Where possible, schedule the physical move outside business hours —
+     evenings or weekends cut disruption significantly for client-facing
+     teams. Keep highly sensitive documents or servers under your own
+     control during transit if your policies require it, and designate one
+     person as the day's point of contact who isn't also packing boxes.</p>
+  <h2>The Week After</h2>
+  <p>Get IT and phone lines working first — everything else can follow.
+     Update your address on your Google Business Profile, invoices,
+     website, and with Companies House as early as possible, since these
+     updates take time to propagate.</p>
+  <p>See what's included in our
+     <a href="../../office-removals/index.html" style="color:var(--orange)">office removals service</a>,
+     or get an instant estimate on the
+     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+    ),
+    (
+        "man-and-van-vs-full-removal-service",
+        "Man and Van vs Full Removal Service: Which Do You Need?",
+        "A straightforward comparison to help you choose between a man and van booking and a full house removal.",
+        f"""<p>Both are legitimate, commonly used options — the right one depends on
+     how much you're moving, how far, and how much of the work you want to
+     hand over.</p>
+  <h2>When Man and Van Makes Sense</h2>
+  <p>A man and van booking suits smaller loads: a studio or one-bedroom
+     flat, a handful of large items, or a move that doesn't need a full
+     crew. It also works well for short-notice moves, since it's typically
+     quicker to book than a full removal team, and for budget-conscious
+     moves where you're happy to help with some of the loading yourself.</p>
+  <h2>When a Full Removal Service Makes Sense</h2>
+  <p>Larger properties (three bedrooms or more), long-distance moves, and
+     anything involving fragile or particularly valuable items generally
+     suit a full removal service better. You get a dedicated crew handling
+     loading, transport, and unloading from end to end, with no lifting
+     required on your part.</p>
+  <h2>Cost Comparison</h2>
+  <p>Man and van bookings are usually charged by the hour, which makes them
+     cost-effective for quick jobs but can add up if a bigger load takes
+     longer than expected. Full removal services are typically quoted as a
+     fixed price based on property size, which makes the cost more
+     predictable — and, past a certain load size, often works out more
+     cost-effective than paying hourly for a job that simply takes longer
+     with fewer hands.</p>
+  <p>Not sure which fits your move? Get an instant estimate for either
+     option on our
+     <a href="../../index.html" style="color:var(--orange)">home page</a>, or see full details on the
+     <a href="../../man-and-van/index.html" style="color:var(--orange)">man and van service</a> page.</p>""",
+    ),
+    (
+        "how-to-move-a-piano-safely",
+        "How to Move a Piano Safely (and Why You Shouldn't DIY It)",
+        "What makes pianos so difficult to move, the real risks of doing it yourself, and what professional piano removals involve.",
+        f"""<p>Pianos are unlike anything else in a house move. An upright piano
+     typically weighs somewhere in the region of 200–300kg, and a grand
+     piano can weigh considerably more — combined with an awkward, uneven
+     weight distribution that makes them genuinely dangerous to move
+     without the right technique and equipment.</p>
+  <h2>Why Pianos Are Different From Other Furniture</h2>
+  <p>It isn't just the weight. A piano's internal mechanism — the strings,
+     hammers, and soundboard — is sensitive to jolts, tilting, and changes
+     in angle. It's entirely possible to damage a piano's sound and
+     mechanism during a move without any visible external damage at all,
+     which is why "carefully" carrying one isn't the same as moving it
+     correctly.</p>
+  <h2>The Real Risks of DIY Moving</h2>
+  <p>The injury risk is real: a piano's weight and awkward balance make
+     crush injuries and back injuries genuine possibilities, particularly
+     on stairs or through doorways. Beyond personal injury, there's a real
+     risk of irreparable damage to the piano itself, and to your property —
+     doorframes, walls, and staircases are common casualties of DIY piano
+     moves.</p>
+  <h2>What Professional Piano Movers Actually Do</h2>
+  <p>Specialist piano removals use purpose-built equipment — piano skids or
+     boards, heavy-duty dollies, and ramps — along with lifting techniques
+     designed specifically for a piano's weight distribution. Routes are
+     planned before anything is lifted, and the piano is properly wrapped
+     and protected throughout, not just for the journey but for the tricky
+     bits: doorways, stairs, and tight turns.</p>
+  <p>See what's included in our
+     <a href="../../piano-removals/index.html" style="color:var(--orange)">piano removals service</a>,
+     or get an instant estimate on the
+     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+    ),
+    (
+        "storage-guide-between-moves",
+        "Self Storage vs Moving Straight In: A Guide for Gaps Between Moves",
+        "What to consider when there's a gap between moving out and moving in, and how to decide what's worth storing.",
+        f"""<p>Not every move goes straight from one front door to another. Chain
+     breaks, gaps between tenancies, renovations, and downsizing all create
+     situations where your belongings need somewhere to go before your new
+     home is ready for them.</p>
+  <h2>When You Might Need Storage</h2>
+  <ul>
+    <li>A gap between completing on a sale and completing on a purchase</li>
+    <li>Downsizing to a smaller property and needing time to decide what to keep</li>
+    <li>Renovating a new property before moving your furniture in</li>
+    <li>Decluttering before putting your current home on the market</li>
+  </ul>
+  <h2>What to Store vs What to Let Go</h2>
+  <p>A storage gap is also a natural opportunity to be honest about what
+     you actually want in your next home. Seasonal items and genuinely
+     sentimental pieces are usually worth storing; furniture you've been
+     meaning to replace anyway often isn't. Sorting this before your items
+     go into storage saves you paying to store — and later move again —
+     things you were never going to unpack.</p>
+  <h2>Choosing the Right Unit Size</h2>
+  <p>As a rough guide: a small unit (around 25 sq ft) suits a few boxes and
+     small furniture, a medium unit (around 50 sq ft) typically covers the
+     contents of a one-bedroom flat, and a large unit (around 100 sq ft)
+     is usually enough for a three-bedroom house. If you're unsure, it's
+     worth discussing your specific inventory rather than guessing — it's
+     a common (and costly) mistake to book a unit that's too small.</p>
+  <p>See pricing and options on our
+     <a href="../../storage/index.html" style="color:var(--orange)">storage services</a> page,
+     or get an instant estimate on the
+     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+    ),
 ]
 
 
@@ -1116,7 +1328,7 @@ def main():
     build_m25_page(args.dist, locations)
     build_partner(args.dist)
 
-    print("✅  Static pages built: index, about, contact, privacy, thank-you, 404, blog (+2 posts), "
+    print(f"✅  Static pages built: index, about, contact, privacy, thank-you, 404, blog (+{len(BLOG_POSTS)} posts), "
           "service landing pages, M25 pillar page, partner-with-us")
 
 
