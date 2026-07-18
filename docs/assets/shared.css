@@ -1,6 +1,12 @@
 :root {
   --navy: #0b1628; --navy-mid: #152038; --navy-light: #1e304f;
   --orange: #f4580a; --orange-light: #ff7a35;
+  /* --orange-cta is for white-text-on-solid-orange buttons only (nav-cta,
+     btn-primary, sticky-mobile, call-fab, mobile-menu-cta) — #f4580a only
+     hits 3.36:1 contrast with white text (WCAG AA needs 4.5:1 for this
+     text size); this darker shade hits 5:1. Don't use it for text-on-navy
+     (--orange already passes there) or it'll needlessly dim the brand color. */
+  --orange-cta: #c34608;
   --white: #ffffff; --text-muted: #8a96aa; --border: rgba(255,255,255,0.08);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,7 +28,7 @@ nav {
 .nav-links li { display: flex; align-items: center; }
 .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.88rem; font-weight: 500; transition: color 0.2s; line-height: 1; }
 .nav-links a:hover { color: var(--white); }
-.nav-cta { background: var(--orange); color: var(--white) !important; padding: 10px 22px; border-radius: 6px; font-weight: 600 !important; font-size: 0.88rem !important; text-decoration: none; transition: background 0.2s; }
+.nav-cta { background: var(--orange-cta); color: var(--white) !important; padding: 10px 22px; border-radius: 6px; font-weight: 600 !important; font-size: 0.88rem !important; text-decoration: none; transition: background 0.2s; }
 .nav-cta:hover { background: var(--orange-light) !important; }
 
 /* ── NAV "SERVICES" DROPDOWN (desktop, CSS-only: hover + keyboard focus) ── */
@@ -148,7 +154,7 @@ nav {
 .mobile-nav-svc .svc-icon { font-size: 1.1rem; width: 28px; text-align: center; }
 .mobile-menu-cta {
   display: block;
-  background: var(--orange);
+  background: var(--orange-cta);
   color: var(--white);
   text-align: center;
   text-decoration: none;
@@ -182,11 +188,11 @@ nav {
 footer { background: var(--navy-mid); border-top: 1px solid var(--border); padding: 60px 48px 40px; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
 .footer-brand p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; margin-top: 16px; max-width: 280px; }
-.footer-col h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; color: var(--text-muted); }
-.footer-col a { display: block; text-decoration: none; color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 8px; transition: color 0.2s; }
+.footer-col h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; color: var(--text-muted); }
+.footer-col a { display: block; text-decoration: none; color: rgba(255,255,255,0.6); font-size: 0.85rem; padding: 5px 0; margin-bottom: 2px; transition: color 0.2s; }
 .footer-col a:hover { color: var(--white); }
 .footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); }
-.btn-primary { background: var(--orange); color: var(--white); border: none; border-radius: 10px; padding: 14px 28px; font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; }
+.btn-primary { background: var(--orange-cta); color: var(--white); border: none; border-radius: 10px; padding: 14px 28px; font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; }
 .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(244,88,10,0.35); }
 .section-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--orange); margin-bottom: 12px; }
 .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
@@ -218,7 +224,7 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); paddi
 /* ── STICKY MOBILE BAR ── */
 .sticky-mobile { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 99; background: var(--navy-mid); border-top: 1px solid var(--border); padding: 12px 16px; gap: 10px; }
 .sticky-mobile a { flex: 1; text-align: center; padding: 13px; border-radius: 8px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; text-decoration: none; }
-.sticky-mobile a:first-child { background: var(--orange); color: var(--white); }
+.sticky-mobile a:first-child { background: var(--orange-cta); color: var(--white); }
 .sticky-mobile a:last-child { background: var(--navy-light); color: var(--white); border: 1px solid var(--border); }
 
 /* ── FLOATING ACTION BUTTONS (bottom-right) ──
@@ -241,7 +247,7 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); paddi
 .call-fab {
   position: fixed; left: 20px; bottom: 90px; z-index: 150;
   display: flex; align-items: center; gap: 8px;
-  background: var(--orange); color: #fff; text-decoration: none;
+  background: var(--orange-cta); color: #fff; text-decoration: none;
   padding: 13px 20px; border-radius: 100px;
   font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; white-space: nowrap;
   box-shadow: 0 6px 20px rgba(0,0,0,0.35);

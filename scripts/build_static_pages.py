@@ -273,14 +273,14 @@ def booking_form_html(root):
   <form action="https://formspree.io/f/{FORMSPREE_ID}" method="POST" enctype="multipart/form-data">
     <div class="qrow">
       <div class="form-group">
-        <label>Move Type</label>
-        <select name="move_type">
+        <label for="f-move-type">Move Type</label>
+        <select id="f-move-type" name="move_type">
           {"".join(f"<option>{name}</option>" for _, name, _ in SERVICES)}
         </select>
       </div>
       <div class="form-group">
-        <label>Property Size</label>
-        <select name="property_size">
+        <label for="f-property-size">Property Size</label>
+        <select id="f-property-size" name="property_size">
           <option>Studio/1 Bed</option><option>2 Bedroom</option>
           <option>3 Bedroom</option><option>4+ Bedroom</option><option>Commercial</option>
         </select>
@@ -288,12 +288,12 @@ def booking_form_html(root):
     </div>
     <div class="qrow">
       <div class="form-group">
-        <label>From Postcode</label>
-        <input type="text" name="from_postcode" placeholder="e.g. NW1 1AA" style="font-size:16px">
+        <label for="f-from-postcode">From Postcode</label>
+        <input type="text" id="f-from-postcode" name="from_postcode" placeholder="e.g. NW1 1AA" style="font-size:16px">
       </div>
       <div class="form-group">
-        <label>To Postcode</label>
-        <input type="text" name="to_postcode" placeholder="Destination" style="font-size:16px">
+        <label for="f-to-postcode">To Postcode</label>
+        <input type="text" id="f-to-postcode" name="to_postcode" placeholder="Destination" style="font-size:16px">
       </div>
     </div>
     {quote_contact_and_photos_html()}
@@ -432,16 +432,16 @@ def build_contact(dist_dir):
     <p class="form-sub">We'll get back to you within a few hours</p>
     <form action="https://formspree.io/f/{FORMSPREE_ID}" method="POST">
       <div class="form-group" style="margin-bottom:12px">
-        <label>Name</label>
-        <input type="text" name="name" required style="font-size:16px">
+        <label for="c-name">Name</label>
+        <input type="text" id="c-name" name="name" required style="font-size:16px">
       </div>
       <div class="form-group" style="margin-bottom:12px">
-        <label>Phone or Email</label>
-        <input type="text" name="contact" required style="font-size:16px">
+        <label for="c-contact">Phone or Email</label>
+        <input type="text" id="c-contact" name="contact" required style="font-size:16px">
       </div>
       <div class="form-group" style="margin-bottom:12px">
-        <label>Message</label>
-        <textarea name="message" rows="4" style="width:100%;font-size:16px;padding:10px;
+        <label for="c-message">Message</label>
+        <textarea id="c-message" name="message" rows="4" style="width:100%;font-size:16px;padding:10px;
           background:var(--navy-light);border:1px solid var(--border);border-radius:8px;color:#fff"></textarea>
       </div>
       <input type="hidden" name="_subject" value="New Contact Enquiry — {SITE_NAME}">

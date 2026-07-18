@@ -148,7 +148,7 @@ def footer_html(root):
       </p>
     </div>
     <div class="footer-col">
-      <h4>Services</h4>
+      <h3>Services</h3>
       <a href="{root}house-removals/index.html">House Removals</a>
       <a href="{root}office-removals/index.html">Office Removals</a>
       <a href="{root}man-and-van/index.html">Man &amp; Van</a>
@@ -157,7 +157,7 @@ def footer_html(root):
       <a href="{root}international-removals/index.html">International</a>
     </div>
     <div class="footer-col">
-      <h4>Company</h4>
+      <h3>Company</h3>
       <a href="{root}about.html">About Us</a>
       <a href="{root}removals-within-the-m25/index.html">Removals Within the M25</a>
       <a href="{root}partner-with-us/index.html">For Businesses</a>
@@ -165,7 +165,7 @@ def footer_html(root):
       <a href="{root}contact.html">Contact</a>
     </div>
     <div class="footer-col">
-      <h4>Legal</h4>
+      <h3>Legal</h3>
       <a href="{root}privacy.html">Privacy Policy</a>
       <a href="{root}terms.html">Terms &amp; Cancellation Policy</a>
       <a href="{root}contact.html">Get in Touch</a>
@@ -715,25 +715,25 @@ def quote_contact_and_photos_html():
     enctype="multipart/form-data" for the photo upload to actually work."""
     return """<div class="qrow">
       <div class="form-group">
-        <label>Moving Date</label>
-        <input type="date" name="moving_date" style="font-size:16px">
+        <label for="f-moving-date">Moving Date</label>
+        <input type="date" id="f-moving-date" name="moving_date" style="font-size:16px">
       </div>
       <div class="form-group">
-        <label>Phone Number</label>
-        <input type="tel" name="phone" placeholder="07123 456789" required style="font-size:16px">
+        <label for="f-phone">Phone Number</label>
+        <input type="tel" id="f-phone" name="phone" placeholder="07123 456789" required style="font-size:16px">
       </div>
     </div>
     <div class="form-group" style="margin-bottom:12px">
-      <label>Email Address</label>
-      <input type="email" name="email" placeholder="you@example.com" style="font-size:16px">
+      <label for="f-email">Email Address</label>
+      <input type="email" id="f-email" name="email" placeholder="you@example.com" style="font-size:16px">
     </div>
     <div class="form-group" style="margin-bottom:12px">
-      <label>Photos of Items (optional)</label>
+      <label for="f-photos">Photos of Items (optional)</label>
       <label class="file-upload">
         <span class="file-upload-icon">📷</span>
         <span class="file-upload-text"><strong>Click to upload</strong> photos of what needs removing</span>
         <span class="file-upload-filenames"></span>
-        <input type="file" name="photos" accept="image/*" multiple>
+        <input type="file" id="f-photos" name="photos" accept="image/*" multiple>
       </label>
     </div>"""
 
@@ -745,16 +745,16 @@ def booking_form_html(svc_name, loc_name, postcode):
   <form action="https://formspree.io/f/{FORMSPREE_ID}" method="POST" enctype="multipart/form-data">
     <div class="qrow">
       <div class="form-group">
-        <label>Move Type</label>
-        <select name="move_type">
+        <label for="f-move-type">Move Type</label>
+        <select id="f-move-type" name="move_type">
           <option>{svc_name}</option>
           <option>House Removals</option><option>Office Removals</option>
           <option>Man &amp; Van</option><option>Storage</option><option>International</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Property Size</label>
-        <select name="property_size">
+        <label for="f-property-size">Property Size</label>
+        <select id="f-property-size" name="property_size">
           <option>Studio/1 Bed</option><option>2 Bedroom</option>
           <option>3 Bedroom</option><option>4+ Bedroom</option><option>Commercial</option>
         </select>
@@ -762,12 +762,12 @@ def booking_form_html(svc_name, loc_name, postcode):
     </div>
     <div class="qrow">
       <div class="form-group">
-        <label>From Postcode</label>
-        <input type="text" name="from_postcode" placeholder="{postcode} 1AA" style="font-size:16px">
+        <label for="f-from-postcode">From Postcode</label>
+        <input type="text" id="f-from-postcode" name="from_postcode" placeholder="{postcode} 1AA" style="font-size:16px">
       </div>
       <div class="form-group">
-        <label>To Postcode</label>
-        <input type="text" name="to_postcode" placeholder="Destination" style="font-size:16px">
+        <label for="f-to-postcode">To Postcode</label>
+        <input type="text" id="f-to-postcode" name="to_postcode" placeholder="Destination" style="font-size:16px">
       </div>
     </div>
     {quote_contact_and_photos_html()}
