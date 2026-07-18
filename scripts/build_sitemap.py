@@ -13,7 +13,7 @@ import json
 from datetime import date
 from pathlib import Path
 
-from build_pages import SERVICES, SITE_URL
+from build_pages import SERVICES, SITE_URL, SITE_NAME
 
 
 def static_paths():
@@ -66,6 +66,38 @@ def build_robots(dist_dir):
     print("✅  robots.txt written")
 
 
+def build_llms_txt(dist_dir, total_locations):
+    llms = f"""# {SITE_NAME}
+
+> {SITE_NAME} is a UK removals company offering house removals, office removals,
+> man and van hire, storage, packing services, same-day removals, international
+> removals, and piano removals, with fully insured teams covering {total_locations}+
+> towns and cities across England, Scotland, Wales and Northern Ireland.
+
+## Services
+- [House Removals]({SITE_URL}/house-removals/index.html)
+- [Office Removals]({SITE_URL}/office-removals/index.html)
+- [Man & Van]({SITE_URL}/man-and-van/index.html)
+- [Storage]({SITE_URL}/storage/index.html)
+- [Packing Services]({SITE_URL}/packing-services/index.html)
+- [Same Day Removals]({SITE_URL}/same-day-removals/index.html)
+- [International Removals]({SITE_URL}/international-removals/index.html)
+- [Piano Removals]({SITE_URL}/piano-removals/index.html)
+
+## Coverage
+- [All UK Locations]({SITE_URL}/locations.html)
+- [Removals Within the M25]({SITE_URL}/removals-within-the-m25/index.html)
+
+## Company
+- [About]({SITE_URL}/about.html)
+- [Contact]({SITE_URL}/contact.html)
+- [Knowledge Hub (blog)]({SITE_URL}/blog/index.html)
+- [Partner With Us]({SITE_URL}/partner-with-us/index.html)
+"""
+    (Path(dist_dir) / "llms.txt").write_text(llms, encoding="utf-8")
+    print("✅  llms.txt written")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Build sitemap.xml and robots.txt")
     parser.add_argument("--dist", default="dist", help="Output directory (default: dist)")
@@ -77,6 +109,7 @@ def main():
 
     build_sitemap(locations, args.dist)
     build_robots(args.dist)
+    build_llms_txt(args.dist, len(locations))
 
 
 if __name__ == "__main__":

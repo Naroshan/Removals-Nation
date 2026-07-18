@@ -26,6 +26,50 @@ M25_REGIONS = [
     "Surrey", "Hertfordshire", "Essex", "Kent",
 ]
 
+HOME_FAQS = [
+    (
+        "How much does a removal cost?",
+        "It depends on property size, distance and any extras like packing or storage — "
+        "typically £300–£600 for a studio, up to £1,000–£2,000+ for a 4+ bedroom house. "
+        "Use the quote form above or pick your location for detailed local pricing.",
+    ),
+    (
+        "How far in advance should I book?",
+        "For a fixed date, 2–4 weeks' notice gives you the best choice of slots. If you "
+        "need to move sooner, same-day and short-notice man and van hire is available in "
+        "most areas — just call to check.",
+    ),
+    (
+        "Are you insured?",
+        "Yes — every RemovalsNation team carries full public liability and goods-in-transit "
+        "insurance as standard, on every job, at no extra cost.",
+    ),
+    (
+        "Do you offer packing as well as moving?",
+        "Yes, packing services can be added to any removal — from a few fragile items to a "
+        "full property pack. You can add it when you book or ask your local team on the day.",
+    ),
+]
+
+CONTACT_FAQS = [
+    (
+        "How quickly will you respond?",
+        "We aim to reply to every enquiry within a few hours during the day, and "
+        "same-day for anything sent in the morning. For urgent same-day moves, "
+        "calling us directly is faster than the contact form.",
+    ),
+    (
+        "Can I get a quote without booking?",
+        "Yes — sending your move details through this form or the quote form on any "
+        "page gets you a price with no obligation to book.",
+    ),
+    (
+        "Do you cover my area?",
+        "We cover 1,700+ towns and cities across England, Scotland, Wales and "
+        "Northern Ireland. Check the full list on our locations page, or just ask.",
+    ),
+]
+
 PAGE_CSS = """<style>
 .hero{padding:150px 48px 90px;max-width:1200px;margin:0 auto;display:grid;
   grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
@@ -224,12 +268,25 @@ def build_index(dist_dir):
     find yours and get a price in seconds.
   </p>
   <a href="locations.html" class="btn-primary">Browse All Locations →</a>
+</section>
+<section class="section" style="padding:0 48px 64px">
+  <div class="section-tag">FAQs</div>
+  <h2 class="section-title">Common Questions</h2>
+  {faq_html(HOME_FAQS)}
 </section>"""
+    faqpage = jsonld_html({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in HOME_FAQS
+        ],
+    })
     (Path(dist_dir) / "index.html").write_text(
         page_shell(root, f"{SITE_NAME} | UK Removal Services",
                    f"{SITE_NAME} provides professional, fully insured removal services "
                    f"across the UK. Instant online booking and pricing.", body,
-                   canonical_path="", jsonld=organization_jsonld()),
+                   canonical_path="", jsonld=organization_jsonld() + "\n" + faqpage),
         encoding="utf-8",
     )
 
@@ -242,12 +299,27 @@ def build_about(dist_dir):
      office straightforward. We work with experienced, fully insured removal
      teams across the UK to deliver a consistent, reliable service — whether
      you're moving down the street or across the country.</p>
+  <p>Moving is consistently ranked among the most stressful life events, and most
+     of that stress comes from uncertainty — not knowing what something will cost,
+     whether the team will turn up on time, or whether your belongings are covered
+     if something goes wrong. We built {SITE_NAME} to remove that uncertainty:
+     confirmed pricing before you book, fully insured teams as standard, and local
+     coverage in over 1,700 towns and cities so there's almost always a team near
+     your move.</p>
+  <h2>How We Work</h2>
+  <p>Every booking starts with the details of your move — property size, distance,
+     and any extras like packing or storage. We match that against local team
+     availability to give you a confirmed price in around 60 seconds, with no
+     obligation to book. On moving day, your assigned team handles loading,
+     transport and unloading, with packing, dismantling and storage available as
+     add-ons for jobs that need them.</p>
   <h2>Our Promise</h2>
   <ul>
     <li>Fully insured teams on every job</li>
     <li>Transparent, upfront pricing — no hidden fees</li>
     <li>Instant online booking, confirmed within hours</li>
     <li>Coverage across 1,700+ UK towns and cities</li>
+    <li>Same-day and short-notice availability in most areas</li>
   </ul>
   <h2>Get in Touch</h2>
   <p>Have a question before booking? Call us on <a href="{PHONE_HREF}" style="color:var(--orange)">{PHONE}</a>
@@ -295,6 +367,11 @@ def build_contact(dist_dir):
       <button type="submit" class="btn-primary" style="width:100%;text-align:center">Send Message →</button>
     </form>
   </div>
+</section>
+<section class="section" style="padding:0 48px 70px">
+  <div class="section-tag">FAQs</div>
+  <h2 class="section-title">Before You Get in Touch</h2>
+  {faq_html(CONTACT_FAQS)}
 </section>"""
     (Path(dist_dir) / "contact.html").write_text(
         page_shell(root, f"Contact Us | {SITE_NAME}",
@@ -315,11 +392,36 @@ def build_privacy(dist_dir):
   <p>When you request a quote or contact us, we collect the information you
      provide directly — such as your name, contact details, moving dates, and
      postcodes — via our booking and contact forms, which are processed through
-     Formspree.</p>
+     Formspree. If you upload photos of items when requesting a quote, those
+     images are collected the same way, solely to help us price your move
+     accurately.</p>
   <h2>How We Use It</h2>
   <p>We use this information solely to respond to your enquiry, provide a
      removal quote, and coordinate your booking. We do not sell your
      information to third parties.</p>
+  <h2>Cookies &amp; Analytics</h2>
+  <p>We use Google Ads conversion tracking to understand which pages lead to
+     enquiries, which sets cookies in your browser. You can disable these at
+     any time through your browser settings without affecting your ability to
+     use the site or request a quote.</p>
+  <h2>Third-Party Services</h2>
+  <p>We use the following third-party services to run this site and process
+     enquiries: Formspree (form submissions), Google Ads (analytics and
+     conversion tracking), and WhatsApp (optional live chat, if you choose to
+     message us that way). Each is bound by its own privacy policy for data it
+     processes on our behalf.</p>
+  <h2>Data Retention</h2>
+  <p>We retain enquiry and booking information for as long as needed to
+     provide our service and meet our legal and accounting obligations, after
+     which it's deleted or anonymised.</p>
+  <h2>Your Rights</h2>
+  <p>You can ask us at any time what information we hold about you, request a
+     correction, or ask us to delete it, by contacting us via the details
+     below.</p>
+  <h2>Changes to This Policy</h2>
+  <p>We may update this policy from time to time to reflect changes to our
+     services or legal requirements. The version on this page is always the
+     current one.</p>
   <h2>Contact</h2>
   <p>Questions about this policy can be directed to us via our
      <a href="contact.html" style="color:var(--orange)">contact page</a>.</p>
@@ -432,6 +534,11 @@ def build_blog(dist_dir):
     body = f"""<div class="section" style="padding-top:150px">
   <div class="section-tag">Knowledge Hub</div>
   <h1 class="section-title">Latest Articles</h1>
+  <p style="color:var(--text-muted);line-height:1.8;max-width:700px;margin:-20px 0 36px">
+    Practical guides for anyone planning a move — real costs, what to expect on
+    moving day, and how to avoid the most common mistakes. Written from what we
+    see on the ground with {SITE_NAME} teams across the UK.
+  </p>
   <div class="blog-grid">{post_cards}</div>
 </div>"""
     out_dir = Path(dist_dir) / "blog"
@@ -786,21 +893,30 @@ def build_partner(dist_dir):
      clients to {SITE_NAME} and we'll handle their move end-to-end, fully
      insured and nationwide.
   </p>
+  <p style="color:var(--text-muted);line-height:1.8;max-width:700px">
+     Whether it's a single referral or a steady stream of tenants and buyers
+     needing a removal quote, we handle the whole process directly with your
+     client — booking, pricing, and communication — so it takes no extra work
+     off your end. Corporate and repeat-referral partners get a dedicated
+     account contact rather than the standard booking line.
+  </p>
   <div class="partner-grid">
     <div class="partner-card">
       <h3>🤝 Referral Partners</h3>
       <p>Send us your clients and we'll manage bookings, pricing, and
-         communication directly with them.</p>
+         communication directly with them. No commission structure to manage,
+         no extra admin on your side.</p>
     </div>
     <div class="partner-card">
       <h3>🏢 Corporate Accounts</h3>
-      <p>Managing multiple office relocations? We offer dedicated account
-         support for corporate clients.</p>
+      <p>Managing multiple office relocations or a steady flow of tenant moves?
+         We offer dedicated account support and consistent pricing for
+         corporate clients.</p>
     </div>
     <div class="partner-card">
       <h3>📞 Get Started</h3>
       <p>Call us on {PHONE} or use our <a href="../contact.html" style="color:var(--orange)">contact form</a>
-         to discuss a partnership.</p>
+         to discuss a partnership — most set-ups take one short call.</p>
     </div>
   </div>
 </div>"""

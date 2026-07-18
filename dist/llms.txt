@@ -1,0 +1,26 @@
+# RemovalsNation
+
+> RemovalsNation is a UK removals company offering house removals, office removals,
+> man and van hire, storage, packing services, same-day removals, international
+> removals, and piano removals, with fully insured teams covering 1253+
+> towns and cities across England, Scotland, Wales and Northern Ireland.
+
+## Services
+- [House Removals](https://removalsnation.com/house-removals/index.html)
+- [Office Removals](https://removalsnation.com/office-removals/index.html)
+- [Man & Van](https://removalsnation.com/man-and-van/index.html)
+- [Storage](https://removalsnation.com/storage/index.html)
+- [Packing Services](https://removalsnation.com/packing-services/index.html)
+- [Same Day Removals](https://removalsnation.com/same-day-removals/index.html)
+- [International Removals](https://removalsnation.com/international-removals/index.html)
+- [Piano Removals](https://removalsnation.com/piano-removals/index.html)
+
+## Coverage
+- [All UK Locations](https://removalsnation.com/locations.html)
+- [Removals Within the M25](https://removalsnation.com/removals-within-the-m25/index.html)
+
+## Company
+- [About](https://removalsnation.com/about.html)
+- [Contact](https://removalsnation.com/contact.html)
+- [Knowledge Hub (blog)](https://removalsnation.com/blog/index.html)
+- [Partner With Us](https://removalsnation.com/partner-with-us/index.html)

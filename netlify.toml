@@ -1,3 +1,42 @@
 [build]
   publish = "dist"
   command = "true"
+
+# www is not our canonical host (SITE_URL is the bare apex domain) - without this,
+# www.removalsnation.com serves the same content as a second, uncanonicalized copy
+# of the entire site.
+[[redirects]]
+  from = "https://www.removalsnation.com/*"
+  to = "https://removalsnation.com/:splat"
+  status = 301
+  force = true
+
+# Netlify's implicit "pretty URL" handling serves these extensionless paths with
+# the same content as the real *.html file even though nothing on the site links
+# to them - an SEO crawl found both forms independently indexable, which is
+# duplicate content. Redirect the ones that get discovered anyway to the .html
+# canonical instead of relying on the <link rel="canonical"> tag alone.
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 301
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
+  status = 301
+
+[[redirects]]
+  from = "/locations"
+  to = "/locations.html"
+  status = 301
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 301
+
+[[redirects]]
+  from = "/thank-you"
+  to = "/thank-you.html"
+  status = 301

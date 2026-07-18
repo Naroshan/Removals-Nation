@@ -24,8 +24,10 @@ python scripts/locations_db.py       # regenerates data/locations.json from ALL_
 python scripts/build_pages.py        # generates dist/{service}/{location}/index.html + locations.html
 python scripts/build_static_pages.py # generates dist/index.html, about, contact, privacy, thank-you,
                                       #   blog (+posts), partner-with-us, and dist/{service}/index.html
-mkdir -p dist/assets && cp docs/assets/*.css docs/assets/*.svg docs/assets/*.ico docs/assets/*.png docs/assets/*.webmanifest dist/assets/
-                                      # ^ static asset files (styles + favicons) — not copied by either script
+mkdir -p dist/assets && cp docs/assets/*.svg docs/assets/*.ico docs/assets/*.png docs/assets/*.webmanifest dist/assets/
+                                      # ^ favicon/icon files — not copied by either script
+python scripts/minify_css.py         # minifies docs/assets/shared.css into dist/assets/shared.css
+python scripts/build_sitemap.py      # generates dist/sitemap.xml, robots.txt, llms.txt
 
 python scripts/build_pages.py --force                # rebuild even existing location/service pages
 python scripts/build_pages.py --service man-and-van   # build one service only
