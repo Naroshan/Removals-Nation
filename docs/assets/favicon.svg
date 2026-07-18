@@ -1,42 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" fill="#ffffff"/>
-  <text x="256" y="277" font-family="'Arial Black','Segoe UI',sans-serif" font-weight="900"
-        font-size="240" text-anchor="middle" letter-spacing="-8">
+  <text x="256" y="350" font-family="'Arial Black','Segoe UI',sans-serif" font-weight="900"
+        font-size="380" text-anchor="middle" letter-spacing="-32">
     <tspan fill="#0b1628">R</tspan><tspan fill="#f4580a">N</tspan>
   </text>
-
-  <g transform="translate(50,70) scale(0.85)">
-    <polygon points="14,272 132,272 108,294 -12,294" fill="#f4580a" opacity="0.95"/>
-    <polygon points="30,306 118,306 98,326 10,326"   fill="#ff7a35" opacity="0.85"/>
-    <polygon points="46,336 100,336 84,354 30,354"   fill="#f4580a" opacity="0.6"/>
-
-    <ellipse cx="292" cy="404" rx="150" ry="12" fill="#0b1628" opacity="0.15"/>
-
-    <path d="M150 260
-             L346 260
-             Q360 260 368 271
-             L406 320
-             L424 320
-             Q436 320 436 332
-             L436 372
-             Q436 384 424 384
-             L150 384
-             Q136 384 136 370
-             L136 274
-             Q136 260 150 260 Z"
-          fill="#ffffff" stroke="#0b1628" stroke-width="7"/>
-
-    <line x1="216" y1="263" x2="216" y2="381" stroke="#0b1628" stroke-width="4"/>
-    <line x1="282" y1="263" x2="282" y2="381" stroke="#0b1628" stroke-width="4"/>
-
-    <path d="M358 274 L400 318 L358 318 Z" fill="#0b1628"/>
-
-    <rect x="406" y="352" width="30" height="16" rx="4" fill="#0b1628"/>
-    <rect x="412" y="336" width="20" height="8" rx="4" fill="#f4580a"/>
-
-    <circle cx="204" cy="386" r="36" fill="#0b1628"/>
-    <circle cx="204" cy="386" r="15" fill="#ffffff"/>
-    <circle cx="384" cy="386" r="36" fill="#0b1628"/>
-    <circle cx="384" cy="386" r="15" fill="#ffffff"/>
-  </g>
 </svg>

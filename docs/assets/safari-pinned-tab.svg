@@ -1,13 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <text x="256" y="277" font-family="'Arial Black','Segoe UI',sans-serif" font-weight="900"
-        font-size="240" text-anchor="middle" letter-spacing="-8" fill="#000000">RN</text>
-  <g transform="translate(50,70) scale(0.85)" fill="#000000">
-    <polygon points="14,272 132,272 108,294 -12,294"/>
-    <polygon points="30,306 118,306 98,326 10,326"/>
-    <polygon points="46,336 100,336 84,354 30,354"/>
-    <path d="M150 260 L346 260 Q360 260 368 271 L406 320 L424 320 Q436 320 436 332
-             L436 372 Q436 384 424 384 L150 384 Q136 384 136 370 L136 274 Q136 260 150 260 Z"/>
-    <circle cx="204" cy="386" r="36"/>
-    <circle cx="384" cy="386" r="36"/>
-  </g>
+  <text x="256" y="350" font-family="'Arial Black','Segoe UI',sans-serif" font-weight="900"
+        font-size="380" text-anchor="middle" letter-spacing="-32" fill="#000000">RN</text>
 </svg>
