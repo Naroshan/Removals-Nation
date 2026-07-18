@@ -14,13 +14,15 @@ from datetime import date
 from pathlib import Path
 
 from build_pages import SERVICES, SITE_URL, SITE_NAME
+from build_static_pages import BLOG_POSTS
 
 
 def static_paths():
     paths = ["", "about.html", "contact.html", "privacy.html", "terms.html", "locations.html",
              "removals-within-the-m25/",
-             "blog/", "blog/how-much-do-removals-cost/", "blog/moving-house-checklist/",
+             "blog/",
              "partner-with-us/"]
+    paths += [f"blog/{slug}/" for slug, _, _, _ in BLOG_POSTS]
     paths += [f"{slug}/" for slug, _, _ in SERVICES]
     return paths
 
