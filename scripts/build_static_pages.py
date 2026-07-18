@@ -531,6 +531,65 @@ def build_thank_you(dist_dir):
     )
 
 
+def build_terms(dist_dir):
+    root = "./"
+    body = f"""<div class="content-block">
+  <h1>Terms &amp; Cancellation Policy</h1>
+  <p>These terms apply to every booking made with {SITE_NAME}. By confirming a
+     booking, you agree to the terms below.</p>
+  <h2>Bookings &amp; Quotes</h2>
+  <p>Quotes provided through our online form or by phone are estimates based on
+     the details you give us (property size, distance, access and inventory).
+     The final price is confirmed once we've reviewed your full moving details,
+     and may be adjusted if the actual job differs materially from what was
+     described — for example significantly more items, restricted parking, or
+     lack of lift access that wasn't mentioned at quote stage. We'll always
+     confirm any change with you before the work goes ahead.</p>
+  <h2>Cancellations &amp; Rescheduling</h2>
+  <ul>
+    <li><strong>More than 7 days before your move:</strong> cancel or reschedule
+        free of charge.</li>
+    <li><strong>48 hours to 7 days before your move:</strong> a cancellation or
+        reschedule may incur a partial charge to cover crew and vehicle
+        allocation already committed to your slot.</li>
+    <li><strong>Less than 48 hours before your move:</strong> cancellations may
+        be charged in full, as a crew and vehicle have been reserved
+        exclusively for your booking.</li>
+  </ul>
+  <p>If we need to cancel or reschedule a confirmed booking on our side (for
+     example due to a vehicle issue or severe weather), we'll contact you as
+     early as possible to arrange a new slot at no extra cost.</p>
+  <h2>Payment</h2>
+  <p>Payment terms are confirmed at the time of booking. Any deposit required
+     to secure a date will be communicated upfront — no work begins until a
+     booking is confirmed.</p>
+  <h2>Insurance &amp; Liability</h2>
+  <p>Every {SITE_NAME} team carries public liability and goods-in-transit
+     insurance as standard. If an item is lost or damaged during your move,
+     let your crew know on the day and follow up in writing within 48 hours so
+     we can log and assess the claim.</p>
+  <h2>Access &amp; Delays</h2>
+  <p>Please let us know about parking restrictions, permit requirements, lift
+     access or narrow staircases when you book. Delays caused by access
+     issues not disclosed at quote stage may affect timing and cost on the
+     day.</p>
+  <h2>Changes to These Terms</h2>
+  <p>We may update these terms from time to time. The version on this page is
+     always the current one.</p>
+  <h2>Questions</h2>
+  <p>For anything not covered here, get in touch via our
+     <a href="contact.html" style="color:var(--orange)">contact page</a> or call
+     <a href="{PHONE_HREF}" style="color:var(--orange)">{PHONE}</a>.</p>
+</div>"""
+    (Path(dist_dir) / "terms.html").write_text(
+        page_shell(root, f"Terms & Cancellation Policy | {SITE_NAME}",
+                   f"{SITE_NAME}'s terms of service and cancellation policy for "
+                   f"removal bookings.", body,
+                   canonical_path="terms.html"),
+        encoding="utf-8",
+    )
+
+
 def build_404(dist_dir):
     root = "./"
     body = f"""<div class="thanks">
@@ -913,6 +972,16 @@ def build_m25_page(dist_dir, locations):
     seconds using the form above.
   </p>
 </section>
+<section class="section" style="padding:0 48px 64px">
+  <div class="section-tag">Pricing</div>
+  <h2 class="section-title">Removals Within the M25 — Typical Costs</h2>
+  <p style="color:var(--text-muted);line-height:1.7;max-width:700px;margin-bottom:24px;margin-top:-20px">
+    Guide prices for a house removal within the M25. Exact pricing depends on
+    property size, distance and access (stairs, parking, lift availability) —
+    get an instant quote above for your exact move.
+  </p>
+  {cost_table_html("house-removals")}
+</section>
 <section class="section">
   <div class="section-tag">Coverage</div>
   <h2 class="section-title">Find Your Area Within the M25</h2>
@@ -1032,6 +1101,7 @@ def main():
     build_about(args.dist)
     build_contact(args.dist)
     build_privacy(args.dist)
+    build_terms(args.dist)
     build_thank_you(args.dist)
     build_404(args.dist)
     build_blog(args.dist)

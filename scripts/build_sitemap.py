@@ -17,7 +17,7 @@ from build_pages import SERVICES, SITE_URL, SITE_NAME
 
 
 def static_paths():
-    paths = ["", "about.html", "contact.html", "privacy.html", "locations.html",
+    paths = ["", "about.html", "contact.html", "privacy.html", "terms.html", "locations.html",
              "removals-within-the-m25/",
              "blog/", "blog/how-much-do-removals-cost/", "blog/moving-house-checklist/",
              "partner-with-us/"]

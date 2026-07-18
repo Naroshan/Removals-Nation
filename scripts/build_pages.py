@@ -156,6 +156,7 @@ def footer_html(root):
     <div class="footer-col">
       <h4>Legal</h4>
       <a href="{root}privacy.html">Privacy Policy</a>
+      <a href="{root}terms.html">Terms &amp; Cancellation Policy</a>
       <a href="{root}contact.html">Get in Touch</a>
     </div>
   </div>
