@@ -11,6 +11,7 @@ Usage:
 """
 
 import argparse
+import json
 from pathlib import Path
 
 from build_pages import (
@@ -18,6 +19,7 @@ from build_pages import (
     SERVICES, nav_html, mobile_menu_html, footer_html, MENU_JS,
     cost_table_html, favicon_html, gtag_html, seo_html, organization_jsonld, jsonld_html,
     whatsapp_fab_html, call_fab_html, faq_html, quote_contact_and_photos_html,
+    COST_TABLES_BASE, POSTCODE_AREA_TIERS,
 )
 
 M25_REGIONS = [
@@ -146,6 +148,13 @@ PAGE_CSS = """<style>
 .quote-card h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:4px}
 .form-sub{font-size:.82rem;color:var(--text-muted);margin-bottom:24px}
 .qrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
+.quote-estimate{background:rgba(244,88,10,.1);border:1px solid rgba(244,88,10,.3);
+  border-radius:12px;padding:14px 16px;margin-bottom:16px;text-align:center}
+.quote-estimate-label{display:block;font-size:.72rem;text-transform:uppercase;
+  letter-spacing:.05em;color:var(--text-muted);margin-bottom:4px}
+.quote-estimate-value{display:block;font-family:'Syne',sans-serif;font-size:1.6rem;
+  font-weight:800;color:var(--orange)}
+.quote-estimate-note{display:block;font-size:.72rem;color:var(--text-muted);margin-top:4px}
 .section{padding:70px 48px;max-width:1200px;margin:0 auto}
 .section-tag{display:inline-block;color:var(--orange);font-weight:700;font-size:.8rem;
   text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
@@ -230,6 +239,119 @@ PAGE_CSS = """<style>
 </style>"""
 
 
+def quote_calculator_js():
+    """Live, client-side quote estimate for pages with no fixed location
+    (homepage, M25 page, service landing pages, man-and-van page). Reuses
+    the exact same COST_TABLES_BASE and POSTCODE_AREA_TIERS that generate
+    the server-rendered location-page tables, serialized once as JSON, so
+    the live estimate and the static tables can never drift out of sync.
+    Degrades safely: the null-checks at the top mean this is a no-op on any
+    page that doesn't have the quote form."""
+    cost_data = {}
+    for slug, rows in COST_TABLES_BASE.items():
+        if rows and len(rows[0]) == 2:
+            cost_data[slug] = {"fixed": True, "rows": list(rows)}
+        else:
+            cost_data[slug] = {"fixed": False, "rows": [list(r) for r in rows]}
+
+    size_labels = {
+        "house-removals": "Property Size",
+        "office-removals": "Office Size",
+        "man-and-van": "Load Size",
+        "storage": "Unit Size",
+        "packing-services": "Property Size",
+        "same-day-removals": "Load Size",
+        "international-removals": "Destination",
+        "piano-removals": "Piano Type",
+    }
+
+    data = {
+        "costTables": cost_data,
+        "postcodeTiers": POSTCODE_AREA_TIERS,
+        "sizeLabels": size_labels,
+    }
+
+    return f"""<script>
+var QUOTE_CALC_DATA = {json.dumps(data, ensure_ascii=False)};
+(function(){{
+  var forms = document.querySelectorAll('.quote-card form');
+  forms.forEach(function(form) {{
+    var moveSelect = form.querySelector('[data-role="move-type"]');
+    var sizeSelect = form.querySelector('[data-role="size"]');
+    var sizeLabel = form.querySelector('[data-role="size-label"]');
+    var postcodeInput = form.querySelector('[data-role="from-postcode"]');
+    var estimateBox = form.querySelector('[data-role="estimate"]');
+    if (!moveSelect || !sizeSelect || !estimateBox) return;
+    var estimateValue = estimateBox.querySelector('[data-role="estimate-value"]');
+
+    function postcodeMultiplier(pc) {{
+      var m = (pc || '').trim().toUpperCase().match(/^[A-Z]+/);
+      if (!m) return 1.0;
+      var area = m[0];
+      var tiers = QUOTE_CALC_DATA.postcodeTiers;
+      return tiers[area.slice(0, 2)] || tiers[area.slice(0, 1)] || 1.0;
+    }}
+
+    function scale(n, mult) {{
+      var step = n < 150 ? 5 : 10;
+      return Math.round((n * mult) / step) * step;
+    }}
+
+    function fmt(n) {{
+      return '£' + n.toLocaleString('en-GB');
+    }}
+
+    function populateSizes() {{
+      var svc = moveSelect.value;
+      var data = QUOTE_CALC_DATA.costTables[svc];
+      if (!data) return;
+      var prevValue = sizeSelect.value;
+      sizeSelect.innerHTML = '';
+      if (sizeLabel) sizeLabel.textContent = QUOTE_CALC_DATA.sizeLabels[svc] || 'Size';
+      data.rows.forEach(function(row) {{
+        if (!data.fixed && row[3] === 'add') return;
+        var opt = document.createElement('option');
+        opt.value = row[0];
+        opt.textContent = row[0];
+        sizeSelect.appendChild(opt);
+      }});
+      var match = Array.prototype.find.call(sizeSelect.options, function(o) {{ return o.value === prevValue; }});
+      if (match) sizeSelect.value = prevValue;
+    }}
+
+    function update() {{
+      var svc = moveSelect.value;
+      var data = QUOTE_CALC_DATA.costTables[svc];
+      if (!data) return;
+      var row = data.rows.find(function(r) {{ return r[0] === sizeSelect.value; }});
+      if (!row) return;
+      var text;
+      if (data.fixed) {{
+        text = row[1];
+      }} else {{
+        var mult = postcodeMultiplier(postcodeInput ? postcodeInput.value : '');
+        var lo = scale(row[1], mult), hi = scale(row[2], mult);
+        var suffix = row[3];
+        if (suffix === '+') text = fmt(lo) + ' – ' + fmt(hi) + '+';
+        else if (suffix === '/mo') text = fmt(lo) + ' – ' + fmt(hi) + '/mo';
+        else if (suffix === 'add') text = 'Add ' + fmt(lo) + ' – ' + fmt(hi);
+        else text = fmt(lo) + ' – ' + fmt(hi);
+      }}
+      if (estimateValue) estimateValue.textContent = text;
+      estimateBox.style.display = 'block';
+    }}
+
+    moveSelect.addEventListener('change', function() {{ populateSizes(); update(); }});
+    sizeSelect.addEventListener('change', update);
+    if (postcodeInput) postcodeInput.addEventListener('input', update);
+
+    populateSizes();
+    update();
+  }});
+}})();
+</script>"""
+
+
 def page_shell(root, title, description, body, extra_css="", canonical_path="", noindex=False, jsonld=""):
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -262,11 +384,14 @@ def page_shell(root, title, description, body, extra_css="", canonical_path="", 
 {whatsapp_fab_html()}
 {call_fab_html()}
 {MENU_JS}
+{quote_calculator_js()}
 </body>
 </html>"""
 
 
 def booking_form_html(root):
+    default_size_rows = [r for r in COST_TABLES_BASE["house-removals"] if r[3] != "add"]
+    default_size_options = "".join(f"<option>{r[0]}</option>" for r in default_size_rows)
     return f"""<div class="quote-card" id="quote">
   <h2>Get an Instant Quote</h2>
   <p class="form-sub">60 seconds · Confirmed price instantly</p>
@@ -274,27 +399,31 @@ def booking_form_html(root):
     <div class="qrow">
       <div class="form-group">
         <label>Move Type</label>
-        <select name="move_type">
-          {"".join(f"<option>{name}</option>" for _, name, _ in SERVICES)}
+        <select name="move_type" data-role="move-type">
+          {"".join(f'<option value="{slug}">{name}</option>' for slug, name, _ in SERVICES)}
         </select>
       </div>
       <div class="form-group">
-        <label>Property Size</label>
-        <select name="property_size">
-          <option>Studio/1 Bed</option><option>2 Bedroom</option>
-          <option>3 Bedroom</option><option>4+ Bedroom</option><option>Commercial</option>
+        <label data-role="size-label">Property Size</label>
+        <select name="property_size" data-role="size">
+          {default_size_options}
         </select>
       </div>
     </div>
     <div class="qrow">
       <div class="form-group">
         <label>From Postcode</label>
-        <input type="text" name="from_postcode" placeholder="e.g. NW1 1AA" style="font-size:16px">
+        <input type="text" name="from_postcode" placeholder="e.g. NW1 1AA" style="font-size:16px" data-role="from-postcode">
       </div>
       <div class="form-group">
         <label>To Postcode</label>
         <input type="text" name="to_postcode" placeholder="Destination" style="font-size:16px">
       </div>
+    </div>
+    <div class="quote-estimate" data-role="estimate" style="display:none">
+      <span class="quote-estimate-label">Estimated price</span>
+      <span class="quote-estimate-value" data-role="estimate-value"></span>
+      <span class="quote-estimate-note">Based on typical pricing for your area — confirmed after booking</span>
     </div>
     {quote_contact_and_photos_html()}
     <input type="hidden" name="_subject" value="New Removal Booking — {SITE_NAME}">
