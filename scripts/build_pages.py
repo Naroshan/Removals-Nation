@@ -837,6 +837,9 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
         <span>✓ Instant booking</span>
         <span>✓ Instant pricing</span>
       </div>
+      <a href="{PHONE_HREF}" class="btn-primary" style="margin-top:22px;font-size:1.05rem;padding:16px 32px;display:inline-block">
+        📞 Call Now — {PHONE}
+      </a>
     </div>
     {booking_form_html(svc_name, name, postcode)}
   </div>
