@@ -18,8 +18,9 @@ nav {
 }
 .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: -0.02em; text-decoration: none; color: var(--white); z-index: 201; position: relative; }
 .logo span { color: var(--orange); }
-.nav-links { display: flex; gap: 32px; list-style: none; }
-.nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links li { display: flex; align-items: center; }
+.nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.88rem; font-weight: 500; transition: color 0.2s; line-height: 1; }
 .nav-links a:hover { color: var(--white); }
 .nav-cta { background: var(--orange); color: var(--white) !important; padding: 10px 22px; border-radius: 6px; font-weight: 600 !important; font-size: 0.88rem !important; text-decoration: none; transition: background 0.2s; }
 .nav-cta:hover { background: var(--orange-light) !important; }
@@ -28,8 +29,9 @@ nav {
 .nav-dropdown { position: relative; list-style: none; }
 .nav-dropdown-trigger {
   display: flex; align-items: center; gap: 5px;
-  background: none; border: none; cursor: pointer;
+  background: none; border: none; margin: 0; padding: 0; cursor: pointer;
   font-family: 'DM Sans', sans-serif; color: var(--text-muted); font-size: 0.88rem; font-weight: 500;
+  line-height: 1;
   transition: color 0.2s;
 }
 .nav-dropdown-trigger:hover, .nav-dropdown:hover .nav-dropdown-trigger, .nav-dropdown:focus-within .nav-dropdown-trigger { color: var(--white); }
