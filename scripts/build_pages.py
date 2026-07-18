@@ -294,45 +294,56 @@ LOCATION_PAGE_CSS = """<style>
 
 
 # ── Cost tables per service ────────────────────────────────────────────────────
-
-COST_TABLES = {
+# Base figures represent typical UK-average pricing. Actual on-page tables are
+# scaled by REGION_PRICE_TIERS below so a page doesn't show identical numbers
+# for Mayfair and a village in the Highlands — this is informational banding,
+# not a binding quote (the copy and quote form make that clear).
+#
+# Rows are (label, low, high, suffix) where suffix is "" (plain range),
+# "+" (open-ended top end), "/mo" (storage rental), or "add" (add-on charge,
+# rendered as "Add £X – £Y").
+COST_TABLES_BASE = {
     "house-removals": [
-        ("Studio / 1 Bedroom", "£300 – £600"),
-        ("2 Bedroom Property", "£500 – £900"),
-        ("3 Bedroom Property", "£700 – £1,200"),
-        ("4+ Bedroom Property", "£1,000 – £2,000+"),
-        ("Long Distance (200+ miles)", "Add £200 – £500"),
+        ("Studio / 1 Bedroom", 300, 600, ""),
+        ("2 Bedroom Property", 500, 900, ""),
+        ("3 Bedroom Property", 700, 1200, ""),
+        ("4+ Bedroom Property", 1000, 2000, "+"),
+        ("Long Distance (200+ miles)", 200, 500, "add"),
     ],
     "office-removals": [
-        ("Small Office (1–5 desks)", "£400 – £900"),
-        ("Medium Office (5–20 desks)", "£800 – £2,000"),
-        ("Large Office (20+ desks)", "£2,000 – £5,000+"),
-        ("IT Equipment Move", "Add £200 – £500"),
+        ("Small Office (1–5 desks)", 400, 900, ""),
+        ("Medium Office (5–20 desks)", 800, 2000, ""),
+        ("Large Office (20+ desks)", 2000, 5000, "+"),
+        ("IT Equipment Move", 200, 500, "add"),
     ],
     "man-and-van": [
-        ("1 Man + Small Van (2hr)", "£60 – £120"),
-        ("1 Man + Large Van (2hr)", "£80 – £150"),
-        ("2 Men + Van (half day)", "£150 – £280"),
-        ("2 Men + Van (full day)", "£250 – £450"),
+        ("1 Man + Small Van (2hr)", 60, 120, ""),
+        ("1 Man + Large Van (2hr)", 80, 150, ""),
+        ("2 Men + Van (half day)", 150, 280, ""),
+        ("2 Men + Van (full day)", 250, 450, ""),
     ],
     "storage": [
-        ("Small Unit (25 sq ft)", "£30 – £60/mo"),
-        ("Medium Unit (50 sq ft)", "£60 – £100/mo"),
-        ("Large Unit (100 sq ft)", "£100 – £160/mo"),
-        ("Container Storage", "£80 – £150/mo"),
+        ("Small Unit (25 sq ft)", 30, 60, "/mo"),
+        ("Medium Unit (50 sq ft)", 60, 100, "/mo"),
+        ("Large Unit (100 sq ft)", 100, 160, "/mo"),
+        ("Container Storage", 80, 150, "/mo"),
     ],
     "packing-services": [
-        ("Studio / 1 Bed", "£150 – £300"),
-        ("2 Bedroom", "£250 – £450"),
-        ("3 Bedroom", "£350 – £600"),
-        ("4+ Bedroom", "£500 – £900"),
+        ("Studio / 1 Bed", 150, 300, ""),
+        ("2 Bedroom", 250, 450, ""),
+        ("3 Bedroom", 350, 600, ""),
+        ("4+ Bedroom", 500, 900, ""),
     ],
     "same-day-removals": [
-        ("Single Item", "£80 – £180"),
-        ("Small Load", "£150 – £280"),
-        ("Half House Load", "£280 – £500"),
-        ("Full House Load", "£500 – £900"),
+        ("Single Item", 80, 180, ""),
+        ("Small Load", 150, 280, ""),
+        ("Half House Load", 280, 500, ""),
+        ("Full House Load", 500, 900, ""),
     ],
+    # International removals aren't scaled by UK origin region — destination
+    # country/distance dominates the price far more than which UK town the
+    # move starts in, so scaling this table would be misleading rather than
+    # more accurate.
     "international-removals": [
         ("Europe (1–2 bed)", "£1,500 – £3,500"),
         ("Europe (3–4 bed)", "£3,000 – £6,000"),
@@ -340,49 +351,254 @@ COST_TABLES = {
         ("Australia / NZ", "£5,000 – £12,000"),
     ],
     "piano-removals": [
-        ("Upright Piano", "£150 – £350"),
-        ("Grand Piano", "£300 – £700"),
-        ("Upstairs / Stairs", "Add £100 – £200"),
-        ("Long Distance", "Add £200 – £500"),
+        ("Upright Piano", 150, 350, ""),
+        ("Grand Piano", 300, 700, ""),
+        ("Upstairs / Stairs", 100, 200, "add"),
+        ("Long Distance", 200, 500, "add"),
     ],
 }
+
+# Regional price-tier multipliers, grounded in 2026 UK removals market data:
+# London runs ~25-35% above the national average (highest in central/west
+# London due to parking permits, ULEZ/congestion charge exposure and access
+# time); the South East commuter belt sits ~10-15% above average; the
+# Midlands is close to the national baseline; the North, Scotland, Wales and
+# Northern Ireland typically run 10-15% below it. These are deliberately
+# rounded, approximate bands — not a substitute for the quote form.
+REGION_PRICE_TIERS = {
+    # Central London — highest tier
+    "Central London": 1.35,
+    # Rest of Greater London
+    "North London": 1.18, "North West London": 1.18, "North East London": 1.16,
+    "East London": 1.18, "South East London": 1.16, "South London": 1.18,
+    "South West London": 1.22, "West London": 1.28,
+    # M25 commuter belt
+    "Surrey": 1.12, "Hertfordshire": 1.12, "Essex": 1.10, "Kent": 1.10, "Berkshire": 1.12,
+    # Wider South East / South
+    "East Sussex": 1.06, "West Sussex": 1.06, "Oxfordshire": 1.08,
+    "Buckinghamshire": 1.08, "Hampshire": 1.05, "Isle of Wight": 1.04,
+    # East of England
+    "Bedfordshire": 1.03, "Cambridgeshire": 1.03, "Suffolk": 1.01,
+    "Norfolk": 1.00, "Northamptonshire": 1.00,
+    # Midlands — national baseline
+    "West Midlands": 1.00, "Warwickshire": 1.00, "Staffordshire": 0.98,
+    "Shropshire": 0.97, "Worcestershire": 0.98, "Herefordshire": 0.96,
+    "Leicestershire": 0.98, "Nottinghamshire": 0.97, "Derbyshire": 0.97,
+    "Lincolnshire": 0.96, "Rutland": 0.98,
+    # South West
+    "Gloucestershire": 0.99, "Wiltshire": 0.98, "Somerset": 0.96,
+    "Dorset": 0.98, "Devon": 0.95, "Cornwall": 0.94,
+    # North of England
+    "Greater Manchester": 0.92, "Merseyside": 0.90, "Cheshire": 0.93,
+    "Lancashire": 0.90, "West Yorkshire": 0.91, "South Yorkshire": 0.90,
+    "East Yorkshire": 0.89, "North Yorkshire": 0.91, "County Durham": 0.88,
+    "Tyne and Wear": 0.89, "Northumberland": 0.88, "Cumbria": 0.90, "Teesside": 0.88,
+    # Devolved nations
+    "Scotland": 0.87, "Wales": 0.87, "Northern Ireland": 0.85,
+}
+
+
+def region_price_multiplier(region):
+    return REGION_PRICE_TIERS.get(region, 1.0)
+
+
+def _scale(n, mult):
+    """Scale a base price by the regional multiplier, rounding to a clean
+    number (nearest £5 under £150, nearest £10 above) so the result still
+    reads like a real price band rather than an oddly precise output."""
+    scaled = n * mult
+    step = 5 if n < 150 else 10
+    return int(round(scaled / step) * step)
 
 
 # ── Page builder ──────────────────────────────────────────────────────────────
 
-def cost_table_html(svc_slug):
-    rows = COST_TABLES.get(svc_slug, COST_TABLES["house-removals"])
-    return (
-        '<div class="cost-table">'
-        + "".join(
-            f'<div class="cost-row"><span>{r}</span><span>{p}</span></div>'
-            for r, p in rows
-        )
-        + "</div>"
-    )
+def cost_table_html(svc_slug, multiplier=1.0):
+    rows = COST_TABLES_BASE.get(svc_slug, COST_TABLES_BASE["house-removals"])
+    cells = []
+    for row in rows:
+        if len(row) == 2:
+            # international-removals: fixed strings, not regionally scaled
+            label, price = row
+            cells.append(f'<div class="cost-row"><span>{label}</span><span>{price}</span></div>')
+            continue
+        label, lo, hi, suffix = row
+        lo_s, hi_s = _scale(lo, multiplier), _scale(hi, multiplier)
+        if suffix == "+":
+            price = f"£{lo_s:,} – £{hi_s:,}+"
+        elif suffix == "/mo":
+            price = f"£{lo_s:,} – £{hi_s:,}/mo"
+        elif suffix == "add":
+            price = f"Add £{lo_s:,} – £{hi_s:,}"
+        else:
+            price = f"£{lo_s:,} – £{hi_s:,}"
+        cells.append(f'<div class="cost-row"><span>{label}</span><span>{price}</span></div>')
+    return '<div class="cost-table">' + "".join(cells) + "</div>"
 
 
-def build_faqs(svc_name, loc_name, region):
+# Area profiles group regions by the access/context factors that actually
+# change what's relevant to ask — parking permits and ULEZ in London,
+# driveway access in commuter towns, city-centre flats in regional cities,
+# rural/village access elsewhere, and cross-border context for the devolved
+# nations. This is the second half of the differentiation: pricing tiers
+# handle "how much", profiles handle "what's actually relevant here".
+LONDON_REGIONS = {
+    "Central London", "North London", "North West London", "North East London",
+    "East London", "South East London", "South London", "South West London", "West London",
+}
+COMMUTER_BELT_REGIONS = {
+    "Surrey", "Hertfordshire", "Essex", "Kent", "Berkshire",
+    "East Sussex", "West Sussex", "Oxfordshire", "Buckinghamshire",
+    "Hampshire", "Bedfordshire", "Cambridgeshire",
+}
+CITY_URBAN_REGIONS = {
+    "West Midlands", "Greater Manchester", "Merseyside",
+    "West Yorkshire", "South Yorkshire", "Tyne and Wear",
+}
+DEVOLVED_REGIONS = {"Scotland": "Scotland", "Wales": "Wales", "Northern Ireland": "Northern Ireland"}
+
+
+def area_profile(region):
+    if region in LONDON_REGIONS:
+        return "london"
+    if region in COMMUTER_BELT_REGIONS:
+        return "commuter-belt"
+    if region in CITY_URBAN_REGIONS:
+        return "city-urban"
+    if region in DEVOLVED_REGIONS:
+        return "devolved"
+    return "rural-regional"
+
+
+def build_faqs(svc_name, loc_name, region, county):
+    svc = svc_name.lower()
+    profile = area_profile(region)
+
+    if profile == "london":
+        return [
+            (
+                f"Do I need a parking permit for the {svc} van in {loc_name}?",
+                f"Many streets in {loc_name} operate controlled parking zones. "
+                f"Flag it when you book and we can look at arranging a parking "
+                f"suspension in advance where needed.",
+            ),
+            (
+                f"Does {svc} cost more if there are stairs or no lift?",
+                f"Access is factored into your quote up front, not added as a "
+                f"surprise fee on the day — tell us about stairs, lift size or "
+                f"restricted access in {loc_name} when you book.",
+            ),
+            (
+                "Will ULEZ or the Congestion Charge affect my move?",
+                f"Both apply to vehicles driving within their zones. Mention your "
+                f"postcode in {loc_name} and destination when you book and we'll "
+                f"factor it into your price upfront, not after.",
+            ),
+            (
+                f"How far ahead should I book {svc} in {loc_name}?",
+                "A few days' notice usually works for a weekday move. If a "
+                "parking suspension or lift booking is needed, 1-2 weeks ahead "
+                "gives the best chance of your preferred slot.",
+            ),
+        ]
+
+    if profile == "commuter-belt":
+        return [
+            (
+                f"Do you cover moves between {loc_name} and London?",
+                f"Yes — {loc_name} is one of our regular routes in and out of "
+                f"London, so we know the journey times and access points well.",
+            ),
+            (
+                f"Is parking easier in {loc_name} than in central London?",
+                f"Generally yes — most {region} properties have driveways or "
+                f"easier on-street parking, which usually means a quicker, "
+                f"more cost-effective move than an equivalent central London job.",
+            ),
+            (
+                f"Are your teams in {loc_name} fully insured?",
+                f"Yes — every RemovalsNation team operating in {loc_name} carries "
+                f"full public liability and goods-in-transit insurance as standard.",
+            ),
+            (
+                f"What's included in your {svc} service in {loc_name}?",
+                "Our standard service includes loading, transport and unloading. "
+                "Packing, storage and dismantling can all be added.",
+            ),
+        ]
+
+    if profile == "city-urban":
+        return [
+            (
+                f"Do you cover city-centre flats in {loc_name}?",
+                f"Yes — city-centre moves in {loc_name} are common for us, "
+                f"including flats with lifts, secure entry systems or resident "
+                f"parking permits.",
+            ),
+            (
+                f"Do you charge extra for awkward access in {loc_name}?",
+                "No hidden charges — if a building or street has awkward access, "
+                "we ask about it before booking, not on the day.",
+            ),
+            (
+                f"How quickly can you arrange {svc} in {loc_name}?",
+                f"We can typically confirm a booking in {loc_name} within a few "
+                f"hours. For urgent same-day moves, call us directly on {PHONE}.",
+            ),
+            (
+                f"What's included in your {svc} service in {loc_name}?",
+                "Our standard service includes loading, transport and unloading. "
+                "Packing, storage and dismantling can all be added.",
+            ),
+        ]
+
+    if profile == "devolved":
+        return [
+            (
+                f"Do you handle moves between {loc_name} and the rest of the UK?",
+                f"Yes — cross-border moves to and from {loc_name} are one of our "
+                f"regular services. Get a distance-based price with the quote form.",
+            ),
+            (
+                f"Are your teams in {loc_name} fully insured?",
+                f"Yes — every RemovalsNation team operating in {loc_name} carries "
+                f"full public liability and goods-in-transit insurance as standard.",
+            ),
+            (
+                f"How far in advance should I book {svc} in {loc_name}?",
+                "For a fixed date, 2-4 weeks' notice gives the best choice of "
+                "slots, especially for longer cross-border routes.",
+            ),
+            (
+                f"What's included in your {svc} service in {loc_name}?",
+                "Our standard service includes loading, transport and unloading. "
+                "Packing, storage and dismantling can all be added.",
+            ),
+        ]
+
+    # rural-regional
     return [
         (
-            f"How quickly can you arrange {svc_name.lower()} in {loc_name}?",
-            f"We can typically confirm a booking in {loc_name} within a few hours. "
-            f"For urgent same-day moves, call us directly on {PHONE}.",
+            f"Do you cover villages and rural addresses near {loc_name}?",
+            f"Yes — we regularly serve rural properties around {loc_name} and "
+            f"the wider {county} area, including addresses without a formal "
+            f"street address.",
         ),
         (
-            f"Are your removal teams in {loc_name} fully insured?",
-            f"Yes — all RemovalsNation teams operating in {loc_name} carry full "
-            f"public liability and goods-in-transit insurance.",
+            f"Will a large van fit down narrow lanes near {loc_name}?",
+            "We assess access in advance and can arrange a smaller shuttle "
+            "vehicle where a long or narrow driveway needs it.",
         ),
         (
-            f"Do you cover all areas of {loc_name}?",
-            f"We cover {loc_name} and all surrounding areas in {region}. "
-            f"If you're unsure, just ask when booking.",
+            f"How far is {loc_name} from your nearest available team?",
+            f"We operate across {county} and the wider region, so response "
+            f"times in {loc_name} are generally quick — call to check "
+            f"availability for your date.",
         ),
         (
-            f"What's included in your {svc_name.lower()} service in {loc_name}?",
-            f"Our standard service includes loading, transport and unloading. "
-            f"Packing, storage and dismantling can all be added.",
+            f"Are your teams in {loc_name} fully insured?",
+            f"Yes — every RemovalsNation team operating in {loc_name} carries "
+            f"full public liability and goods-in-transit insurance as standard.",
         ),
     ]
 
@@ -569,7 +785,8 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
         f"Professional {svc_name.lower()} in {name}, {county}. "
         f"Fully insured, instant booking. {SITE_NAME} — your trusted removal company."
     )
-    faqs = build_faqs(svc_name, name, region)
+    faqs = build_faqs(svc_name, name, region, county)
+    price_mult = region_price_multiplier(region)
 
     page = f"""<!DOCTYPE html>
 <html lang="en">
@@ -627,7 +844,11 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
     <p>Whether you're moving locally within {name} or relocating further afield, our {svc_name.lower()}
        teams are ready to help. We cover all postcodes in the {postcode} area.</p>
     <h2>{svc_name} Costs in {name}</h2>
-    {cost_table_html(svc_slug)}
+    {cost_table_html(svc_slug, price_mult)}
+    <p style="font-size:.8rem;color:var(--text-muted);margin-top:10px">
+      Typical {region} pricing band, based on property size and access — get an
+      exact quote in 60 seconds using the form above.
+    </p>
     <h2>Frequently Asked Questions</h2>
     {faq_html(faqs)}
   </div>
