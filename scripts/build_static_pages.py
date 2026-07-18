@@ -428,6 +428,9 @@ def booking_form_html(root):
     {quote_contact_and_photos_html()}
     <input type="hidden" name="_subject" value="New Removal Booking — {SITE_NAME}">
     <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html">
+    <p style="text-align:center;font-size:.78rem;color:var(--orange-light);margin:2px 0 12px">
+      📅 Weekends and month-end dates book up fastest — enquire today to secure yours.
+    </p>
     <button type="submit" class="btn-primary" style="width:100%;margin-top:6px;text-align:center">
       Book My Removal →
     </button>
