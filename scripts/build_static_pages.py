@@ -78,6 +78,58 @@ def hero_stats_html(stats):
     return f'<div class="hero-stats">{items}</div>'
 
 
+HOW_IT_WORKS_STEPS = [
+    ("📝", "Get your quote", "Fill in the form above — property size, dates and "
+     "postcodes. Takes about 60 seconds, no obligation to book."),
+    ("📅", "Confirm your date", "We'll be in touch to confirm details and lock in "
+     "your moving slot, so your date is secured in advance."),
+    ("🚚", "Team arrives", "A fully insured local crew turns up on the day, loads "
+     "up carefully and gets everything where it needs to go."),
+    ("✅", "Move complete", "Everything's unloaded and in place. Settle up on the "
+     "day — no hidden fees, no surprises."),
+]
+
+
+def how_it_works_html(steps=None):
+    steps = steps or HOW_IT_WORKS_STEPS
+    cards = "".join(
+        f'<div class="step-card"><span class="step-num">{i}</span>'
+        f'<span class="step-icon">{icon}</span><h3>{title}</h3><p>{desc}</p></div>'
+        for i, (icon, title, desc) in enumerate(steps, start=1)
+    )
+    return f"""<section class="section" style="padding:0 48px 64px">
+  <div class="section-tag">How It Works</div>
+  <h2 class="section-title">Moving With RemovalsNation</h2>
+  <div class="steps-grid">{cards}</div>
+</section>"""
+
+
+DIFFERENTIATION_POINTS = [
+    ("🎯", "One Quote, Not Five", "Comparison and quote-request sites hand your "
+     "number to several companies at once, so expect calls from firms you've "
+     "never vetted. Get one quote from us, and that's the only call you'll get."),
+    ("🚚", "Our Crews, Not a Subcontractor", "The team who gives you a price is "
+     "the team who turns up on the day. Every RemovalsNation crew is our own, "
+     "directly insured — not a local firm we've passed your job on to."),
+    ("⏱️", "Booked in Minutes", "No re-explaining your move to five different "
+     "companies. One conversation, one fixed price, and your date is locked "
+     "in — usually within the same call."),
+]
+
+
+def differentiation_html(points=None):
+    points = points or DIFFERENTIATION_POINTS
+    cards = "".join(
+        f'<div class="partner-card"><h3>{icon} {title}</h3><p>{desc}</p></div>'
+        for icon, title, desc in points
+    )
+    return f"""<section class="section" style="padding:0 48px 64px">
+  <div class="section-tag">Why Book Direct</div>
+  <h2 class="section-title">No Middleman, No Bidding War</h2>
+  <div class="partner-grid" style="margin-top:0">{cards}</div>
+</section>"""
+
+
 PAGE_CSS = """<style>
 .hero{padding:150px 48px 90px;max-width:1200px;margin:0 auto;display:grid;
   grid-template-columns:1.1fr .9fr;gap:60px;align-items:start}
@@ -105,6 +157,16 @@ PAGE_CSS = """<style>
 .svc-card:hover{border-color:var(--orange);transform:translateY(-3px)}
 .svc-icon{font-size:1.8rem;display:block;margin-bottom:10px}
 .svc-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.step-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;
+  padding:26px 22px;position:relative}
+.step-num{position:absolute;top:18px;right:20px;font-family:'Syne',sans-serif;
+  font-size:.78rem;font-weight:800;color:var(--text-muted);opacity:.5}
+.step-icon{font-size:1.7rem;display:block;margin-bottom:14px}
+.step-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px}
+.step-card p{color:var(--text-muted);font-size:.85rem;line-height:1.6}
+@media(max-width:900px){.steps-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.steps-grid{grid-template-columns:1fr}}
 .content-block{max-width:820px;margin:0 auto;padding:150px 48px 80px}
 .content-block h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,2.8rem);
   font-weight:800;letter-spacing:-.03em;margin-bottom:24px}
@@ -270,6 +332,8 @@ def build_index(dist_dir):
   </div>
   {booking_form_html(root)}
 </section>
+{how_it_works_html()}
+{differentiation_html()}
 <section class="section" style="padding:48px 48px">
   <div class="section-tag">What We Do</div>
   <h2 class="section-title">Our Services</h2>
@@ -831,6 +895,8 @@ def build_m25_page(dist_dir, locations):
   </div>
   {booking_form_html(root)}
 </section>
+{how_it_works_html()}
+{differentiation_html()}
 <section class="section">
   <div class="section-tag">Why RemovalsNation</div>
   <h2 class="section-title">Your London Removal Company</h2>
