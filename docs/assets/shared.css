@@ -249,6 +249,15 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); paddi
 .call-fab svg { width: 18px; height: 18px; flex-shrink: 0; }
 
 /* ── RESPONSIVE ── */
+/* Nav grew from 4 to 7 top-level items — tighten spacing/padding just above
+   the mobile breakpoint so items don't wrap or get clipped by the CTA button
+   before the hamburger takes over at 900px. */
+@media (min-width: 901px) and (max-width: 1150px) {
+  nav { padding: 16px 24px; }
+  .nav-links { gap: 16px; }
+  .nav-links a, .nav-dropdown-trigger { font-size: 0.8rem; }
+  .nav-cta { padding: 9px 16px; font-size: 0.8rem !important; }
+}
 @media (max-width: 900px) {
   nav { padding: 14px 20px; }
   .nav-links { display: none; }

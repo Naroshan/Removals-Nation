@@ -71,8 +71,11 @@ def mobile_menu_html(root):
     <div class="mobile-menu-label">Navigation</div>
     <a href="{root}index.html" class="mobile-nav-link">Home <span class="arrow">›</span></a>
     <a href="{root}locations.html" class="mobile-nav-link">All Locations <span class="arrow">›</span></a>
+    <a href="{root}removals-within-the-m25/index.html" class="mobile-nav-link">Removals Within the M25 <span class="arrow">›</span></a>
     <a href="{root}blog/index.html" class="mobile-nav-link">Knowledge Hub <span class="arrow">›</span></a>
     <a href="{root}partner-with-us/index.html" class="mobile-nav-link">For Businesses <span class="arrow">›</span></a>
+    <a href="{root}about.html" class="mobile-nav-link">About Us <span class="arrow">›</span></a>
+    <a href="{root}contact.html" class="mobile-nav-link">Contact <span class="arrow">›</span></a>
     <div class="mobile-menu-label">Our Services</div>
     {svc_links}
     <a href="{root}index.html#quote" class="mobile-menu-cta">📦 Book My Removal Now</a>
