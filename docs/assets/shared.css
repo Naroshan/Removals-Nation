@@ -259,14 +259,12 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); paddi
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   .sticky-mobile { display: flex; }
   body { padding-bottom: 76px; }
-  .whatsapp-fab { right: 16px; bottom: 96px; width: 50px; height: 50px; }
+  /* .call-fab is hidden below 900px — the sticky bar's own "Call Now" button
+     already covers that CTA, so keeping both floating and duplicated on top
+     of the form fields just made mobile feel cluttered. */
+  .call-fab { display: none; }
+  .whatsapp-fab { right: 16px; bottom: 92px; width: 50px; height: 50px; }
   .whatsapp-fab svg { width: 25px; height: 25px; }
-  .call-fab { left: 12px; bottom: 96px; padding: 11px 14px; font-size: 0.72rem; gap: 6px; }
-  .call-fab svg { width: 16px; height: 16px; }
-}
-@media (max-width: 380px) {
-  .call-fab span { display: none; }
-  .call-fab { padding: 12px; border-radius: 50%; }
 }
 @media (max-width: 600px) {
   .footer-grid { grid-template-columns: 1fr; }
