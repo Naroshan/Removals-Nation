@@ -49,6 +49,13 @@
 .quote-card h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:4px}
 .form-sub{font-size:.82rem;color:var(--text-muted);margin-bottom:24px}
 .qrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
+.quote-estimate{background:rgba(244,88,10,.1);border:1px solid rgba(244,88,10,.3);
+  border-radius:12px;padding:14px 16px;margin-bottom:16px;text-align:center}
+.quote-estimate-label{display:block;font-size:.72rem;text-transform:uppercase;
+  letter-spacing:.05em;color:var(--text-muted);margin-bottom:4px}
+.quote-estimate-value{display:block;font-family:'Syne',sans-serif;font-size:1.6rem;
+  font-weight:800;color:var(--orange)}
+.quote-estimate-note{display:block;font-size:.72rem;color:var(--text-muted);margin-top:4px}
 .section{padding:70px 48px;max-width:1200px;margin:0 auto}
 .section-tag{display:inline-block;color:var(--orange);font-weight:700;font-size:.8rem;
   text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
@@ -134,6 +141,7 @@
 
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 <nav>
   <a href="../../index.html" class="logo">Removals<span>Nation</span></a>
   <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
@@ -141,8 +149,8 @@
   </button>
   <ul class="nav-links">
     <li class="nav-dropdown">
-      <button type="button" class="nav-dropdown-trigger">Services <span class="nav-caret">▾</span></button>
-      <div class="nav-dropdown-panel">
+      <button type="button" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="services-dropdown-panel">Services <span class="nav-caret">▾</span></button>
+      <div class="nav-dropdown-panel" id="services-dropdown-panel">
         <div class="nav-dropdown-inner">
           <a href="../../house-removals/index.html"><span>🏠</span>House Removals</a><a href="../../office-removals/index.html"><span>🏢</span>Office Removals</a><a href="../../man-and-van/index.html"><span>🚐</span>Man & Van</a><a href="../../storage/index.html"><span>📦</span>Storage</a><a href="../../packing-services/index.html"><span>📋</span>Packing Services</a><a href="../../same-day-removals/index.html"><span>⚡</span>Same Day Removals</a><a href="../../international-removals/index.html"><span>✈️</span>International Removals</a><a href="../../piano-removals/index.html"><span>🎹</span>Piano Removals</a>
         </div>
@@ -180,7 +188,7 @@
     <a href="tel:+447417355780" class="mobile-menu-tel">📞 +44 7417 355780</a>
   </div>
 </div>
-<main>
+<main id="main-content">
 <div class="content-block">
   <h1>Man and Van vs Full Removal Service: Which Do You Need?</h1>
   <p>Both are legitimate, commonly used options — the right one depends on
@@ -246,7 +254,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2025 RemovalsNation. All rights reserved.</span>
+    <span>© 2026 RemovalsNation. All rights reserved.</span>
     <span>Fully insured · Nationwide coverage</span>
   </div>
 </footer>
@@ -299,6 +307,98 @@
       else if (n === 1) { out.textContent = input.files[0].name; }
       else { out.textContent = n + ' photos selected'; }
     });
+  });
+})();
+(function(){
+  var dropdown = document.querySelector('.nav-dropdown');
+  var trigger = document.querySelector('.nav-dropdown-trigger');
+  if (!dropdown || !trigger) return;
+  function open() { trigger.setAttribute('aria-expanded', 'true'); }
+  function close() { trigger.setAttribute('aria-expanded', 'false'); }
+  dropdown.addEventListener('mouseenter', open);
+  dropdown.addEventListener('mouseleave', close);
+  dropdown.addEventListener('focusin', open);
+  dropdown.addEventListener('focusout', function(e) {
+    if (!dropdown.contains(e.relatedTarget)) close();
+  });
+})();
+</script>
+<script>
+var QUOTE_CALC_DATA = {"costTables": {"house-removals": {"fixed": false, "rows": [["Studio / 1 Bedroom", 300, 600, ""], ["2 Bedroom Property", 500, 900, ""], ["3 Bedroom Property", 700, 1200, ""], ["4+ Bedroom Property", 1000, 2000, "+"], ["Long Distance (200+ miles)", 200, 500, "add"]]}, "office-removals": {"fixed": false, "rows": [["Small Office (1–5 desks)", 400, 900, ""], ["Medium Office (5–20 desks)", 800, 2000, ""], ["Large Office (20+ desks)", 2000, 5000, "+"], ["IT Equipment Move", 200, 500, "add"]]}, "man-and-van": {"fixed": false, "rows": [["1 Man + Small Van (2hr)", 60, 120, ""], ["1 Man + Large Van (2hr)", 80, 150, ""], ["2 Men + Van (half day)", 150, 280, ""], ["2 Men + Van (full day)", 250, 450, ""]]}, "storage": {"fixed": false, "rows": [["Small Unit (25 sq ft)", 30, 60, "/mo"], ["Medium Unit (50 sq ft)", 60, 100, "/mo"], ["Large Unit (100 sq ft)", 100, 160, "/mo"], ["Container Storage", 80, 150, "/mo"]]}, "packing-services": {"fixed": false, "rows": [["Studio / 1 Bed", 150, 300, ""], ["2 Bedroom", 250, 450, ""], ["3 Bedroom", 350, 600, ""], ["4+ Bedroom", 500, 900, ""]]}, "same-day-removals": {"fixed": false, "rows": [["Single Item", 80, 180, ""], ["Small Load", 150, 280, ""], ["Half House Load", 280, 500, ""], ["Full House Load", 500, 900, ""]]}, "international-removals": {"fixed": true, "rows": [["Europe (1–2 bed)", "£1,500 – £3,500"], ["Europe (3–4 bed)", "£3,000 – £6,000"], ["USA / Canada", "£4,000 – £9,000"], ["Australia / NZ", "£5,000 – £12,000"]]}, "piano-removals": {"fixed": false, "rows": [["Upright Piano", 150, 350, ""], ["Grand Piano", 300, 700, ""], ["Upstairs / Stairs", 100, 200, "add"], ["Long Distance", 200, 500, "add"]]}}, "postcodeTiers": {"EC": 1.35, "WC": 1.35, "W": 1.28, "SW": 1.22, "NW": 1.18, "N": 1.18, "E": 1.18, "SE": 1.16, "BR": 1.16, "CR": 1.18, "DA": 1.12, "EN": 1.15, "HA": 1.18, "IG": 1.16, "KT": 1.18, "RM": 1.1, "SM": 1.16, "TW": 1.18, "UB": 1.16, "WD": 1.12, "GU": 1.12, "RH": 1.1, "SL": 1.1, "RG": 1.08, "AL": 1.12, "SG": 1.05, "HP": 1.08, "LU": 1.03, "MK": 1.02, "CM": 1.08, "SS": 1.05, "CO": 1.0, "ME": 1.08, "CT": 1.04, "TN": 1.08, "BN": 1.08, "OX": 1.08, "SO": 1.02, "PO": 1.02, "BH": 1.0, "SP": 0.98, "DT": 0.98, "CB": 1.05, "PE": 0.98, "NR": 0.98, "IP": 0.99, "B": 1.0, "CV": 0.99, "DY": 0.98, "WV": 0.97, "WS": 0.98, "ST": 0.96, "TF": 0.96, "SY": 0.96, "WR": 0.97, "HR": 0.95, "LE": 0.97, "NG": 0.96, "DE": 0.96, "LN": 0.95, "NN": 1.0, "BS": 0.99, "GL": 0.98, "SN": 0.98, "BA": 1.0, "TA": 0.96, "EX": 0.95, "PL": 0.94, "TQ": 0.94, "TR": 0.94, "M": 0.92, "OL": 0.91, "SK": 0.92, "WA": 0.92, "WN": 0.9, "BL": 0.9, "L": 0.9, "CH": 0.93, "PR": 0.9, "BB": 0.89, "FY": 0.89, "LA": 0.9, "CA": 0.9, "LS": 0.91, "BD": 0.9, "HX": 0.9, "HD": 0.9, "WF": 0.9, "S": 0.9, "DN": 0.89, "HU": 0.89, "YO": 0.92, "DL": 0.88, "DH": 0.88, "SR": 0.89, "NE": 0.89, "TS": 0.88, "G": 0.87, "EH": 0.87, "AB": 0.87, "DD": 0.87, "KY": 0.87, "FK": 0.87, "PA": 0.87, "ML": 0.87, "PH": 0.87, "IV": 0.87, "KA": 0.87, "DG": 0.87, "TD": 0.87, "ZE": 0.87, "KW": 0.87, "HS": 0.87, "CF": 0.87, "SA": 0.87, "NP": 0.87, "LD": 0.87, "LL": 0.87, "BT": 0.85}, "sizeLabels": {"house-removals": "Property Size", "office-removals": "Office Size", "man-and-van": "Load Size", "storage": "Unit Size", "packing-services": "Property Size", "same-day-removals": "Load Size", "international-removals": "Destination", "piano-removals": "Piano Type"}};
+(function(){
+  var forms = document.querySelectorAll('.quote-card form');
+  forms.forEach(function(form) {
+    var moveSelect = form.querySelector('[data-role="move-type"]');
+    var sizeSelect = form.querySelector('[data-role="size"]');
+    var sizeLabel = form.querySelector('[data-role="size-label"]');
+    var postcodeInput = form.querySelector('[data-role="from-postcode"]');
+    var estimateBox = form.querySelector('[data-role="estimate"]');
+    if (!moveSelect || !sizeSelect || !estimateBox) return;
+    var estimateValue = estimateBox.querySelector('[data-role="estimate-value"]');
+
+    function postcodeMultiplier(pc) {
+      var m = (pc || '').trim().toUpperCase().match(/^[A-Z]+/);
+      if (!m) return 1.0;
+      var area = m[0];
+      var tiers = QUOTE_CALC_DATA.postcodeTiers;
+      return tiers[area.slice(0, 2)] || tiers[area.slice(0, 1)] || 1.0;
+    }
+
+    function scale(n, mult) {
+      var step = n < 150 ? 5 : 10;
+      return Math.round((n * mult) / step) * step;
+    }
+
+    function fmt(n) {
+      return '£' + n.toLocaleString('en-GB');
+    }
+
+    function populateSizes() {
+      var svc = moveSelect.value;
+      var data = QUOTE_CALC_DATA.costTables[svc];
+      if (!data) return;
+      var prevValue = sizeSelect.value;
+      sizeSelect.innerHTML = '';
+      if (sizeLabel) sizeLabel.textContent = QUOTE_CALC_DATA.sizeLabels[svc] || 'Size';
+      data.rows.forEach(function(row) {
+        if (!data.fixed && row[3] === 'add') return;
+        var opt = document.createElement('option');
+        opt.value = row[0];
+        opt.textContent = row[0];
+        sizeSelect.appendChild(opt);
+      });
+      var match = Array.prototype.find.call(sizeSelect.options, function(o) { return o.value === prevValue; });
+      if (match) sizeSelect.value = prevValue;
+    }
+
+    function update() {
+      var svc = moveSelect.value;
+      var data = QUOTE_CALC_DATA.costTables[svc];
+      if (!data) return;
+      var row = data.rows.find(function(r) { return r[0] === sizeSelect.value; });
+      if (!row) return;
+      var text;
+      if (data.fixed) {
+        text = row[1];
+      } else {
+        var mult = postcodeMultiplier(postcodeInput ? postcodeInput.value : '');
+        var lo = scale(row[1], mult), hi = scale(row[2], mult);
+        var suffix = row[3];
+        if (suffix === '+') text = fmt(lo) + ' – ' + fmt(hi) + '+';
+        else if (suffix === '/mo') text = fmt(lo) + ' – ' + fmt(hi) + '/mo';
+        else if (suffix === 'add') text = 'Add ' + fmt(lo) + ' – ' + fmt(hi);
+        else text = fmt(lo) + ' – ' + fmt(hi);
+      }
+      if (estimateValue) estimateValue.textContent = text;
+      estimateBox.style.display = 'block';
+    }
+
+    moveSelect.addEventListener('change', function() { populateSizes(); update(); });
+    sizeSelect.addEventListener('change', update);
+    if (postcodeInput) postcodeInput.addEventListener('input', update);
+
+    populateSizes();
+    update();
   });
 })();
 </script>

@@ -47,6 +47,7 @@
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 <nav>
   <a href="./index.html" class="logo">Removals<span>Nation</span></a>
   <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
@@ -54,8 +55,8 @@
   </button>
   <ul class="nav-links">
     <li class="nav-dropdown">
-      <button type="button" class="nav-dropdown-trigger">Services <span class="nav-caret">▾</span></button>
-      <div class="nav-dropdown-panel">
+      <button type="button" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="services-dropdown-panel">Services <span class="nav-caret">▾</span></button>
+      <div class="nav-dropdown-panel" id="services-dropdown-panel">
         <div class="nav-dropdown-inner">
           <a href="./house-removals/index.html"><span>🏠</span>House Removals</a><a href="./office-removals/index.html"><span>🏢</span>Office Removals</a><a href="./man-and-van/index.html"><span>🚐</span>Man & Van</a><a href="./storage/index.html"><span>📦</span>Storage</a><a href="./packing-services/index.html"><span>📋</span>Packing Services</a><a href="./same-day-removals/index.html"><span>⚡</span>Same Day Removals</a><a href="./international-removals/index.html"><span>✈️</span>International Removals</a><a href="./piano-removals/index.html"><span>🎹</span>Piano Removals</a>
         </div>
@@ -93,7 +94,7 @@
     <a href="tel:+447417355780" class="mobile-menu-tel">📞 +44 7417 355780</a>
   </div>
 </div>
-<main>
+<main id="main-content">
 <div class="locs-hero">
   <div class="locs-count">📍 1253 Locations Covered</div>
   <h1>Removal Services Across the UK</h1>
@@ -373,7 +374,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2025 RemovalsNation. All rights reserved.</span>
+    <span>© 2026 RemovalsNation. All rights reserved.</span>
     <span>Fully insured · Nationwide coverage</span>
   </div>
 </footer>
@@ -426,6 +427,19 @@
       else if (n === 1) { out.textContent = input.files[0].name; }
       else { out.textContent = n + ' photos selected'; }
     });
+  });
+})();
+(function(){
+  var dropdown = document.querySelector('.nav-dropdown');
+  var trigger = document.querySelector('.nav-dropdown-trigger');
+  if (!dropdown || !trigger) return;
+  function open() { trigger.setAttribute('aria-expanded', 'true'); }
+  function close() { trigger.setAttribute('aria-expanded', 'false'); }
+  dropdown.addEventListener('mouseenter', open);
+  dropdown.addEventListener('mouseleave', close);
+  dropdown.addEventListener('focusin', open);
+  dropdown.addEventListener('focusout', function(e) {
+    if (!dropdown.contains(e.relatedTarget)) close();
   });
 })();
 </script>

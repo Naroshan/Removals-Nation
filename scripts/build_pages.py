@@ -13,7 +13,9 @@ Output goes to dist/  (mirrors the deployable site structure).
 
 import json
 import os
+import re
 import argparse
+import datetime
 from pathlib import Path
 from urllib.parse import quote as urlquote
 
@@ -95,8 +97,8 @@ def nav_html(root):
   </button>
   <ul class="nav-links">
     <li class="nav-dropdown">
-      <button type="button" class="nav-dropdown-trigger">Services <span class="nav-caret">▾</span></button>
-      <div class="nav-dropdown-panel">
+      <button type="button" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="services-dropdown-panel">Services <span class="nav-caret">▾</span></button>
+      <div class="nav-dropdown-panel" id="services-dropdown-panel">
         <div class="nav-dropdown-inner">
           {services_dropdown}
         </div>
@@ -172,7 +174,7 @@ def footer_html(root):
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2025 {SITE_NAME}. All rights reserved.</span>
+    <span>© {datetime.date.today().year} {SITE_NAME}. All rights reserved.</span>
     <span>Fully insured · Nationwide coverage</span>
   </div>
 </footer>"""
@@ -239,69 +241,21 @@ MENU_JS = """<script>
     });
   });
 })();
+(function(){
+  var dropdown = document.querySelector('.nav-dropdown');
+  var trigger = document.querySelector('.nav-dropdown-trigger');
+  if (!dropdown || !trigger) return;
+  function open() { trigger.setAttribute('aria-expanded', 'true'); }
+  function close() { trigger.setAttribute('aria-expanded', 'false'); }
+  dropdown.addEventListener('mouseenter', open);
+  dropdown.addEventListener('mouseleave', close);
+  dropdown.addEventListener('focusin', open);
+  dropdown.addEventListener('focusout', function(e) {
+    if (!dropdown.contains(e.relatedTarget)) close();
+  });
+})();
 </script>"""
 
-LOCATION_PAGE_CSS = """<style>
-.loc-hero{padding:120px 48px 70px}
-.loc-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1200px;margin:0 auto}
-.breadcrumb{font-size:.8rem;color:var(--text-muted);margin-bottom:20px}
-.breadcrumb a{color:var(--text-muted);text-decoration:none}.breadcrumb a:hover{color:#fff}
-.hero-badge{display:inline-block;background:rgba(244,88,10,.12);border:1px solid rgba(244,88,10,.3);
-  border-radius:100px;padding:5px 14px;font-size:.78rem;font-weight:700;
-  color:var(--orange-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px}
-.loc-hero h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3.2rem);
-  font-weight:800;letter-spacing:-.03em;line-height:1.08;margin-bottom:20px}
-.loc-hero p{font-size:1rem;color:var(--text-muted);line-height:1.7;margin-bottom:24px}
-.trust-pills{display:flex;gap:10px;flex-wrap:wrap}
-.trust-pills span{background:rgba(255,255,255,.05);border:1px solid var(--border);
-  border-radius:100px;padding:6px 14px;font-size:.78rem;color:var(--text-muted)}
-.quote-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:20px;padding:32px}
-.quote-card h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:4px}
-.form-sub{font-size:.82rem;color:var(--text-muted);margin-bottom:24px}
-.qrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
-.loc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-  background:var(--border);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.stat-i{background:var(--navy);padding:28px;text-align:center}
-.stat-n{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--orange)}
-.stat-l{font-size:.78rem;color:var(--text-muted);margin-top:6px}
-.loc-content{display:grid;grid-template-columns:1fr 300px;gap:48px;
-  padding:70px 48px;max-width:1200px;margin:0 auto}
-.content-main h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin:32px 0 14px}
-.content-main h2:first-child{margin-top:0}
-.content-main p{font-size:.93rem;line-height:1.8;color:rgba(255,255,255,.8);margin-bottom:14px}
-.cost-table{background:var(--navy-mid);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.cost-row{display:flex;justify-content:space-between;padding:13px 18px;
-  border-bottom:1px solid var(--border);font-size:.88rem}
-.cost-row:last-child{border-bottom:none}
-.cost-row span:last-child{font-weight:700;color:var(--orange)}
-.faqs{margin-top:8px}
-.faq{border-bottom:1px solid var(--border);padding:18px 0}
-.faq:last-child{border-bottom:none}
-.faq-q{font-family:'Syne',sans-serif;font-weight:700;font-size:.93rem;margin-bottom:8px}
-.faq-a{font-size:.86rem;color:var(--text-muted);line-height:1.7}
-.sidebar-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:14px;padding:22px}
-.sidebar-card h3{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:14px}
-.sidebar-link{display:flex;align-items:center;gap:10px;text-decoration:none;
-  color:rgba(255,255,255,.7);font-size:.85rem;padding:9px 0;
-  border-bottom:1px solid var(--border);transition:color .2s}
-.sidebar-link:last-child{border-bottom:none}
-.sidebar-link:hover{color:#fff}
-@media(max-width:900px){
-  .loc-hero{padding:90px 24px 40px}
-  .loc-inner{grid-template-columns:1fr}
-  .loc-stats{grid-template-columns:repeat(2,1fr)}
-  .loc-content{grid-template-columns:1fr;padding:40px 24px}
-}
-@media(max-width:420px){
-  .qrow{grid-template-columns:1fr}
-}
-@media(min-width:901px) and (max-width:1200px){
-  /* .loc-inner is 2-column here but not wide enough for the quote-card's
-     own 2-column fields — text was truncating ("House Remo…", "Destinatio…").
-     Stack the fields instead of shrinking the whole layout. */
-  .qrow{grid-template-columns:1fr}
-}
-</style>"""
 
 
 # ── Cost tables per service ────────────────────────────────────────────────────
@@ -413,6 +367,70 @@ def region_price_multiplier(region):
     return REGION_PRICE_TIERS.get(region, 1.0)
 
 
+# Postcode-area multipliers for pages with no fixed location (homepage, M25
+# page, service landing pages) — the live quote calculator on those pages
+# only has a free-text postcode to work with, so it maps the postcode's
+# leading letters (its "area", e.g. "SW", "M", "BT") straight to a
+# multiplier using the same tiering logic as REGION_PRICE_TIERS, rather than
+# going through the region system built for known locations. Not exhaustive
+# — postcode areas covering only a handful of small towns are omitted and
+# fall back to the UK-average 1.0 multiplier, same graceful degradation as
+# an unmapped region.
+POSTCODE_AREA_TIERS = {
+    # Central London
+    "EC": 1.35, "WC": 1.35,
+    # Rest of Greater London
+    "W": 1.28, "SW": 1.22, "NW": 1.18, "N": 1.18, "E": 1.18, "SE": 1.16,
+    # Outer London / M25 fringe
+    "BR": 1.16, "CR": 1.18, "DA": 1.12, "EN": 1.15, "HA": 1.18, "IG": 1.16,
+    "KT": 1.18, "RM": 1.10, "SM": 1.16, "TW": 1.18, "UB": 1.16, "WD": 1.12,
+    # Surrey / Berkshire / Hertfordshire commuter belt
+    "GU": 1.12, "RH": 1.10, "SL": 1.10, "RG": 1.08, "AL": 1.12, "SG": 1.05,
+    "HP": 1.08, "LU": 1.03, "MK": 1.02,
+    # Essex / Kent / Sussex
+    "CM": 1.08, "SS": 1.05, "CO": 1.00, "ME": 1.08, "CT": 1.04, "TN": 1.08,
+    "BN": 1.08,
+    # Wider South / South East
+    "OX": 1.08, "SO": 1.02, "PO": 1.02, "BH": 1.00, "SP": 0.98, "DT": 0.98,
+    # East of England
+    "CB": 1.05, "PE": 0.98, "NR": 0.98, "IP": 0.99,
+    # Midlands
+    "B": 1.00, "CV": 0.99, "DY": 0.98, "WV": 0.97, "WS": 0.98, "ST": 0.96,
+    "TF": 0.96, "SY": 0.96, "WR": 0.97, "HR": 0.95, "LE": 0.97, "NG": 0.96,
+    "DE": 0.96, "LN": 0.95, "NN": 1.00,
+    # South West
+    "BS": 0.99, "GL": 0.98, "SN": 0.98, "BA": 1.00, "TA": 0.96, "EX": 0.95,
+    "PL": 0.94, "TQ": 0.94, "TR": 0.94,
+    # North of England
+    "M": 0.92, "OL": 0.91, "SK": 0.92, "WA": 0.92, "WN": 0.90, "BL": 0.90,
+    "L": 0.90, "CH": 0.93, "PR": 0.90, "BB": 0.89, "FY": 0.89, "LA": 0.90,
+    "CA": 0.90, "LS": 0.91, "BD": 0.90, "HX": 0.90, "HD": 0.90, "WF": 0.90,
+    "S": 0.90, "DN": 0.89, "HU": 0.89, "YO": 0.92, "DL": 0.88, "DH": 0.88,
+    "SR": 0.89, "NE": 0.89, "TS": 0.88,
+    # Scotland
+    "G": 0.87, "EH": 0.87, "AB": 0.87, "DD": 0.87, "KY": 0.87, "FK": 0.87,
+    "PA": 0.87, "ML": 0.87, "PH": 0.87, "IV": 0.87, "KA": 0.87, "DG": 0.87,
+    "TD": 0.87, "ZE": 0.87, "KW": 0.87, "HS": 0.87,
+    # Wales
+    "CF": 0.87, "SA": 0.87, "NP": 0.87, "LD": 0.87, "LL": 0.87,
+    # Northern Ireland
+    "BT": 0.85,
+}
+
+
+def postcode_price_multiplier(postcode):
+    """Extract the leading letters (postcode area) from free-text input and
+    look up its multiplier, falling back to the UK-average 1.0."""
+    match = re.match(r"[A-Za-z]+", (postcode or "").strip())
+    if not match:
+        return 1.0
+    area = match.group(0).upper()
+    # Try the full 2-letter area first (e.g. "EC"), then the 1-letter
+    # fallback (e.g. area "ECB" doesn't exist, but this keeps the lookup
+    # order correct for genuinely single-letter areas like "M" or "B").
+    return POSTCODE_AREA_TIERS.get(area[:2], POSTCODE_AREA_TIERS.get(area[:1], 1.0))
+
+
 def _scale(n, mult):
     """Scale a base price by the regional multiplier, rounding to a clean
     number (nearest £5 under £150, nearest £10 above) so the result still
@@ -479,6 +497,58 @@ def area_profile(region):
     if region in DEVOLVED_REGIONS:
         return "devolved"
     return "rural-regional"
+
+
+def build_intro_html(svc_name, loc_name, region, county, postcode):
+    """Profile-aware 'Why Choose Us' copy — same five area profiles as the
+    FAQs, so the two genuinely different-content blocks on the page (pricing
+    context aside) aren't both running off the same underlying logic twice."""
+    svc = svc_name.lower()
+    profile = area_profile(region)
+
+    if profile == "london":
+        return f"""<p>{SITE_NAME} is a London removal company serving {loc_name} and the
+       wider {region} area. Narrow streets, permit parking and lift access are
+       part of daily life here — our teams plan for it rather than treat it
+       as a surprise on moving day.</p>
+    <p>Whether you're moving locally within {loc_name} or relocating further
+       afield, our {svc} teams are fully insured and ready to help. We cover
+       all postcodes in the {postcode} area.</p>"""
+
+    if profile == "commuter-belt":
+        return f"""<p>{SITE_NAME} regularly serves {loc_name} and the wider {county}
+       commuter belt, including moves in and out of London. Our fully insured
+       teams handle everything from a straightforward local move to a longer
+       relocation across {region}.</p>
+    <p>Whether you're moving locally within {loc_name} or relocating further
+       afield, our {svc} teams are ready to help. We cover all postcodes in
+       the {postcode} area.</p>"""
+
+    if profile == "city-urban":
+        return f"""<p>{SITE_NAME} is a nationwide removal company with regular {svc}
+       experience across {loc_name} and the wider {county} area — from
+       city-centre flats to family homes further out.</p>
+    <p>Whether you're moving locally within {loc_name} or relocating further
+       afield, our fully insured {svc} teams are ready to help. We cover all
+       postcodes in the {postcode} area.</p>"""
+
+    if profile == "devolved":
+        return f"""<p>{SITE_NAME} is a nationwide removal company serving {loc_name} and
+       all of {region}, including cross-border moves to and from the rest of
+       the UK. Our experienced, fully insured teams handle every aspect of
+       your move with care and efficiency.</p>
+    <p>Whether you're moving locally within {loc_name} or relocating further
+       afield, our {svc} teams are ready to help. We cover all postcodes in
+       the {postcode} area.</p>"""
+
+    # rural-regional
+    return f"""<p>{SITE_NAME} is a nationwide removal company serving {loc_name} and all
+       of {county}, including villages and rural addresses beyond the town
+       centre. Our experienced, fully insured teams handle every aspect of
+       your move with care and efficiency.</p>
+    <p>Whether you're moving locally within {loc_name} or relocating further
+       afield, our {svc} teams are ready to help. We cover all postcodes in
+       the {postcode} area.</p>"""
 
 
 def build_faqs(svc_name, loc_name, region, county):
@@ -813,12 +883,12 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
 {gtag_html()}
 {seo_html(canonical_path, title, description, root)}
 {location_jsonld(svc_slug, svc_name, name, region, county, postcode, faqs, canonical)}
-{LOCATION_PAGE_CSS}
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 {nav_html(root)}
 {mobile_menu_html(root)}
-<main>
+<main id="main-content">
 <section class="loc-hero">
   <div class="loc-inner">
     <div>
@@ -853,10 +923,7 @@ def build_location_page(svc_slug, svc_name, svc_icon, loc, dist_dir):
 <div class="loc-content">
   <div class="content-main">
     <h2>Why Choose {SITE_NAME} for {svc_name} in {name}?</h2>
-    <p>{SITE_NAME} is a professional nationwide removal company serving {name} and all of {county}.
-       Our experienced, fully insured teams handle every aspect of your move with care and efficiency.</p>
-    <p>Whether you're moving locally within {name} or relocating further afield, our {svc_name.lower()}
-       teams are ready to help. We cover all postcodes in the {postcode} area.</p>
+    {build_intro_html(svc_name, name, region, county, postcode)}
     <h2>{svc_name} Costs in {name}</h2>
     {cost_table_html(svc_slug, price_mult)}
     <p style="font-size:.8rem;color:var(--text-muted);margin-top:10px">
@@ -980,9 +1047,10 @@ def build_locations_page(locations, dist_dir):
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 {nav_html(root)}
 {mobile_menu_html(root)}
-<main>
+<main id="main-content">
 <div class="locs-hero">
   <div class="locs-count">📍 {total} Locations Covered</div>
   <h1>Removal Services Across the UK</h1>

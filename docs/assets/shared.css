@@ -13,6 +13,16 @@
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: var(--white); overflow-x: hidden; }
 
+/* ── ACCESSIBILITY ── */
+.skip-link {
+  position: absolute; top: -100px; left: 12px; z-index: 999;
+  background: var(--orange-cta); color: var(--white);
+  padding: 10px 18px; border-radius: 8px;
+  font-weight: 700; font-size: .85rem; text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 12px; }
+
 /* ── NAV ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
@@ -198,8 +208,12 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); paddi
 .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
 .form-group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .form-group label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+.form-group-heading { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
 .form-group select, .form-group input, .form-group textarea { width: 100%; background: var(--navy-light); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
-.form-group select:focus, .form-group input:focus { border-color: var(--orange); }
+.form-group select:focus, .form-group input:focus, .form-group textarea:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(244,88,10,.25);
+}
 .form-group select option { background: var(--navy-mid); }
 
 /* ── PHOTO UPLOAD DROPZONE (quote forms) ── */
@@ -289,3 +303,60 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--border); paddi
 
 /* ── HAMBURGER JS TOGGLE ── */
 body.menu-open { overflow: hidden; }
+
+/* ── LOCATION PAGES ──
+   Moved here from an inline <style> block that was previously duplicated in
+   the <head> of all 10,000+ location pages (~2KB x every page). Loading it
+   once via this already-linked, cacheable stylesheet instead saves
+   redundant transfer site-wide and helps Core Web Vitals. */
+.loc-hero { padding: 120px 48px 70px; }
+.loc-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; max-width: 1200px; margin: 0 auto; }
+.breadcrumb { font-size: .8rem; color: var(--text-muted); margin-bottom: 20px; }
+.breadcrumb a { color: var(--text-muted); text-decoration: none; }
+.breadcrumb a:hover { color: #fff; }
+.hero-badge { display: inline-block; background: rgba(244,88,10,.12); border: 1px solid rgba(244,88,10,.3); border-radius: 100px; padding: 5px 14px; font-size: .78rem; font-weight: 700; color: var(--orange-light); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 20px; }
+.loc-hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.08; margin-bottom: 20px; }
+.loc-hero p { font-size: 1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+.trust-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+.trust-pills span { background: rgba(255,255,255,.05); border: 1px solid var(--border); border-radius: 100px; padding: 6px 14px; font-size: .78rem; color: var(--text-muted); }
+.quote-card { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 20px; padding: 32px; }
+.quote-card h2 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+.form-sub { font-size: .82rem; color: var(--text-muted); margin-bottom: 24px; }
+.qrow { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; margin-bottom: 12px; }
+.loc-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.stat-i { background: var(--navy); padding: 28px; text-align: center; }
+.stat-n { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--orange); }
+.stat-l { font-size: .78rem; color: var(--text-muted); margin-top: 6px; }
+.loc-content { display: grid; grid-template-columns: 1fr 300px; gap: 48px; padding: 70px 48px; max-width: 1200px; margin: 0 auto; }
+.content-main h2 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin: 32px 0 14px; }
+.content-main h2:first-child { margin-top: 0; }
+.content-main p { font-size: .93rem; line-height: 1.8; color: rgba(255,255,255,.8); margin-bottom: 14px; }
+.cost-table { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.cost-row { display: flex; justify-content: space-between; padding: 13px 18px; border-bottom: 1px solid var(--border); font-size: .88rem; }
+.cost-row:last-child { border-bottom: none; }
+.cost-row span:last-child { font-weight: 700; color: var(--orange); }
+.faqs { margin-top: 8px; }
+.faq { border-bottom: 1px solid var(--border); padding: 18px 0; }
+.faq:last-child { border-bottom: none; }
+.faq-q { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .93rem; margin-bottom: 8px; }
+.faq-a { font-size: .86rem; color: var(--text-muted); line-height: 1.7; }
+.sidebar-card { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+.sidebar-card h3 { font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: 14px; }
+.sidebar-link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: rgba(255,255,255,.7); font-size: .85rem; padding: 9px 0; border-bottom: 1px solid var(--border); transition: color .2s; }
+.sidebar-link:last-child { border-bottom: none; }
+.sidebar-link:hover { color: #fff; }
+@media (max-width: 900px) {
+  .loc-hero { padding: 90px 24px 40px; }
+  .loc-inner { grid-template-columns: 1fr; }
+  .loc-stats { grid-template-columns: repeat(2,1fr); }
+  .loc-content { grid-template-columns: 1fr; padding: 40px 24px; }
+}
+@media (max-width: 420px) {
+  .qrow { grid-template-columns: 1fr; }
+}
+@media (min-width: 901px) and (max-width: 1200px) {
+  /* .loc-inner is 2-column here but not wide enough for the quote-card's
+     own 2-column fields — text was truncating ("House Remo…", "Destinatio…").
+     Stack the fields instead of shrinking the whole layout. */
+  .qrow { grid-template-columns: 1fr; }
+}
