@@ -484,10 +484,24 @@ CITY_URBAN_REGIONS = {
     "West Midlands", "Greater Manchester", "Merseyside",
     "West Yorkshire", "South Yorkshire", "Tyne and Wear",
 }
+# Standalone major cities whose county/region is otherwise a mostly-rural
+# area (e.g. Nottingham sits in Nottinghamshire alongside dozens of small
+# market towns and villages) — region-level classification alone would file
+# these under "rural-regional" and generate FAQs about narrow country lanes
+# and village addresses, which reads as obviously wrong for a city of this
+# size. Checked by location name instead of region so the surrounding
+# smaller towns in the same county still get the rural-regional profile
+# they actually match.
+CITY_URBAN_NAMES = {
+    "Bristol", "Leicester", "Nottingham", "Derby", "Stoke-on-Trent",
+    "Hull", "Norwich", "Plymouth",
+}
 DEVOLVED_REGIONS = {"Scotland": "Scotland", "Wales": "Wales", "Northern Ireland": "Northern Ireland"}
 
 
-def area_profile(region):
+def area_profile(region, loc_name=None):
+    if loc_name in CITY_URBAN_NAMES:
+        return "city-urban"
     if region in LONDON_REGIONS:
         return "london"
     if region in COMMUTER_BELT_REGIONS:
@@ -504,7 +518,7 @@ def build_intro_html(svc_name, loc_name, region, county, postcode):
     FAQs, so the two genuinely different-content blocks on the page (pricing
     context aside) aren't both running off the same underlying logic twice."""
     svc = svc_name.lower()
-    profile = area_profile(region)
+    profile = area_profile(region, loc_name)
 
     if profile == "london":
         return f"""<p>{SITE_NAME} is a London removal company serving {loc_name} and the
@@ -553,7 +567,7 @@ def build_intro_html(svc_name, loc_name, region, county, postcode):
 
 def build_faqs(svc_name, loc_name, region, county):
     svc = svc_name.lower()
-    profile = area_profile(region)
+    profile = area_profile(region, loc_name)
 
     if profile == "london":
         return [

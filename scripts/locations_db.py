@@ -574,7 +574,7 @@ ALL_LOCATIONS = [
     ("Nailsea","Somerset","Somerset","BS48","nailsea"),
     ("Cheddar","Somerset","Somerset","BS27","cheddar"),
     # ── GLOUCESTERSHIRE ───────────────────────────────────────────────────────
-    ("Bristol","Gloucestershire","Bristol","BS1","bristol"),
+    ("Bristol","Gloucestershire","South West England","BS1","bristol"),
     ("Cheltenham","Gloucestershire","Gloucestershire","GL50","cheltenham"),
     ("Gloucester","Gloucestershire","Gloucestershire","GL1","gloucester"),
     ("Stroud","Gloucestershire","Gloucestershire","GL5","stroud"),
