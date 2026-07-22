@@ -64,6 +64,26 @@ def gtag_html():
 </script>"""
 
 
+# Google Ads "Submit lead form(RN)" conversion action, page-load type — the
+# label came straight from Google Ads (Conversions > Submit lead form(RN) >
+# Tag setup > Use Google tag). Fires once per thank-you.html page load,
+# which every quote form and the contact form redirect to on a successful
+# Formspree submission (see the _next hidden field on each form), so this
+# single placement covers every lead source without per-form wiring.
+CONVERSION_SEND_TO = "AW-18109980077/up4sCM_Cm9QcEK27wbtD"
+
+
+def conversion_event_html(value=1.0, currency="GBP"):
+    return f"""<!-- Event snippet for Submit lead form(RN) conversion page -->
+<script>
+  gtag('event', 'conversion', {{
+      'send_to': '{CONVERSION_SEND_TO}',
+      'value': {value},
+      'currency': '{currency}'
+  }});
+</script>"""
+
+
 def seo_html(canonical_path, title, description, root, noindex=False):
     """Canonical link + Open Graph / Twitter Card tags, shared by every page.
     canonical_path is site-relative with no leading slash ("" for home,

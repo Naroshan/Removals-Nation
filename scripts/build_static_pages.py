@@ -19,7 +19,7 @@ from build_pages import (
     SERVICES, nav_html, mobile_menu_html, footer_html, MENU_JS,
     cost_table_html, favicon_html, gtag_html, seo_html, organization_jsonld, jsonld_html,
     whatsapp_fab_html, call_fab_html, faq_html, quote_contact_and_photos_html,
-    COST_TABLES_BASE, POSTCODE_AREA_TIERS,
+    COST_TABLES_BASE, POSTCODE_AREA_TIERS, conversion_event_html,
 )
 
 M25_REGIONS = [
@@ -352,7 +352,7 @@ var QUOTE_CALC_DATA = {json.dumps(data, ensure_ascii=False)};
 </script>"""
 
 
-def page_shell(root, title, description, body, extra_css="", canonical_path="", noindex=False, jsonld=""):
+def page_shell(root, title, description, body, extra_css="", canonical_path="", noindex=False, jsonld="", conversion=""):
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -365,6 +365,7 @@ def page_shell(root, title, description, body, extra_css="", canonical_path="", 
 <link rel="stylesheet" href="{root}assets/shared.css">
 {favicon_html(root)}
 {gtag_html()}
+{conversion}
 {seo_html(canonical_path, title, description, root, noindex=noindex)}
 {jsonld}
 {PAGE_CSS}
@@ -661,7 +662,8 @@ def build_thank_you(dist_dir):
     (Path(dist_dir) / "thank-you.html").write_text(
         page_shell(root, f"Thank You | {SITE_NAME}",
                    "Thank you for your enquiry — we'll be in touch shortly.", body,
-                   canonical_path="thank-you.html", noindex=True),
+                   canonical_path="thank-you.html", noindex=True,
+                   conversion=conversion_event_html()),
         encoding="utf-8",
     )
 
