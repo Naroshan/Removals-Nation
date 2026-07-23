@@ -595,7 +595,6 @@ ALL_LOCATIONS = [
     ("Bradley Stoke","Gloucestershire","Gloucestershire","BS32","bradley-stoke"),
     ("Patchway","Gloucestershire","Gloucestershire","BS34","patchway"),
     ("Westbury on Trym","Gloucestershire","Gloucestershire","BS9","westbury-on-trym"),
-    ("Portishead","Gloucestershire","Gloucestershire","BS20","portishead-glos"),
     # ── DEVON ─────────────────────────────────────────────────────────────────
     ("Exeter","Devon","Devon","EX1","exeter"),
     ("Plymouth","Devon","Devon","PL1","plymouth"),

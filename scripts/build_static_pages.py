@@ -842,7 +842,7 @@ BLOG_POSTS = [
     ),
     (
         "moving-to-london-parking-permits-and-ulez",
-        "Moving to London: Parking Permits, ULEZ and What You Need to Know",
+        "Moving to London: Parking Permits and ULEZ Explained",
         "Controlled parking zones, ULEZ charges, and flat access — the extra logistics that catch people out on a London move.",
         f"""<p>Moving within or into London involves a few extra considerations that
      don't come up with moves elsewhere in the country. None of them are
@@ -882,7 +882,7 @@ BLOG_POSTS = [
     ),
     (
         "office-relocation-checklist",
-        "Office Relocation Checklist: How to Move Your Business Without Downtime",
+        "Office Relocation Checklist: Moving Without Downtime",
         "A practical timeline for relocating your office with minimal disruption to staff, clients, and IT systems.",
         f"""<p>An office move carries a different kind of risk than a house move —
      the cost isn't just the move itself, it's every hour your team can't
@@ -987,7 +987,7 @@ BLOG_POSTS = [
     ),
     (
         "storage-guide-between-moves",
-        "Self Storage vs Moving Straight In: A Guide for Gaps Between Moves",
+        "Self Storage vs Moving Straight In: A Quick Guide",
         "What to consider when there's a gap between moving out and moving in, and how to decide what's worth storing.",
         f"""<p>Not every move goes straight from one front door to another. Chain
      breaks, gaps between tenancies, renovations, and downsizing all create
@@ -1047,11 +1047,19 @@ def build_blog(dist_dir):
         encoding="utf-8",
     )
 
-    for slug, title, desc, content in BLOG_POSTS:
+    for i, (slug, title, desc, content) in enumerate(BLOG_POSTS):
         post_root = "../../"
+        others = [p for j, p in enumerate(BLOG_POSTS) if j != i]
+        related = [others[(i) % len(others)], others[(i + 1) % len(others)]]
+        related_html = "".join(
+            f'<a href="../{r_slug}/index.html" class="blog-card"><h3>{r_title}</h3><p>{r_desc}</p></a>'
+            for r_slug, r_title, r_desc, _ in related
+        )
         post_body = f"""<div class="content-block">
   <h1>{title}</h1>
   {content}
+  <h2>Related Articles</h2>
+  <div class="blog-grid">{related_html}</div>
 </div>"""
         post_dir = out_dir / slug
         post_dir.mkdir(parents=True, exist_ok=True)
