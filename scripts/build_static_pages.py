@@ -391,8 +391,17 @@ def page_shell(root, title, description, body, extra_css="", canonical_path="", 
 </html>"""
 
 
-def booking_form_html(root):
-    default_size_rows = [r for r in COST_TABLES_BASE["house-removals"] if r[3] != "add"]
+def booking_form_html(root, default_service="house-removals"):
+    """default_service pre-selects the Move Type dropdown to match the page
+    it's embedded on (e.g. "packing-services" on the packing services landing
+    page) — otherwise it always defaulted to House Removals regardless of
+    context, which meant the live estimate box showed House Removals pricing
+    even on other services' pages. The size options and estimate recalculate
+    correctly either way (quote_calculator_js() re-reads the select's value
+    on load), but the *initial* selected option still needs to be right so
+    the first thing a visitor sees isn't the wrong service and price."""
+    default_rows = COST_TABLES_BASE.get(default_service, COST_TABLES_BASE["house-removals"])
+    default_size_rows = [r for r in default_rows if len(r) == 2 or r[3] != "add"]
     default_size_options = "".join(f"<option>{r[0]}</option>" for r in default_size_rows)
     return f"""<div class="quote-card" id="quote">
   <h2>Get an Instant Quote</h2>
@@ -402,7 +411,7 @@ def booking_form_html(root):
       <div class="form-group">
         <label for="f-move-type">Move Type</label>
         <select id="f-move-type" name="move_type" data-role="move-type">
-          {"".join(f'<option value="{slug}">{name}</option>' for slug, name, _ in SERVICES)}
+          {"".join(f'<option value="{slug}"{" selected" if slug == default_service else ""}>{name}</option>' for slug, name, _ in SERVICES)}
         </select>
       </div>
       <div class="form-group">
@@ -1125,7 +1134,7 @@ def build_man_and_van_page(dist_dir):
     </a>
     {hero_stats_html([("4.8★", "Average rating"), ("60 Sec", "Online booking"), ("Nationwide", "Coverage")])}
   </div>
-  {booking_form_html(root)}
+  {booking_form_html(root, default_service="man-and-van")}
 </section>
 <section class="section">
   <div class="section-tag">How It Works</div>
@@ -1198,7 +1207,7 @@ def build_service_pages(dist_dir):
     </div>
     {hero_stats_html([("4.8★", "Average rating"), ("1,700+", "UK locations"), ("Fully", "Insured teams")])}
   </div>
-  {booking_form_html(root)}
+  {booking_form_html(root, default_service=slug)}
 </section>
 <section class="section">
   <div class="section-tag">Pricing</div>
