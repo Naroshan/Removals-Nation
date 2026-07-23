@@ -70,6 +70,18 @@ CONTACT_FAQS = [
         "We cover 1,700+ towns and cities across England, Scotland, Wales and "
         "Northern Ireland. Check the full list on our locations page, or just ask.",
     ),
+    (
+        "What information should I include when I get in touch?",
+        "Your moving dates (or roughly when you're planning to move), the "
+        "postcodes you're moving from and to, and a rough idea of property "
+        "size — that's enough for us to give you an accurate first estimate.",
+    ),
+    (
+        "Can I speak to someone by phone instead of using the form?",
+        f"Yes — call us on {PHONE} and we can take your details and give you "
+        "a quote over the phone, which is often quicker for urgent or "
+        "same-day enquiries.",
+    ),
 ]
 
 def hero_stats_html(stats):
@@ -562,7 +574,10 @@ def build_contact(dist_dir):
   <div class="contact-info">
     <h1>Get in Touch</h1>
     <p>Questions about a move, a quote, or an existing booking? Our team is
-       available 7 days a week.</p>
+       available 7 days a week. Whether you're after a ballpark price, need to
+       change a confirmed booking, or just want to check we cover your area,
+       the fastest way to reach us is by phone — or send your details below
+       and we'll get back to you within a few hours.</p>
     <div class="contact-detail">📞 <a href="{PHONE_HREF}" style="color:#fff;text-decoration:none">{PHONE}</a></div>
     <div class="contact-detail">📍 Nationwide coverage across the UK</div>
     <div class="contact-detail">🕐 7 days a week</div>
@@ -777,6 +792,20 @@ BLOG_POSTS = [
      parking, lift availability), and any additional services such as packing
      or temporary storage. Booking early and being flexible on moving dates can
      also help reduce cost.</p>
+  <h2>Man and Van vs Full Removal Service</h2>
+  <p>For smaller loads — a studio flat, a one-bedroom move, or just a handful
+     of large items — a man and van booking charged by the hour is usually
+     the cheaper option. Once you're moving a full two or three-bedroom
+     property, a fixed-price full removal service tends to work out more
+     cost-effective than paying hourly for a job that simply takes a full
+     crew longer to complete.</p>
+  <h2>Ways to Reduce Your Removal Costs</h2>
+  <ul>
+    <li>Book on a weekday rather than a weekend, where availability allows</li>
+    <li>Declutter before you move — fewer items means a smaller van and less time loading</li>
+    <li>Pack yourself where you can, and use professional packing only for fragile or valuable items</li>
+    <li>Book a few weeks ahead rather than last-minute, where possible</li>
+  </ul>
   <p>For an accurate, instant price, use the quote form on any
      <a href="../../index.html" style="color:var(--orange)">{SITE_NAME}</a> page.</p>""",
     ),
@@ -784,8 +813,13 @@ BLOG_POSTS = [
         "moving-house-checklist",
         "The Complete Moving House Checklist",
         "Everything you need to do before, during, and after moving day.",
-        f"""<p>Moving house involves a lot of moving parts. Use this checklist to stay
-     organised from booking to unpacking.</p>
+        f"""<p>Moving house involves a lot of moving parts, and most of the stress
+     people report afterwards comes from something left too late — a
+     forgotten address change, a parking permit not applied for, an
+     essentials box that ended up sealed in the van. Working through a
+     checklist over the weeks before your move, rather than trying to do it
+     all in the final few days, is the single biggest thing you can do to
+     keep moving day calm.</p>
   <h2>4–6 Weeks Before</h2>
   <ul>
     <li>Book your removal company</li>
@@ -804,8 +838,17 @@ BLOG_POSTS = [
     <li>Do a final walkthrough of your old property</li>
     <li>Check inventory as items are loaded and unloaded</li>
   </ul>
+  <h2>The Week After</h2>
+  <p>Give yourself permission to unpack gradually rather than in one exhausting
+     day — get the kitchen and bedrooms functional first, then work through
+     everything else at a pace that doesn't leave you more drained than the
+     move itself. Register with a local GP and dentist, update your address
+     with your bank and DVLA if you haven't already, and keep hold of moving
+     boxes for a few weeks in case anything needs returning or reshuffling.</p>
   <p>Ready to book? Get an instant quote on our
-     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+     <a href="../../index.html" style="color:var(--orange)">home page</a>, or
+     see room-by-room packing advice in our
+     <a href="../packing-tips-for-a-stress-free-move/index.html" style="color:var(--orange)">packing tips guide</a>.</p>""",
     ),
     (
         "packing-tips-for-a-stress-free-move",
@@ -1189,6 +1232,138 @@ def build_man_and_van_page(dist_dir):
     print("✅  Man & Van on-demand page built")
 
 
+SERVICE_LANDING_COPY = {
+    "house-removals": (
+        "Whether you're moving a studio flat or a five-bedroom family home, our "
+        "house removals teams handle the packing, loading and transport end to "
+        "end — so moving day is one less thing to worry about. Every crew is "
+        "fully insured and trained to protect flooring, doorframes and furniture "
+        "on the way out and the way in.",
+        [
+            ("How far in advance should I book house removals?",
+             "2–4 weeks' notice gives you the best choice of dates, though "
+             "we can often accommodate shorter notice depending on availability."),
+            ("Do you dismantle and reassemble furniture?",
+             "Yes — flat-pack furniture, beds and wardrobes are dismantled for "
+             "transport and reassembled at your new home as part of the service."),
+            ("Is my furniture insured during the move?",
+             "Yes, every house removal is covered by goods-in-transit insurance "
+             "as standard, at no extra cost."),
+        ],
+    ),
+    "office-removals": (
+        "Office relocations run on a different clock to house moves — every "
+        "hour your team can't work is a cost. We plan around your business "
+        "hours where possible, handle IT equipment and cabling with care, and "
+        "get desks and equipment straight to the right spot in your new office "
+        "so you're back up and running fast.",
+        [
+            ("Can you move us outside business hours?",
+             "Yes — evening and weekend office moves are available to keep "
+             "disruption to staff and clients to a minimum."),
+            ("Do you handle IT equipment and servers?",
+             "We can move desktops, monitors and general office equipment; for "
+             "servers and sensitive infrastructure we work alongside your IT "
+             "provider to coordinate disconnection and reconnection."),
+            ("How much notice do you need for an office move?",
+             "2–3 weeks is typical so we can plan crew size, vehicle access "
+             "and building lift bookings at both ends."),
+        ],
+    ),
+    "storage": (
+        "Not every move goes straight from one door to another. Our storage "
+        "service bridges the gap when there's a chain break, a renovation, or "
+        "simply more to move than fits in the new place right away — with "
+        "secure, insured storage for as little or as long as you need.",
+        [
+            ("How long can I store items for?",
+             "As long as you need — from a few days between moves to several "
+             "months, billed flexibly rather than on a fixed long-term contract."),
+            ("Is my stored property insured?",
+             "Yes, items in storage are covered for the duration of their stay."),
+            ("Can you collect items for storage and deliver them later?",
+             "Yes — we can collect from your current property, store your "
+             "items, and deliver to your new address whenever you're ready."),
+        ],
+    ),
+    "packing-services": (
+        "Packing is the part of moving day that eats the most time — and the "
+        "part most likely to end in something chipped or scratched if it's "
+        "rushed. Our packing teams use proper materials and techniques for "
+        "fragile items, electronics and furniture, so everything arrives in the "
+        "same condition it left in.",
+        [
+            ("Do you supply the boxes and packing materials?",
+             "Yes — boxes, bubble wrap, packing paper and tape are all included, "
+             "so there's nothing extra for you to buy beforehand."),
+            ("Can you pack just the fragile items and I'll do the rest?",
+             "Yes, we offer partial packing for fragile or valuable items only, "
+             "as well as full-house packing — whichever suits your move."),
+            ("How long does professional packing take?",
+             "A typical two-bedroom home takes a team half a day to a full day, "
+             "depending on how much there is to pack."),
+        ],
+    ),
+    "same-day-removals": (
+        "Sometimes a move can't wait for next week's slot. Our same-day "
+        "removals service is built for short-notice moves — call in the "
+        "morning and we'll aim to have a van and crew with you the same day, "
+        "subject to availability in your area.",
+        [
+            ("How quickly can you actually arrive?",
+             "In many areas we can have a crew with you within a few hours of "
+             "booking — call us directly to check availability for your postcode."),
+            ("Does same-day cost more than a booked-ahead move?",
+             "There can be a modest premium for guaranteed same-day availability, "
+             "but pricing is still based on property size and distance, not "
+             "inflated last-minute rates."),
+            ("Can you do a same-day move for a full house, not just a few items?",
+             "Yes — same-day availability depends on crew and vehicle capacity, "
+             "not the size of the job, though larger moves benefit from calling "
+             "as early in the day as possible."),
+        ],
+    ),
+    "international-removals": (
+        "Moving abroad involves a different level of planning than a domestic "
+        "move — customs paperwork, longer transit times, and choosing between "
+        "sea and air freight depending on your budget and timeline. We handle "
+        "the logistics so your belongings arrive safely, wherever you're "
+        "heading.",
+        [
+            ("Do you handle customs documentation?",
+             "Yes — we prepare and manage the customs paperwork required for "
+             "your destination country as part of the service."),
+            ("What's the difference between sea and air freight?",
+             "Sea freight is more cost-effective for larger volumes but takes "
+             "longer; air freight costs more but is significantly faster — we'll "
+             "recommend the right option for your timeline and budget."),
+            ("How far ahead should I book an international move?",
+             "4–6 weeks' notice is recommended to allow time for customs "
+             "paperwork and to secure your preferred shipping slot."),
+        ],
+    ),
+    "piano-removals": (
+        "Pianos are heavy, awkwardly balanced, and genuinely easy to damage — "
+        "to the instrument, to your property, or to whoever's carrying it — "
+        "without the right equipment. Our piano removals teams use purpose-"
+        "built skids, dollies and lifting techniques designed specifically for "
+        "upright and grand pianos.",
+        [
+            ("Can you move a grand piano, not just upright?",
+             "Yes — we move both upright and grand pianos, using the "
+             "appropriate equipment and technique for each."),
+            ("Do I need to prepare the piano beforehand?",
+             "Just let us know about any tricky access — stairs, narrow "
+             "doorways or tight turns — when you book; our crew handles the "
+             "rest, including protective wrapping."),
+            ("Is piano damage covered by insurance?",
+             "Yes, piano removals are covered by goods-in-transit insurance as "
+             "standard."),
+        ],
+    ),
+}
+
+
 def build_service_pages(dist_dir):
     """Build dist/{service_slug}/index.html — the generic (non-location) service landing page.
     man-and-van is handled separately by build_man_and_van_page() with dedicated
@@ -1202,6 +1377,7 @@ def build_service_pages(dist_dir):
             f'<span class="svc-icon">{i}</span><h3>{n}</h3></a>'
             for s, n, i in SERVICES if s != slug
         )
+        intro, faqs = SERVICE_LANDING_COPY[slug]
         body = f"""<section class="hero">
   <div>
     <div class="hero-badge">{icon} {name}</div>
@@ -1218,6 +1394,11 @@ def build_service_pages(dist_dir):
   {booking_form_html(root, default_service=slug)}
 </section>
 <section class="section">
+  <div class="section-tag">About This Service</div>
+  <h2 class="section-title">What to Expect From Our {name}</h2>
+  <p style="color:var(--text-muted);line-height:1.8;max-width:800px">{intro}</p>
+</section>
+<section class="section">
   <div class="section-tag">Pricing</div>
   <h2 class="section-title">{name} Costs</h2>
   {cost_table_html(slug)}
@@ -1230,6 +1411,11 @@ def build_service_pages(dist_dir):
     to find {name.lower()} near you.
   </p>
   <a href="{root}locations.html" class="btn-primary">Browse All Locations →</a>
+</section>
+<section class="section">
+  <div class="section-tag">FAQs</div>
+  <h2 class="section-title">{name} — Frequently Asked Questions</h2>
+  {faq_html(faqs)}
 </section>
 <section class="section">
   <div class="section-tag">Other Services</div>
@@ -1439,6 +1625,18 @@ def build_partner(dist_dir):
          to discuss a partnership — most set-ups take one short call.</p>
     </div>
   </div>
+  <h2 class="section-title" style="margin-top:48px">Partner FAQs</h2>
+  {faq_html([
+      ("Is there a cost to becoming a referral partner?",
+       "No — there's no sign-up fee or ongoing cost. You simply pass on your "
+       "client's details and we take it from there."),
+      ("Who deals with the client once I've referred them?",
+       f"{SITE_NAME} handles all pricing, booking and communication directly "
+       "with your client, so there's no back-and-forth needed on your side."),
+      ("Do you work with agents outside London?",
+       "Yes — we cover 1,700+ towns and cities nationwide, so we can support "
+       "referral and corporate partners across the whole of the UK."),
+  ])}
 </div>"""
     out_dir = Path(dist_dir) / "partner-with-us"
     out_dir.mkdir(parents=True, exist_ok=True)
