@@ -610,11 +610,19 @@ def build_contact(dist_dir):
   <h2 class="section-title">Before You Get in Touch</h2>
   {faq_html(CONTACT_FAQS)}
 </section>"""
+    faqpage = jsonld_html({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in CONTACT_FAQS
+        ],
+    })
     (Path(dist_dir) / "contact.html").write_text(
         page_shell(root, f"Contact Us | {SITE_NAME}",
                    f"Get in touch with {SITE_NAME} for removal quotes, booking questions, "
                    f"or general enquiries.", body,
-                   canonical_path="contact.html"),
+                   canonical_path="contact.html", jsonld=faqpage),
         encoding="utf-8",
     )
 
@@ -1104,11 +1112,20 @@ def build_blog(dist_dir):
   <h2>Related Articles</h2>
   <div class="blog-grid">{related_html}</div>
 </div>"""
+        article = jsonld_html({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": title,
+            "description": desc,
+            "mainEntityOfPage": {"@type": "WebPage", "@id": f"{SITE_URL}/blog/{slug}/"},
+            "author": {"@type": "Organization", "name": SITE_NAME},
+            "publisher": {"@type": "Organization", "name": SITE_NAME},
+        })
         post_dir = out_dir / slug
         post_dir.mkdir(parents=True, exist_ok=True)
         (post_dir / "index.html").write_text(
             page_shell(post_root, f"{title} | {SITE_NAME}", desc, post_body,
-                       canonical_path=f"blog/{slug}/"),
+                       canonical_path=f"blog/{slug}/", jsonld=article),
             encoding="utf-8",
         )
 
@@ -1422,13 +1439,29 @@ def build_service_pages(dist_dir):
   <h2 class="section-title">You Might Also Need</h2>
   <div class="svc-grid">{other_cards}</div>
 </section>"""
+        breadcrumb = jsonld_html({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Home", "item": f"{SITE_URL}/"},
+                {"@type": "ListItem", "position": 2, "name": name, "item": f"{SITE_URL}/{slug}/"},
+            ],
+        })
+        faqpage = jsonld_html({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+                for q, a in faqs
+            ],
+        })
         out_dir = Path(dist_dir) / slug
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "index.html").write_text(
             page_shell(root, f"{name} | {SITE_NAME}",
                        f"Professional, fully insured {name.lower()} across the UK. "
                        f"Instant online pricing and booking with {SITE_NAME}.", body,
-                       canonical_path=f"{slug}/"),
+                       canonical_path=f"{slug}/", jsonld=breadcrumb + "\n" + faqpage),
             encoding="utf-8",
         )
     print(f"✅  {len(SERVICES) - 1} service landing pages built")
@@ -1589,6 +1622,19 @@ def build_m25_page(dist_dir, locations):
     print(f"✅  M25 pillar page built ({total} locations linked)")
 
 
+PARTNER_FAQS = [
+    ("Is there a cost to becoming a referral partner?",
+     "No — there's no sign-up fee or ongoing cost. You simply pass on your "
+     "client's details and we take it from there."),
+    ("Who deals with the client once I've referred them?",
+     f"{SITE_NAME} handles all pricing, booking and communication directly "
+     "with your client, so there's no back-and-forth needed on your side."),
+    ("Do you work with agents outside London?",
+     "Yes — we cover 1,700+ towns and cities nationwide, so we can support "
+     "referral and corporate partners across the whole of the UK."),
+]
+
+
 def build_partner(dist_dir):
     root = "../"
     body = f"""<div class="section" style="padding-top:150px">
@@ -1626,25 +1672,23 @@ def build_partner(dist_dir):
     </div>
   </div>
   <h2 class="section-title" style="margin-top:48px">Partner FAQs</h2>
-  {faq_html([
-      ("Is there a cost to becoming a referral partner?",
-       "No — there's no sign-up fee or ongoing cost. You simply pass on your "
-       "client's details and we take it from there."),
-      ("Who deals with the client once I've referred them?",
-       f"{SITE_NAME} handles all pricing, booking and communication directly "
-       "with your client, so there's no back-and-forth needed on your side."),
-      ("Do you work with agents outside London?",
-       "Yes — we cover 1,700+ towns and cities nationwide, so we can support "
-       "referral and corporate partners across the whole of the UK."),
-  ])}
+  {faq_html(PARTNER_FAQS)}
 </div>"""
+    faqpage = jsonld_html({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+            for q, a in PARTNER_FAQS
+        ],
+    })
     out_dir = Path(dist_dir) / "partner-with-us"
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "index.html").write_text(
         page_shell(root, f"Partner With Us | {SITE_NAME}",
                    f"Estate agents and businesses — partner with {SITE_NAME} for "
                    f"nationwide removal services for your clients.", body,
-                   canonical_path="partner-with-us/"),
+                   canonical_path="partner-with-us/", jsonld=faqpage),
         encoding="utf-8",
     )
 
