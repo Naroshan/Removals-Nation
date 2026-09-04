@@ -1670,7 +1670,8 @@ def build_partner(dist_dir):
      off your end. Corporate and repeat-referral partners get a dedicated
      account contact rather than the standard booking line.
   </p>
-  <div class="partner-grid">
+  <h2 class="section-title" style="margin-top:40px">Ways to Partner</h2>
+  <div class="partner-grid" style="margin-top:0">
     <div class="partner-card">
       <h3>Referral Partners</h3>
       <p>Send us your clients and we'll manage bookings, pricing, and
