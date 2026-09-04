@@ -93,13 +93,13 @@ def hero_stats_html(stats):
 
 
 HOW_IT_WORKS_STEPS = [
-    ("📝", "Get your quote", "Fill in the form above — property size, dates and "
+    ("Get your quote", "Fill in the form above — property size, dates and "
      "postcodes. Takes about 60 seconds, no obligation to book."),
-    ("📅", "Confirm your date", "We'll be in touch to confirm details and lock in "
+    ("Confirm your date", "We'll be in touch to confirm details and lock in "
      "your moving slot, so your date is secured in advance."),
-    ("🚚", "Team arrives", "A fully insured local crew turns up on the day, loads "
+    ("Team arrives", "A fully insured local crew turns up on the day, loads "
      "up carefully and gets everything where it needs to go."),
-    ("✅", "Move complete", "Everything's unloaded and in place. Settle up on the "
+    ("Move complete", "Everything's unloaded and in place. Settle up on the "
      "day — no hidden fees, no surprises."),
 ]
 
@@ -108,8 +108,8 @@ def how_it_works_html(steps=None):
     steps = steps or HOW_IT_WORKS_STEPS
     cards = "".join(
         f'<div class="step-card"><span class="step-num">{i}</span>'
-        f'<span class="step-icon">{icon}</span><h3>{title}</h3><p>{desc}</p></div>'
-        for i, (icon, title, desc) in enumerate(steps, start=1)
+        f'<h3>{title}</h3><p>{desc}</p></div>'
+        for i, (title, desc) in enumerate(steps, start=1)
     )
     return f"""<section class="section" style="padding:0 48px 64px">
   <div class="section-tag">How It Works</div>
@@ -119,13 +119,13 @@ def how_it_works_html(steps=None):
 
 
 DIFFERENTIATION_POINTS = [
-    ("🎯", "One Quote, Not Five", "Comparison and quote-request sites hand your "
+    ("One Quote, Not Five", "Comparison and quote-request sites hand your "
      "number to several companies at once, so expect calls from firms you've "
      "never vetted. Get one quote from us, and that's the only call you'll get."),
-    ("🚚", "Our Crews, Not a Subcontractor", "The team who gives you a price is "
+    ("Our Crews, Not a Subcontractor", "The team who gives you a price is "
      "the team who turns up on the day. Every RemovalsNation crew is our own, "
      "directly insured — not a local firm we've passed your job on to."),
-    ("⏱️", "Booked in Minutes", "No re-explaining your move to five different "
+    ("Booked in Minutes", "No re-explaining your move to five different "
      "companies. One conversation, one fixed price, and your date is locked "
      "in — usually within the same call."),
 ]
@@ -134,8 +134,8 @@ DIFFERENTIATION_POINTS = [
 def differentiation_html(points=None):
     points = points or DIFFERENTIATION_POINTS
     cards = "".join(
-        f'<div class="partner-card"><h3>{icon} {title}</h3><p>{desc}</p></div>'
-        for icon, title, desc in points
+        f'<div class="partner-card"><h3>{title}</h3><p>{desc}</p></div>'
+        for title, desc in points
     )
     return f"""<section class="section" style="padding:0 48px 64px">
   <div class="section-tag">Why Book Direct</div>
@@ -144,38 +144,54 @@ def differentiation_html(points=None):
 </section>"""
 
 
+def cta_banner_html(text="Ready to get moving?", sub="Get a confirmed price in 60 seconds — no obligation to book.", link="#quote"):
+    return f"""<section class="cta-banner">
+  <div>
+    <h2>{text}</h2>
+    <p>{sub}</p>
+  </div>
+  <a href="{link}" class="btn-primary">Get My Instant Quote →</a>
+</section>"""
+
+
 PAGE_CSS = """<style>
+.cta-banner{max-width:1200px;margin:0 auto 64px;padding:36px 48px;background:var(--navy);
+  border-radius:20px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.cta-banner h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:6px}
+.cta-banner p{color:rgba(255,255,255,.75);font-size:.9rem}
+.cta-banner .btn-primary{flex-shrink:0}
+@media(max-width:700px){.cta-banner{padding:28px 24px;text-align:center;justify-content:center}}
 .hero{padding:150px 48px 90px;max-width:1200px;margin:0 auto;display:grid;
   grid-template-columns:1.1fr .9fr;gap:60px;align-items:start}
-.hero-badge{display:inline-block;background:rgba(244,88,10,.12);border:1px solid rgba(244,88,10,.3);
+.hero-badge{display:inline-block;background:rgba(244,88,10,.1);border:1px solid rgba(244,88,10,.25);
   border-radius:100px;padding:6px 16px;font-size:.8rem;font-weight:700;
-  color:var(--orange-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px}
+  color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px}
 .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4.5vw,3.6rem);
-  font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:20px}
+  font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:20px;color:var(--navy)}
 .hero p{font-size:1.05rem;color:var(--text-muted);line-height:1.7;margin-bottom:28px;max-width:520px}
 .trust-pills{display:flex;gap:10px;flex-wrap:wrap}
-.trust-pills span{background:rgba(255,255,255,.05);border:1px solid var(--border);
+.trust-pills span{background:rgba(11,22,40,.04);border:1px solid var(--border);
   border-radius:100px;padding:6px 14px;font-size:.78rem;color:var(--text-muted)}
 .quote-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:20px;padding:32px}
-.quote-card h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:4px}
+.quote-card h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:4px;color:var(--navy)}
 .form-sub{font-size:.82rem;color:var(--text-muted);margin-bottom:24px}
 .qrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
-.quote-estimate{background:rgba(244,88,10,.1);border:1px solid rgba(244,88,10,.3);
+.quote-estimate{background:rgba(244,88,10,.08);border:1px solid rgba(244,88,10,.25);
   border-radius:12px;padding:14px 16px;margin-bottom:16px;text-align:center}
 .quote-estimate-label{display:block;font-size:.72rem;text-transform:uppercase;
   letter-spacing:.05em;color:var(--text-muted);margin-bottom:4px}
 .quote-estimate-value{display:block;font-family:'Syne',sans-serif;font-size:1.6rem;
-  font-weight:800;color:var(--orange)}
+  font-weight:800;color:var(--orange-cta)}
 .quote-estimate-note{display:block;font-size:.72rem;color:var(--text-muted);margin-top:4px}
 .section{padding:70px 48px;max-width:1200px;margin:0 auto}
-.section-tag{display:inline-block;color:var(--orange);font-weight:700;font-size:.8rem;
+.section-tag{display:inline-block;color:var(--orange-cta);font-weight:700;font-size:.8rem;
   text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
 .section-title{font-family:'Syne',sans-serif;font-size:clamp(1.6rem,3vw,2.4rem);
-  font-weight:800;letter-spacing:-.02em;margin-bottom:36px}
+  font-weight:800;letter-spacing:-.02em;margin-bottom:36px;color:var(--navy)}
 .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .svc-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;
-  padding:24px;text-decoration:none;color:#fff;transition:border-color .2s,transform .2s}
-.svc-card:hover{border-color:var(--orange);transform:translateY(-3px)}
+  padding:24px;text-decoration:none;color:var(--navy);transition:border-color .2s,transform .2s,box-shadow .2s}
+.svc-card:hover{border-color:var(--orange);transform:translateY(-3px);box-shadow:0 12px 24px rgba(11,22,40,.08)}
 .svc-icon{font-size:1.8rem;display:block;margin-bottom:10px}
 .svc-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700}
 .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
@@ -184,49 +200,49 @@ PAGE_CSS = """<style>
 .step-num{position:absolute;top:18px;right:20px;font-family:'Syne',sans-serif;
   font-size:.78rem;font-weight:800;color:var(--text-muted);opacity:.5}
 .step-icon{font-size:1.7rem;display:block;margin-bottom:14px}
-.step-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px}
+.step-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--navy)}
 .step-card p{color:var(--text-muted);font-size:.85rem;line-height:1.6}
 @media(max-width:900px){.steps-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.steps-grid{grid-template-columns:1fr}}
 .content-block{max-width:820px;margin:0 auto;padding:150px 48px 80px}
 .content-block h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,2.8rem);
-  font-weight:800;letter-spacing:-.03em;margin-bottom:24px}
-.content-block h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin:32px 0 14px}
-.content-block p{font-size:.95rem;line-height:1.8;color:rgba(255,255,255,.8);margin-bottom:16px}
-.content-block ul{margin:0 0 16px 22px;color:rgba(255,255,255,.8);font-size:.95rem;line-height:1.9}
+  font-weight:800;letter-spacing:-.03em;margin-bottom:24px;color:var(--navy)}
+.content-block h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin:32px 0 14px;color:var(--navy)}
+.content-block p{font-size:.95rem;line-height:1.8;color:rgba(11,22,40,.78);margin-bottom:16px}
+.content-block ul{margin:0 0 16px 22px;color:rgba(11,22,40,.78);font-size:.95rem;line-height:1.9}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:1100px;
   margin:0 auto;padding:150px 48px 90px}
 .contact-info h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,2.8rem);
-  font-weight:800;letter-spacing:-.03em;margin-bottom:16px}
+  font-weight:800;letter-spacing:-.03em;margin-bottom:16px;color:var(--navy)}
 .contact-info p{color:var(--text-muted);line-height:1.7;margin-bottom:24px}
-.contact-detail{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:.95rem}
+.contact-detail{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:.95rem;color:var(--navy)}
 .thanks{max-width:600px;margin:0 auto;padding:180px 48px 120px;text-align:center}
 .thanks .icon{font-size:3rem;margin-bottom:20px}
 .thanks h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.6rem);
-  font-weight:800;letter-spacing:-.03em;margin-bottom:16px}
+  font-weight:800;letter-spacing:-.03em;margin-bottom:16px;color:var(--navy)}
 .thanks p{color:var(--text-muted);line-height:1.7;margin-bottom:28px}
 .blog-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .blog-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;
-  padding:28px;text-decoration:none;color:#fff;transition:border-color .2s}
-.blog-card:hover{border-color:var(--orange)}
+  padding:28px;text-decoration:none;color:var(--navy);transition:border-color .2s,box-shadow .2s}
+.blog-card:hover{border-color:var(--orange);box-shadow:0 12px 24px rgba(11,22,40,.08)}
 .blog-card h3{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:10px}
 .blog-card p{color:var(--text-muted);font-size:.88rem;line-height:1.6}
 .partner-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
 .partner-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;padding:26px}
-.partner-card h3{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:10px}
+.partner-card h3{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:10px;color:var(--navy)}
 .partner-card p{color:var(--text-muted);font-size:.88rem;line-height:1.7}
 .cost-table{background:var(--navy-mid);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .cost-row{display:flex;justify-content:space-between;padding:13px 18px;
-  border-bottom:1px solid var(--border);font-size:.88rem}
+  border-bottom:1px solid var(--border);font-size:.88rem;color:var(--navy)}
 .cost-row:last-child{border-bottom:none}
-.cost-row span:last-child{font-weight:700;color:var(--orange)}
+.cost-row span:last-child{font-weight:700;color:var(--orange-cta)}
 .faqs{margin-top:8px}
 .faq{border-bottom:1px solid var(--border);padding:18px 0}
 .faq:last-child{border-bottom:none}
-.faq-q{font-family:'Syne',sans-serif;font-weight:700;font-size:.93rem;margin-bottom:8px}
+.faq-q{font-family:'Syne',sans-serif;font-weight:700;font-size:.93rem;margin-bottom:8px;color:var(--navy)}
 .faq-a{font-size:.86rem;color:var(--text-muted);line-height:1.7}
 .hero-stats{display:flex;gap:36px;margin-top:36px;padding-top:28px;border-top:1px solid var(--border)}
-.hero-stat-n{display:block;font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--orange);white-space:nowrap}
+.hero-stat-n{display:block;font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--orange-cta);white-space:nowrap}
 .hero-stat-l{font-size:.8rem;color:var(--text-muted)}
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding:110px 24px 50px}
@@ -470,7 +486,7 @@ def build_index(dist_dir):
     )
     body = f"""<section class="hero">
   <div>
-    <div class="hero-badge">📦 Nationwide UK Removals</div>
+    <div class="hero-badge">Nationwide UK Removals</div>
     <h1>Moving House Made Simple</h1>
     <p>Fully insured removal teams, instant online pricing, and a booking that
        takes 60 seconds.</p>
@@ -486,6 +502,7 @@ def build_index(dist_dir):
 </section>
 {how_it_works_html()}
 {differentiation_html()}
+{cta_banner_html()}
 <section class="section" style="padding:48px 48px">
   <div class="section-tag">What We Do</div>
   <h2 class="section-title">Our Services</h2>
@@ -553,8 +570,8 @@ def build_about(dist_dir):
     <li>Same-day and short-notice availability in most areas</li>
   </ul>
   <h2>Get in Touch</h2>
-  <p>Have a question before booking? Call us on <a href="{PHONE_HREF}" style="color:var(--orange)">{PHONE}</a>
-     or visit our <a href="contact.html" style="color:var(--orange)">contact page</a>.</p>
+  <p>Have a question before booking? Call us on <a href="{PHONE_HREF}" style="color:var(--orange-cta)">{PHONE}</a>
+     or visit our <a href="contact.html" style="color:var(--orange-cta)">contact page</a>.</p>
   <p style="font-size:.85rem;color:var(--text-muted);margin-top:32px">
     {SITE_NAME} is a trading style of {LEGAL_ENTITY} (Company No. {COMPANY_NUMBER}).
   </p>
@@ -578,7 +595,7 @@ def build_contact(dist_dir):
        change a confirmed booking, or just want to check we cover your area,
        the fastest way to reach us is by phone — or send your details below
        and we'll get back to you within a few hours.</p>
-    <div class="contact-detail">📞 <a href="{PHONE_HREF}" style="color:#fff;text-decoration:none">{PHONE}</a></div>
+    <div class="contact-detail">📞 <a href="{PHONE_HREF}" style="color:var(--navy);text-decoration:none;font-weight:600">{PHONE}</a></div>
     <div class="contact-detail">📍 Nationwide coverage across the UK</div>
     <div class="contact-detail">🕐 7 days a week</div>
   </div>
@@ -597,7 +614,7 @@ def build_contact(dist_dir):
       <div class="form-group" style="margin-bottom:12px">
         <label for="c-message">Message</label>
         <textarea id="c-message" name="message" rows="4" style="width:100%;font-size:16px;padding:10px;
-          background:var(--navy-light);border:1px solid var(--border);border-radius:8px;color:#fff"></textarea>
+          background:var(--white);border:1px solid var(--border);border-radius:8px;color:var(--navy)"></textarea>
       </div>
       <input type="hidden" name="_subject" value="New Contact Enquiry — {SITE_NAME}">
       <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html">
@@ -671,7 +688,7 @@ def build_privacy(dist_dir):
      current one.</p>
   <h2>Contact</h2>
   <p>Questions about this policy can be directed to us via our
-     <a href="contact.html" style="color:var(--orange)">contact page</a>.</p>
+     <a href="contact.html" style="color:var(--orange-cta)">contact page</a>.</p>
 </div>"""
     (Path(dist_dir) / "privacy.html").write_text(
         page_shell(root, f"Privacy Policy | {SITE_NAME}",
@@ -748,8 +765,8 @@ def build_terms(dist_dir):
      always the current one.</p>
   <h2>Questions</h2>
   <p>For anything not covered here, get in touch via our
-     <a href="contact.html" style="color:var(--orange)">contact page</a> or call
-     <a href="{PHONE_HREF}" style="color:var(--orange)">{PHONE}</a>.</p>
+     <a href="contact.html" style="color:var(--orange-cta)">contact page</a> or call
+     <a href="{PHONE_HREF}" style="color:var(--orange-cta)">{PHONE}</a>.</p>
 </div>"""
     (Path(dist_dir) / "terms.html").write_text(
         page_shell(root, f"Terms & Cancellation Policy | {SITE_NAME}",
@@ -768,7 +785,7 @@ def build_404(dist_dir):
   <p>Sorry, we couldn't find that page. It may have moved, or the link might be
      out of date. Try heading back home or searching our full list of locations.</p>
   <a href="index.html" class="btn-primary" style="margin-right:10px">Back to Home</a>
-  <a href="locations.html" class="btn-primary" style="background:var(--navy-light)">Browse Locations</a>
+  <a href="locations.html" class="btn-secondary">Browse Locations</a>
 </div>"""
     (Path(dist_dir) / "404.html").write_text(
         page_shell(root, f"Page Not Found | {SITE_NAME}",
@@ -793,7 +810,7 @@ BLOG_POSTS = [
   </ul>
   <p>Long-distance moves (200+ miles) typically add £200–£500 to the base cost.
      Additional services like packing, storage, or piano removal are priced
-     separately — see our <a href="../../locations.html" style="color:var(--orange)">location pages</a>
+     separately — see our <a href="../../locations.html" style="color:var(--orange-cta)">location pages</a>
      for detailed pricing in your area.</p>
   <h2>What Affects the Price?</h2>
   <p>The main factors are property size, distance travelled, access (stairs,
@@ -815,7 +832,7 @@ BLOG_POSTS = [
     <li>Book a few weeks ahead rather than last-minute, where possible</li>
   </ul>
   <p>For an accurate, instant price, use the quote form on any
-     <a href="../../index.html" style="color:var(--orange)">{SITE_NAME}</a> page.</p>""",
+     <a href="../../index.html" style="color:var(--orange-cta)">{SITE_NAME}</a> page.</p>""",
     ),
     (
         "moving-house-checklist",
@@ -854,9 +871,9 @@ BLOG_POSTS = [
      with your bank and DVLA if you haven't already, and keep hold of moving
      boxes for a few weeks in case anything needs returning or reshuffling.</p>
   <p>Ready to book? Get an instant quote on our
-     <a href="../../index.html" style="color:var(--orange)">home page</a>, or
+     <a href="../../index.html" style="color:var(--orange-cta)">home page</a>, or
      see room-by-room packing advice in our
-     <a href="../packing-tips-for-a-stress-free-move/index.html" style="color:var(--orange)">packing tips guide</a>.</p>""",
+     <a href="../packing-tips-for-a-stress-free-move/index.html" style="color:var(--orange-cta)">packing tips guide</a>.</p>""",
     ),
     (
         "packing-tips-for-a-stress-free-move",
@@ -887,9 +904,9 @@ BLOG_POSTS = [
      collections, valuable furniture, and tight timelines are where
      professional packing genuinely pays for itself — both in time saved
      and in reduced risk of damage in transit. See our
-     <a href="../../packing-services/index.html" style="color:var(--orange)">packing services</a>
+     <a href="../../packing-services/index.html" style="color:var(--orange-cta)">packing services</a>
      for what's included, or get an instant estimate on the
-     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+     <a href="../../index.html" style="color:var(--orange-cta)">home page</a>.</p>""",
     ),
     (
         "moving-to-london-parking-permits-and-ulez",
@@ -917,7 +934,7 @@ BLOG_POSTS = [
      whether their vehicles are ULEZ-compliant — this can affect your final
      price if it isn't factored in upfront. Rates change periodically, so
      for the current daily charge it's worth checking
-     <a href="https://tfl.gov.uk" style="color:var(--orange)" rel="nofollow">Transport for London's website</a>
+     <a href="https://tfl.gov.uk" style="color:var(--orange-cta)" rel="nofollow">Transport for London's website</a>
      directly.</p>
   <h2>Flats, Stairs and Lift Access</h2>
   <p>A large share of London properties are flats rather than houses, which
@@ -927,9 +944,9 @@ BLOG_POSTS = [
      book means it's factored into your quote rather than causing delays on
      the day.</p>
   <p>See typical costs and coverage for your area on our
-     <a href="../../removals-within-the-m25/index.html" style="color:var(--orange)">London &amp; M25 removals page</a>,
+     <a href="../../removals-within-the-m25/index.html" style="color:var(--orange-cta)">London &amp; M25 removals page</a>,
      or get an instant estimate on the
-     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+     <a href="../../index.html" style="color:var(--orange-cta)">home page</a>.</p>""",
     ),
     (
         "office-relocation-checklist",
@@ -965,9 +982,9 @@ BLOG_POSTS = [
      website, and with Companies House as early as possible, since these
      updates take time to propagate.</p>
   <p>See what's included in our
-     <a href="../../office-removals/index.html" style="color:var(--orange)">office removals service</a>,
+     <a href="../../office-removals/index.html" style="color:var(--orange-cta)">office removals service</a>,
      or get an instant estimate on the
-     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+     <a href="../../index.html" style="color:var(--orange-cta)">home page</a>.</p>""",
     ),
     (
         "man-and-van-vs-full-removal-service",
@@ -998,8 +1015,8 @@ BLOG_POSTS = [
      with fewer hands.</p>
   <p>Not sure which fits your move? Get an instant estimate for either
      option on our
-     <a href="../../index.html" style="color:var(--orange)">home page</a>, or see full details on the
-     <a href="../../man-and-van/index.html" style="color:var(--orange)">man and van service</a> page.</p>""",
+     <a href="../../index.html" style="color:var(--orange-cta)">home page</a>, or see full details on the
+     <a href="../../man-and-van/index.html" style="color:var(--orange-cta)">man and van service</a> page.</p>""",
     ),
     (
         "how-to-move-a-piano-safely",
@@ -1032,9 +1049,9 @@ BLOG_POSTS = [
      and protected throughout, not just for the journey but for the tricky
      bits: doorways, stairs, and tight turns.</p>
   <p>See what's included in our
-     <a href="../../piano-removals/index.html" style="color:var(--orange)">piano removals service</a>,
+     <a href="../../piano-removals/index.html" style="color:var(--orange-cta)">piano removals service</a>,
      or get an instant estimate on the
-     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+     <a href="../../index.html" style="color:var(--orange-cta)">home page</a>.</p>""",
     ),
     (
         "storage-guide-between-moves",
@@ -1066,9 +1083,9 @@ BLOG_POSTS = [
      worth discussing your specific inventory rather than guessing — it's
      a common (and costly) mistake to book a unit that's too small.</p>
   <p>See pricing and options on our
-     <a href="../../storage/index.html" style="color:var(--orange)">storage services</a> page,
+     <a href="../../storage/index.html" style="color:var(--orange-cta)">storage services</a> page,
      or get an instant estimate on the
-     <a href="../../index.html" style="color:var(--orange)">home page</a>.</p>""",
+     <a href="../../index.html" style="color:var(--orange-cta)">home page</a>.</p>""",
     ),
 ]
 
@@ -1434,6 +1451,7 @@ def build_service_pages(dist_dir):
   <h2 class="section-title">{name} — Frequently Asked Questions</h2>
   {faq_html(faqs)}
 </section>
+{cta_banner_html(f"Ready to book your {name.lower()}?", "Get a confirmed price in 60 seconds — no obligation to book.", "#quote")}
 <section class="section">
   <div class="section-tag">Other Services</div>
   <h2 class="section-title">You Might Also Need</h2>
@@ -1605,10 +1623,10 @@ def build_m25_page(dist_dir, locations):
 
     extra_css = """<style>
 .region-section{margin-bottom:48px}
-.region-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--orange);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.region-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--orange-cta);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .loc-grid{display:flex;flex-wrap:wrap;gap:8px}
-.loc-link{background:var(--navy-mid);border:1px solid var(--border);border-radius:8px;padding:7px 14px;text-decoration:none;color:rgba(255,255,255,.8);font-size:.83rem;transition:all .2s}
-.loc-link:hover{border-color:var(--orange);color:#fff;background:rgba(244,88,10,.08)}
+.loc-link{background:var(--navy-mid);border:1px solid var(--border);border-radius:8px;padding:7px 14px;text-decoration:none;color:var(--navy);font-size:.83rem;transition:all .2s}
+.loc-link:hover{border-color:var(--orange);color:var(--navy);background:rgba(244,88,10,.08)}
 </style>"""
 
     out_dir = Path(dist_dir) / "removals-within-the-m25"
@@ -1654,20 +1672,20 @@ def build_partner(dist_dir):
   </p>
   <div class="partner-grid">
     <div class="partner-card">
-      <h3>🤝 Referral Partners</h3>
+      <h3>Referral Partners</h3>
       <p>Send us your clients and we'll manage bookings, pricing, and
          communication directly with them. No commission structure to manage,
          no extra admin on your side.</p>
     </div>
     <div class="partner-card">
-      <h3>🏢 Corporate Accounts</h3>
+      <h3>Corporate Accounts</h3>
       <p>Managing multiple office relocations or a steady flow of tenant moves?
          We offer dedicated account support and consistent pricing for
          corporate clients.</p>
     </div>
     <div class="partner-card">
-      <h3>📞 Get Started</h3>
-      <p>Call us on {PHONE} or use our <a href="../contact.html" style="color:var(--orange)">contact form</a>
+      <h3>Get Started</h3>
+      <p>Call us on {PHONE} or use our <a href="../contact.html" style="color:var(--orange-cta)">contact form</a>
          to discuss a partnership — most set-ups take one short call.</p>
     </div>
   </div>
