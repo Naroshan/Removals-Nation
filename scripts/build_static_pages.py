@@ -85,11 +85,8 @@ CONTACT_FAQS = [
 ]
 
 def hero_stats_html(stats):
-    items = "".join(
-        f'<div><span class="hero-stat-n">{n}</span><span class="hero-stat-l">{l}</span></div>'
-        for n, l in stats
-    )
-    return f'<div class="hero-stats">{items}</div>'
+    text = " &nbsp;·&nbsp; ".join(f"{n} {l}" for n, l in stats)
+    return f'<p class="hero-stats">{text}</p>'
 
 
 HOW_IT_WORKS_STEPS = [
@@ -106,15 +103,14 @@ HOW_IT_WORKS_STEPS = [
 
 def how_it_works_html(steps=None):
     steps = steps or HOW_IT_WORKS_STEPS
-    cards = "".join(
-        f'<div class="step-card"><span class="step-num">{i}</span>'
-        f'<h3>{title}</h3><p>{desc}</p></div>'
+    items = "".join(
+        f'<div class="step-item"><span class="step-num">{i:02d}</span>'
+        f'<div><h3>{title}</h3><p>{desc}</p></div></div>'
         for i, (title, desc) in enumerate(steps, start=1)
     )
     return f"""<section class="section" style="padding:0 48px 64px">
-  <div class="section-tag">How It Works</div>
-  <h2 class="section-title">Moving With RemovalsNation</h2>
-  <div class="steps-grid">{cards}</div>
+  <h2 class="section-title" style="margin-bottom:8px">Moving With RemovalsNation</h2>
+  <div class="step-list">{items}</div>
 </section>"""
 
 
@@ -150,15 +146,15 @@ def cta_banner_html(text="Ready to get moving?", sub="Get a confirmed price in 6
     <h2>{text}</h2>
     <p>{sub}</p>
   </div>
-  <a href="{link}" class="btn-primary">Get My Instant Quote →</a>
+  <a href="{link}" class="btn-primary">Get My Instant Quote</a>
 </section>"""
 
 
 PAGE_CSS = """<style>
-.cta-banner{max-width:1200px;margin:0 auto 64px;padding:36px 48px;background:var(--navy);
-  border-radius:20px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
-.cta-banner h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:6px}
-.cta-banner p{color:rgba(255,255,255,.75);font-size:.9rem}
+.cta-banner{max-width:1200px;margin:0 auto 64px;padding:32px 48px;border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.cta-banner h2{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--navy);margin-bottom:4px}
+.cta-banner p{color:var(--text-muted);font-size:.88rem}
 .cta-banner .btn-primary{flex-shrink:0}
 @media(max-width:700px){.cta-banner{padding:28px 24px;text-align:center;justify-content:center}}
 .hero{padding:150px 48px 90px;max-width:1200px;margin:0 auto;display:grid;
@@ -169,9 +165,8 @@ PAGE_CSS = """<style>
 .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4.5vw,3.6rem);
   font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:20px;color:var(--navy)}
 .hero p{font-size:1.05rem;color:var(--text-muted);line-height:1.7;margin-bottom:28px;max-width:520px}
-.trust-pills{display:flex;gap:10px;flex-wrap:wrap}
-.trust-pills span{background:rgba(11,22,40,.04);border:1px solid var(--border);
-  border-radius:100px;padding:6px 14px;font-size:.78rem;color:var(--text-muted)}
+.trust-pills{display:flex;gap:18px;flex-wrap:wrap}
+.trust-pills span{font-size:.85rem;color:var(--text-muted)}
 .quote-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:20px;padding:32px}
 .quote-card h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:4px;color:var(--navy)}
 .form-sub{font-size:.82rem;color:var(--text-muted);margin-bottom:24px}
@@ -194,16 +189,16 @@ PAGE_CSS = """<style>
 .svc-card:hover{border-color:var(--orange);transform:translateY(-3px);box-shadow:0 12px 24px rgba(11,22,40,.08)}
 .svc-icon{font-size:1.8rem;display:block;margin-bottom:10px}
 .svc-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700}
-.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.step-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;
-  padding:26px 22px;position:relative}
-.step-num{position:absolute;top:18px;right:20px;font-family:'Syne',sans-serif;
-  font-size:.78rem;font-weight:800;color:var(--text-muted);opacity:.5}
-.step-icon{font-size:1.7rem;display:block;margin-bottom:14px}
-.step-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--navy)}
-.step-card p{color:var(--text-muted);font-size:.85rem;line-height:1.6}
-@media(max-width:900px){.steps-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.steps-grid{grid-template-columns:1fr}}
+.step-list{display:flex;border-top:1px solid var(--border)}
+.step-item{flex:1;padding:24px 24px 0 0;border-right:1px solid var(--border)}
+.step-item:last-child{border-right:none;padding-right:0}
+.step-num{display:block;font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;
+  color:var(--text-muted);margin-bottom:10px}
+.step-item h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:6px;color:var(--navy)}
+.step-item p{color:var(--text-muted);font-size:.85rem;line-height:1.6}
+@media(max-width:900px){.step-list{flex-direction:column}
+  .step-item{border-right:none;border-left:2px solid var(--border);padding:0 0 24px 20px;margin-left:4px}
+  .step-item:last-child{padding-bottom:0}}
 .content-block{max-width:820px;margin:0 auto;padding:150px 48px 80px}
 .content-block h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,2.8rem);
   font-weight:800;letter-spacing:-.03em;margin-bottom:24px;color:var(--navy)}
@@ -227,9 +222,9 @@ PAGE_CSS = """<style>
 .blog-card:hover{border-color:var(--orange);box-shadow:0 12px 24px rgba(11,22,40,.08)}
 .blog-card h3{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:10px}
 .blog-card p{color:var(--text-muted);font-size:.88rem;line-height:1.6}
-.partner-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
-.partner-card{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;padding:26px}
-.partner-card h3{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:10px;color:var(--navy)}
+.partner-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:32px;padding-top:28px;border-top:1px solid var(--border)}
+.partner-card{border-left:2px solid var(--orange);padding-left:18px}
+.partner-card h3{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:8px;color:var(--navy)}
 .partner-card p{color:var(--text-muted);font-size:.88rem;line-height:1.7}
 .cost-table{background:var(--navy-mid);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .cost-row{display:flex;justify-content:space-between;padding:13px 18px;
@@ -241,14 +236,10 @@ PAGE_CSS = """<style>
 .faq:last-child{border-bottom:none}
 .faq-q{font-family:'Syne',sans-serif;font-weight:700;font-size:.93rem;margin-bottom:8px;color:var(--navy)}
 .faq-a{font-size:.86rem;color:var(--text-muted);line-height:1.7}
-.hero-stats{display:flex;gap:36px;margin-top:36px;padding-top:28px;border-top:1px solid var(--border)}
-.hero-stat-n{display:block;font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--orange-cta);white-space:nowrap}
-.hero-stat-l{font-size:.8rem;color:var(--text-muted)}
+.hero-stats{margin-top:28px;padding-top:22px;border-top:1px solid var(--border);
+  font-size:.85rem;color:var(--text-muted);line-height:1.8}
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding:110px 24px 50px}
-  .hero-stats{gap:16px;margin-top:28px;padding-top:22px}
-  .hero-stat-n{font-size:1.15rem}
-  .hero-stat-l{font-size:.7rem}
   .svc-grid{grid-template-columns:repeat(2,1fr)}
   .contact-grid{grid-template-columns:1fr;padding:110px 24px 50px}
   .blog-grid{grid-template-columns:1fr}
@@ -468,7 +459,7 @@ def booking_form_html(root, default_service="house-removals"):
     <input type="hidden" name="_subject" value="New Removal Booking — {SITE_NAME}">
     <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html">
     <button type="submit" class="btn-primary" style="width:100%;margin-top:6px;text-align:center">
-      Book My Removal →
+      Book My Removal
     </button>
   </form>
   <p style="text-align:center;font-size:.72rem;color:var(--text-muted);margin-top:10px">
@@ -487,9 +478,9 @@ def build_index(dist_dir):
     body = f"""<section class="hero">
   <div>
     <div class="hero-badge">Nationwide UK Removals</div>
-    <h1>Moving House Made Simple</h1>
-    <p>Fully insured removal teams, instant online pricing, and a booking that
-       takes 60 seconds.</p>
+    <h1>A Removal Company You Can Actually Book Today</h1>
+    <p>Fully insured teams, upfront pricing, and a confirmed quote in about
+       60 seconds — no callbacks, no waiting around for a salesperson.</p>
     <div class="trust-pills">
       <span>✓ Fully insured</span>
       <span>✓ 1,700+ locations covered</span>
@@ -515,7 +506,7 @@ def build_index(dist_dir):
     1,700+ towns across England, Scotland, Wales and Northern Ireland —
     find yours and get a price in seconds.
   </p>
-  <a href="locations.html" class="btn-primary">Browse All Locations →</a>
+  <a href="locations.html" class="btn-primary">Browse All Locations</a>
 </section>
 <section class="section" style="padding:0 48px 64px">
   <div class="section-tag">FAQs</div>
@@ -618,7 +609,7 @@ def build_contact(dist_dir):
       </div>
       <input type="hidden" name="_subject" value="New Contact Enquiry — {SITE_NAME}">
       <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html">
-      <button type="submit" class="btn-primary" style="width:100%;text-align:center">Send Message →</button>
+      <button type="submit" class="btn-primary" style="width:100%;text-align:center">Send Message</button>
     </form>
   </div>
 </section>
@@ -1243,7 +1234,7 @@ def build_man_and_van_page(dist_dir):
     We cover 1,700+ towns and cities across the UK — search our full location list
     to find same-day man and van hire near you.
   </p>
-  <a href="{root}locations.html" class="btn-primary">Browse All Locations →</a>
+  <a href="{root}locations.html" class="btn-primary">Browse All Locations</a>
 </section>
 <section class="section">
   <div class="section-tag">Other Services</div>
@@ -1444,7 +1435,7 @@ def build_service_pages(dist_dir):
     We cover 1,700+ towns and cities across the UK — search our full location list
     to find {name.lower()} near you.
   </p>
-  <a href="{root}locations.html" class="btn-primary">Browse All Locations →</a>
+  <a href="{root}locations.html" class="btn-primary">Browse All Locations</a>
 </section>
 <section class="section">
   <div class="section-tag">FAQs</div>

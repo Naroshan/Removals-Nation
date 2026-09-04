@@ -322,8 +322,8 @@ body.menu-open { overflow: hidden; }
 .hero-badge { display: inline-block; background: rgba(244,88,10,.1); border: 1px solid rgba(244,88,10,.25); border-radius: 100px; padding: 5px 14px; font-size: .78rem; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 20px; }
 .loc-hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.08; margin-bottom: 20px; color: var(--navy); }
 .loc-hero p { font-size: 1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
-.trust-pills { display: flex; gap: 10px; flex-wrap: wrap; }
-.trust-pills span { background: rgba(11,22,40,.04); border: 1px solid var(--border); border-radius: 100px; padding: 6px 14px; font-size: .78rem; color: var(--text-muted); }
+.trust-pills { display: flex; gap: 18px; flex-wrap: wrap; }
+.trust-pills span { font-size: .85rem; color: var(--text-muted); }
 .quote-card { background: var(--navy-mid); border: 1px solid var(--border); border-radius: 20px; padding: 32px; }
 .quote-card h2 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; color: var(--navy); }
 .form-sub { font-size: .82rem; color: var(--text-muted); margin-bottom: 24px; }

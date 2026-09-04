@@ -880,7 +880,7 @@ def booking_form_html(svc_name, loc_name, postcode):
     <input type="hidden" name="service" value="{svc_name}">
     <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html">
     <button type="submit" class="btn-primary" style="width:100%;margin-top:6px;text-align:center">
-      Book My Removal →
+      Book My Removal
     </button>
   </form>
   <p style="text-align:center;font-size:.72rem;color:var(--text-muted);margin-top:10px">
