@@ -3,24 +3,35 @@
 > RemovalsNation is a UK removals company offering house removals, office removals,
 > man and van hire, storage, packing services, same-day removals, international
 > removals, and piano removals, with fully insured teams covering 1252+
-> towns and cities across England, Scotland, Wales and Northern Ireland.
+> towns and cities across England, Scotland, Wales and Northern Ireland. Every
+> job is fully insured (public liability and goods-in-transit) with no hidden
+> fees; quotes are confirmed online in about 60 seconds or by phone on +44 7417 355780.
+
+Last updated: 2026-09-14
 
 ## Services
-- [House Removals](https://removalsnation.com/house-removals/index.html)
-- [Office Removals](https://removalsnation.com/office-removals/index.html)
-- [Man & Van](https://removalsnation.com/man-and-van/index.html)
-- [Storage](https://removalsnation.com/storage/index.html)
-- [Packing Services](https://removalsnation.com/packing-services/index.html)
-- [Same Day Removals](https://removalsnation.com/same-day-removals/index.html)
-- [International Removals](https://removalsnation.com/international-removals/index.html)
-- [Piano Removals](https://removalsnation.com/piano-removals/index.html)
+- [House Removals](https://removalsnation.com/house-removals/index.html) — full house moves, priced by property size
+- [Office Removals](https://removalsnation.com/office-removals/index.html) — business relocations, IT equipment moves
+- [Man & Van](https://removalsnation.com/man-and-van/index.html) — hourly-rate hire for smaller loads, same-day available
+- [Storage](https://removalsnation.com/storage/index.html) — short- or long-term unit storage, flexible billing
+- [Packing Services](https://removalsnation.com/packing-services/index.html) — full or partial professional packing
+- [Same Day Removals](https://removalsnation.com/same-day-removals/index.html) — urgent/short-notice removals
+- [International Removals](https://removalsnation.com/international-removals/index.html) — moving abroad, sea and air freight
+- [Piano Removals](https://removalsnation.com/piano-removals/index.html) — specialist upright and grand piano moving
+
+## Pricing
+- [Pricing overview (machine-readable)](https://removalsnation.com/pricing.md) — nationwide base price ranges per service
+- Exact prices vary by property size, distance and UK region — get an instant quote on any service page
 
 ## Coverage
-- [All UK Locations](https://removalsnation.com/locations.html)
-- [Removals Within the M25](https://removalsnation.com/removals-within-the-m25/index.html)
+- [All UK Locations](https://removalsnation.com/locations.html) — 1252+ towns and cities, England/Scotland/Wales/Northern Ireland
+- [Removals Within the M25](https://removalsnation.com/removals-within-the-m25/index.html) — London, Surrey, Hertfordshire, Essex, Kent
 
 ## Company
 - [About](https://removalsnation.com/about.html)
-- [Contact](https://removalsnation.com/contact.html)
-- [Knowledge Hub (blog)](https://removalsnation.com/blog/index.html)
-- [Partner With Us](https://removalsnation.com/partner-with-us/index.html)
+- [Contact](https://removalsnation.com/contact.html) — phone: +44 7417 355780
+- [Knowledge Hub (blog)](https://removalsnation.com/blog/index.html) — moving cost guides, checklists, how-to articles
+- [Partner With Us](https://removalsnation.com/partner-with-us/index.html) — referral and corporate partnerships for agents
+
+## Sitemap
+- [XML sitemap](https://removalsnation.com/sitemap.xml)

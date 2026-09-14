@@ -12,6 +12,7 @@ Usage:
 
 import argparse
 import json
+from datetime import datetime
 from pathlib import Path
 
 from build_pages import (
@@ -202,6 +203,8 @@ PAGE_CSS = """<style>
 .content-block{max-width:820px;margin:0 auto;padding:150px 48px 80px}
 .content-block h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,2.8rem);
   font-weight:800;letter-spacing:-.03em;margin-bottom:24px;color:var(--navy)}
+.content-block h1+.post-updated{margin-top:-16px}
+.post-updated{font-size:.8rem;color:var(--text-muted);margin-bottom:24px}
 .content-block h2{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin:32px 0 14px;color:var(--navy)}
 .content-block p{font-size:.95rem;line-height:1.8;color:rgba(11,22,40,.78);margin-bottom:16px}
 .content-block ul{margin:0 0 16px 22px;color:rgba(11,22,40,.78);font-size:.95rem;line-height:1.9}
@@ -786,6 +789,32 @@ def build_404(dist_dir):
     )
 
 
+# Publish/last-modified dates per post, sourced from real git commit history
+# (when each post was first added / last had its visible content changed),
+# for Article schema's datePublished/dateModified — a genuine freshness
+# signal for AI/AEO citation, not a fabricated date. Update a slug's
+# "updated" date here whenever that post's content actually changes.
+BLOG_POST_PUBLISHED = {
+    "how-much-do-removals-cost": "2026-07-16",
+    "moving-house-checklist": "2026-07-16",
+    "packing-tips-for-a-stress-free-move": "2026-07-18",
+    "moving-to-london-parking-permits-and-ulez": "2026-07-18",
+    "office-relocation-checklist": "2026-07-18",
+    "man-and-van-vs-full-removal-service": "2026-07-18",
+    "how-to-move-a-piano-safely": "2026-07-18",
+    "storage-guide-between-moves": "2026-07-18",
+}
+BLOG_POST_UPDATED = {
+    "how-much-do-removals-cost": "2026-07-23",
+    "moving-house-checklist": "2026-07-23",
+    "packing-tips-for-a-stress-free-move": "2026-07-18",
+    "moving-to-london-parking-permits-and-ulez": "2026-07-23",
+    "office-relocation-checklist": "2026-07-23",
+    "man-and-van-vs-full-removal-service": "2026-07-18",
+    "how-to-move-a-piano-safely": "2026-07-18",
+    "storage-guide-between-moves": "2026-07-23",
+}
+
 BLOG_POSTS = [
     (
         "how-much-do-removals-cost",
@@ -1114,8 +1143,10 @@ def build_blog(dist_dir):
             f'<a href="../{r_slug}/index.html" class="blog-card"><h3>{r_title}</h3><p>{r_desc}</p></a>'
             for r_slug, r_title, r_desc, _ in related
         )
+        updated_readable = datetime.strptime(BLOG_POST_UPDATED[slug], "%Y-%m-%d").strftime("%-d %B %Y")
         post_body = f"""<div class="content-block">
   <h1>{title}</h1>
+  <p class="post-updated">Last updated: {updated_readable}</p>
   {content}
   <h2>Related Articles</h2>
   <div class="blog-grid">{related_html}</div>
@@ -1126,6 +1157,8 @@ def build_blog(dist_dir):
             "headline": title,
             "description": desc,
             "mainEntityOfPage": {"@type": "WebPage", "@id": f"{SITE_URL}/blog/{slug}/"},
+            "datePublished": BLOG_POST_PUBLISHED[slug],
+            "dateModified": BLOG_POST_UPDATED[slug],
             "author": {"@type": "Organization", "name": SITE_NAME},
             "publisher": {"@type": "Organization", "name": SITE_NAME},
         })
